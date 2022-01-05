@@ -1,0 +1,8 @@
+*~
+*.bak
+*.staff
+*-staff
+*.swp
+*.swo
+staff-*.txt
+.gdb_history
