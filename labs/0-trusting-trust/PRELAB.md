@@ -140,7 +140,7 @@ executable programs in a `bin` directory located in your home directory.
 --------------------------------------------------------------------
 #### Tags
 
-Figure out how to use tags.  Both `emacs` or `vim` support "tags",
+Figure out how to use tags.  Both `emacs` and `vim` support "tags",
 which use keyboard shortcuts to essentially treat identifiers
 as urls and navigate to the definitions of structures,
 functions, variables.  This makes understanding code
@@ -149,8 +149,25 @@ functions, variables.  This makes understanding code
 
 See [the ctags guide](../../guides/ctags.md) for more detailed info.
 
+If you're using VSCode, don't trust the built-in autocomplete and 
+go-to-definition; it doesn't work on OS code like we're writing.  Set up tags 
+inside VSCode to avoid a headache later.
+
 --------------------------------------------------------------------
 #### Nice-haves: Extra, very useful things.
+
+If you're not super familiar with UNIX commands, we recommend skimming through 
+[MIT's "The Missing Semester"](https://missing.csail.mit.edu/) lecture notes.  
+You don't need to be an expert by any means, but being able to do things from 
+the shell will make this class easier.
+
+Commands you should be familiar with (not an exhaustive list):
+    - `man` (this is both the UNIX and C manual; you'll need this for sure)
+    - `echo`, `printf`
+    - `ls`
+    - `cat`, `less`
+    - `cd`, `pushd`, `popd`
+    - `grep`, `find`, `sed`
 
 You don't need these for the first lab, but they will make
 your Stanford journey much easier:
@@ -180,20 +197,18 @@ your Stanford journey much easier:
      can get significant, effective work done.  Any time you move the
      mouse, you're not doing work.  Do what you can to stop this.
 
-     Note from Akshay: using the mouse too much is also a good way to develop 
-     wrist issues; mouse movements are fairly unnatural, and moving your hand 
-     back and forth from a mouse to a keyboard is an extremely repetitive 
-     action.  This is actually a UX thing Windows does much better than Macs by 
-     default; on macOS you can use tools like 
-     [Rectangle](https://github.com/rxhanson/Rectangle) to avoid using the 
-     mouse for trivial actions like switching between your terminal and your 
-     command line.  Linux users have tons of options, such as the popular 
-     [i3](https://i3wm.org/).
-
      Vim and Emacs are good, popular, well-supported editors which don't use 
      the mouse.  They integrate with all the tools we'll use in this class by 
      default, and you can automate anything you do often.  See [the editor 
      guide](../../guides/editor.md).
+
+     If you want to use a GUI-based editor like Visual Studio Code, please 
+     learn the keyboard shortcuts for common tasks (compile, go to definition, 
+     search, etc.).  The mouse may be fine for things you do once in a while, 
+     but anything you're doing more than once per hour should really not 
+     require the mouse.  (Seriously, if you find yourself doing the same thing 
+     over and over, try to think of a way to automate it.  Don't settle for an 
+     inefficient process just because it's the default.)
 
    - Install `gdb` if you can --- it makes things easier in other classes
      (e.g., you can do a backtrace after a crash to figure out where the
@@ -209,5 +224,5 @@ your Stanford journey much easier:
 ----------------------------------------------------------------
 ### Acknowledgements
 
-Thanks to Ian (taking the class now!) for helping greatly improve the
+Thanks to Ian (who took the class in 2021) for helping greatly improve the
 writeup.
