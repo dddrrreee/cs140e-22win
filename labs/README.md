@@ -1,5 +1,9 @@
 ## The labs
 
+*The labs below are tentative --- we still need to check in updated code
+and there will likely be some fussing about.  Take them as a suggested
+roadmap*
+
 Below describes where we're going and why.   The labs themselves have a
 lot more prose on each topic.  There is a pointer to where we currently
 are: the labs after this point can still see significant revisions.
@@ -10,6 +14,18 @@ missed the first time, and also looking closely at your code --- for
 every line, you should understand why we needed it or what it does.
 And on second reading, you'll likely find some lines that we could have
 cut out!
+---------------------------------------------------------------------
+### Part 0: non-pi hacking
+
+Given the current Stanford-forced virtual teaching, we are first doing
+a Unix-based lab while we get equipment to everyone:
+
+  - [0-trust](0-trusting-trust): Ken Thompson is arguably our patron
+    saint of operating systems --- brilliant, with a gift for simple
+    code that did powerful things.   We will reimplement a simplified
+    version of a crazy hack he described in his Turing award lecture
+    that let him log into any Unix system in a way hidden even from
+    careful code inspection.
 
 ---------------------------------------------------------------------
 ### Part 1: Going down.
