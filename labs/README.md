@@ -1,8 +1,8 @@
 ## The labs
 
-*The labs below are tentative --- we still need to check in updated code
+***The labs below are tentative --- we still need to check in updated code
 and there will likely be some fussing about.  Take them as a suggested
-roadmap*
+roadmap***
 
 Below describes where we're going and why.   The labs themselves have a
 lot more prose on each topic.  There is a pointer to where we currently
@@ -14,6 +14,7 @@ missed the first time, and also looking closely at your code --- for
 every line, you should understand why we needed it or what it does.
 And on second reading, you'll likely find some lines that we could have
 cut out!
+
 ---------------------------------------------------------------------
 ### Part 0: non-pi hacking
 
