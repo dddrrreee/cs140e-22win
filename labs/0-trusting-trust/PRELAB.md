@@ -163,12 +163,12 @@ the shell will make this class easier.
 
 Commands you should be familiar with (not an exhaustive list):
 
-    - `man` (this is both the UNIX and C manual; you'll need this for sure)
-    - `echo`, `printf`
-    - `ls`
-    - `cat`, `less`
-    - `cd`, `pushd`, `popd`
-    - `grep`, `find`, `sed`
+- `man` (this is both the UNIX and C manual; you'll need this for sure)
+- `echo`, `printf`
+- `ls`
+- `cat`, `less`
+- `cd`, `pushd`, `popd`
+- `grep`, `find`, `sed`
 
 You don't need these for the first lab, but they will make
 your Stanford journey much easier:
