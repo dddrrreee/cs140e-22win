@@ -162,6 +162,7 @@ You don't need to be an expert by any means, but being able to do things from
 the shell will make this class easier.
 
 Commands you should be familiar with (not an exhaustive list):
+
     - `man` (this is both the UNIX and C manual; you'll need this for sure)
     - `echo`, `printf`
     - `ls`
