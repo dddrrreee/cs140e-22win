@@ -92,23 +92,33 @@ it down in four stages.
 
 Follow the [README.md](code/step1/README.md) `code/step1` and implement
 `string-to-char-array.c` such that you can generate a self-reproducing
-program based on `Figure 1` in Thompson's paper.
+program based on `Figure 1` in Thompson's paper.  This will hopefully
+shake out any ambiguity in the paper.
 
 #### Part 2: inject an attack into login and compiler
 
-Follow the [README.md](code/step2/README.md) in `code/step2` and implement
-simple attacks on the trivial login program (`step2/login.c`) and the
-identity compiler (`step2/identity-cc.c`).
+We now start writing a simple version of the compiler code injection
+attack Thompson described.
+
+Follow the [README.md](code/step2/README.md) in `code/step2` and
+modify `trojan-compiler.c` so that it will perform simple attacks on
+the trivial login program (`step2/login.c`) and the identity compiler
+(`step2/compiler.c`).
 
 #### Part 3: inject an attack that will inject an attack into the compiler.
 
-Follow the [README.md](code/step3/README.md) in `code/step3` and combine
-the code from Part 1 and Part 2 so that your trojan compiler will take
-a clean, virgin copy of the "system" compiler `identity-cc.c` and injects
-a self-replicating copy of its trojan attack into it.
+Finally, we use the trick from Part 1 to inject a self-replicating attack
+into the compiler.
+
+Follow the [README.md](code/step3/README.md) in `code/step3` and
+combine the code from Part 1 and Part 2 so that your trojan compiler
+(`trojan-compiler.c`) will take a clean, virgin copy of the "system"
+compiler `compiler.c` and inject a self-replicating copy of its trojan
+attack into it.
 
 #### Postscript
 
 You have now replicated Thompon's hack.  Startlingly, there seem to be
-only a few people that have ever done so.  You can probably really stand
-out at parties by explaining what you did.
+only a few people that have ever done so, and most that believe they
+understand the paper woulnd't actually be able to write out the code.
+You can probably really stand out at parties by explaining what you did.
