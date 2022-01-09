@@ -4,7 +4,7 @@
 # ah: for test, doesn't work for us b/c we don't have the code...
 #
 # also it is tricky if they swap with our code and their code.
-SUBDIRS=
+SUBDIRS= 0-trusting-trust 0-blink 1-gpio
 
 .PHONY: all check clean
 all check clean: $(SUBDIRS)
