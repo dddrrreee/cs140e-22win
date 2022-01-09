@@ -1,8 +1,8 @@
 ### Pre-lab for 0-blink
 
-Read through the below and do any action item before our first lab pi lab
-(Thursday).  Since this is the first lab and people are missing context,
-we over-explain --- the other labs will be more succinct.
+Read through the following before our first lab pi lab (Tues).  Since this
+is the first lab and people are missing context, we over-explain ---
+the other labs will be more succinct.
 
 For this lab, we'll use different variations of a blinky light to check
 that parts of your toolchain / understanding are working.
@@ -13,11 +13,10 @@ shell commands, pi stuff in general:
    - [CS107E repo] (http://cs107e.github.io/guides/)
 
 --------------------------------------------------------------------
-### Deliverables before thursday:
+### Deliverables before `0-blink`:
 
-Do these on your own (described more in the rest of the document):
+To re-iterate the last PRELAB, make sure you:
 
- 0. Check-out the class git repo.
  1. Figure out how to add a local `~/bin` directory in your home directory
     to your shell's `PATH` variable.
  2. Have a way to mount a micro-SD card on your laptop.  You may need
@@ -28,11 +27,7 @@ Do these on your own (described more in the rest of the document):
  5. Ideally: Install the rest of the software needed by Part 3 and Part 
     4 of the lab (described in the `README`).
 
-### *Turn-in*
-
-For this lab, you can just write the answers to these questions in a text file.
-
-The Thursday lab is broken down into five parts:
+The Tuesday lab (`0-blink` and `1-gpio`) is broken down into five parts:
   1. You'll turn on an LED manually;
   2. Then copy a pre-compiled program to an micro-SD and boot up your pi;
   3. Then use a bootloader to ship the program to the pi directly;
@@ -40,7 +35,8 @@ The Thursday lab is broken down into five parts:
        version and use it;
   5. Then write your own `blink` program, compile and run it;
 
-For turn in answer the following questions:
+You should be able to answer the following questions:
+
   1. What is a bug that is easier to find b/c we broke up steps 1 and 2?
   2. What is a bug that is easier to find b/c we broke up steps 2 and 3?
   3. What is a bug that is easier to find b/c we broke up steps 3 and 4?
@@ -52,38 +48,6 @@ Your partner's does.  You plug your setup into their laptop.
   1. Yours works in their laptop: what do you know?
   2. Yours does not work in their laptop: what do you know?
   
---------------------------------------------------------------------
-### Part 0: git and checking out the class repo
-
-   1. If you don't have `git`, install it on your laptop.  We use `git`
-      to push all assignments and code to you.
-
-      MacOS seems to ship with `git`, but you might need to install the
-      xcode command line tools with:
-
-          % xcode-select --install
-
-      Ubuntu:
-
-          % sudo apt install git
-
-   2. Use `git` to clone (check out) the class repository:
-
-          % git clone git@github.com:dddrrreee/cs140e-21spr.git  
-
-      If you don't want to install a key on github, use:
-
-          % git clone https://github.com/dddrrreee/cs140e-21spr.git
-
-      Pro tip: run your `git clone` command in some sensible directory
-      (e.g., `~/class/`) and remember where you checked your repository
-      out to!  Also, know how to find it.  We had a surprising (to me)
-      number of people lose work last year because they did not do this.
-
-      Pro tip: ***Do not download the class repository directly as a
-      .zip file***!  Direct download will be both tedious and overwrite
-      any local changes you do later.
-
 --------------------------------------------------------------------
 #### Part 1: micro-SD card stuff
 
@@ -117,135 +81,12 @@ micro-SD card on your laptop:
       are slow, so the OS tends to defer them.)
 
 --------------------------------------------------------------------
-### Part 2: change your `PATH` variable
-
-To save you time, typing and mistakes: tell your shell to look for
-executable programs in a `bin` directory located in your home directory.
-
-  1. For whatever shell (`tcsh`, `bash`, etc) you are using, figure
-     out how to edit your `PATH` variable so that you can install binary
-     programs in a local `~/bin` directory and not have to constantly
-     type out the path to them.  E.g.,
-
-           % cd ~          # change to your home dir
-           % mkdir bin     # make a bin directory
-           % cd bin        # cd into it
-           % pwd           # get the absolute path
-           /home/engler/bin
-           
-     To figure out your shell, you can typically check in `/etc/password`:
-
-           % grep engler /etc/passwd
-           engler:x:1000:1000:engler,,,:/home/engler:/usr/bin/tcsh
-
-     Since I use `tcsh`, to add `/home/engler/bin` to my `path` I would
-     edit my `~/.tcshrc` file and change:
-
-          set path = ( $path  )
-
-     To:
-
-          set path = ( $path /home/engler/usr/bin )
-
-     and then tell the shell to re-scan the paths as follows:
-
-           % source ~/.tcshrc
-     
-     Note, you have to run `source` in every open window:  it may be
-     easier to just logout and log back in.
-
-     For MacOS users using `bash`, put the path to your `~/bin` directory
-     in a `.bashrc` file in your home directory. Just run:
-
-           % vim ~/.bashrc
-
-     When you add your path, make sure you include you default path or
-     you may mess up your terminal.  This looks like:
-
-           export PATH="$PATH:your/path/here:your/other/path/here"
-
-      and source it the same way as the `.tcshrc`.  The instructions for `zsh` 
-      (the default on some newer Macs) are the same as for `bash`, but edit 
-      `~/.zshrc` instead.
-
---------------------------------------------------------------------
 #### Install the rest of the code 
 
-~~Gates wireless can really suck, so it's best if you download the rest
+Gates wireless can really suck, so it's best if you download the rest
 of the code that you need: look in Part 3 (serial drivers) and Part 4
 (gcc toolchain) of the lab, and install the software it says.~~
 
 We don't have to worry about Gates wireless this year, but you'll still want to 
 download everything else before lab.  Look in Part 3 (serial drivers) and Part 
 4 (gcc toolchain) of [the lab](README.md), and install the software it says.
-
---------------------------------------------------------------------
-#### Nice-haves: Extra, very useful things.
-
-You don't need these for the first lab, but they will make
-your Stanford journey much easier:
-
-   - Figure out how to "tab complete" in your shell.  This gives you
-     a fast(er) way to list out files and run things.  We'll show this,
-     but you can google.
-
-   - Figure out how to use tags.  Both `emacs` or `vim` support "tags",
-     which use keyboard shortcuts to essentially treat identifiers
-     as urls and navigate to the definitions of structures,
-     functions, variables.  This makes understanding code
-     ***much much*** faster and easier.   [A description for
-     `vim`](https://vim.fandom.com/wiki/Browsing_programs_with_tags).
-
-     See [the ctags guide](../../guides/ctags.md) for more detailed info.
-
-   - Longer term: eliminate as much mouse usage as you can; ***especially
-     eliminate screen switching***.  Ideally you'll have your code in one
-     window, the compilation in another window on the same screen and
-     switch back and forth between these windows without lifting your
-     hands off the keyboard.  You should definitely not be switching
-     screens for such tasks.
-
-     The single biggest productivity slowdown I see in stanford undergrads
-     (grads too) is the slow, laborious use of taking their hand off
-     a keyboard, moving a mouse, clicking, switching screens, clicking
-     on something else, switching back, etc.   You don't realize how
-     much this will cripple you until you watch someone who writes code
-     well and compare their fluent flow to your plodding agrarian
-     lifestyle.  Such switching screens means you lose context
-     (which makes fixing even trivial compilation errors painful),
-     you move slowly, and in many different ways you will distrupt your
-     programming flow state, which is basically the only real way you
-     can get significant, effective work done.  Any time you move the
-     mouse, you're not doing work.  Do what you can to stop this.
-
-     Note from Akshay: using the mouse too much is also a good way to develop 
-     wrist issues; mouse movements are fairly unnatural, and moving your hand 
-     back and forth from a mouse to a keyboard is an extremely repetitive 
-     action.  This is actually a UX thing Windows does much better than Macs by 
-     default; on macOS you can use tools like 
-     [Rectangle](https://github.com/rxhanson/Rectangle) to avoid using the 
-     mouse for trivial actions like switching between your terminal and your 
-     command line.  Linux users have tons of options, such as the popular 
-     [i3](https://i3wm.org/).
-
-     Vim and Emacs are good, popular, well-supported editors which don't use 
-     the mouse.  They integrate with all the tools we'll use in this class by 
-     default, and you can automate anything you do often.  See [the editor 
-     guide](../../guides/editor.md).
-
-   - Install `gdb` if you can --- it makes things easier in other classes
-     (e.g., you can do a backtrace after a crash to figure out where the
-     code was) and for this class let you answer simple code questions
-     quickly.  For example, what is the decimal value of `01010101011`?
-
-          % gdb
-          (gdb) p 0b01010101011
-          $1 = 683
-
-     Easy.
-
-----------------------------------------------------------------
-### Acknowledgements
-
-Thanks to Ian (taking the class now!) for helping greatly improve the
-writeup of this and the next lab.
