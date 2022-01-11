@@ -40,13 +40,16 @@ You likely have a short somewhere and in the worst-case can fry your laptop.
      output on.  Your fetchquest is to chase down what addresses these
      are for GPIO pin 20, and what values you need.
 
-  3. Look through the `code` directory.  You'll be implementing the
+  3. Read through the [GPIO and device memory crash course](../../guides/GPIO.md) 
+     in the guides directory.
+
+  4. Look through the `code` directory.  You'll be implementing the
      routines in `gpio.c` which is used by three simple programs: `1-blink.c`
      `2-blink.c` and `3-input.c`.  You only modify `gpio.c`.  We provide
      prototypes (in `rpi.h`) and some trivial assembly routines in
      `start.S`.
 
-  4. Note: where the broadcom document uses addresses `0x7420xxxx`, you'll use
+  5. Note: where the broadcom document uses addresses `0x7420xxxx`, you'll use
      `0x2020xxxx`.
 
 Questions you should be able to answer:
