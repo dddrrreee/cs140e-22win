@@ -13,7 +13,11 @@ touch sensor is touched.
 Make sure you read the [GPIO and device memory crash
 course](../../guides/GPIO.md) in the guides directory.
 
-Sign off: to get credit for the lab show the following:
+##### Sign off
+
+If you've never used a pi before, to get credit for the lab
+show the following:
+
 
    1. That `code/2-blink.c` correctly blinks two LEDs on pin 20 and 21 in
       opposite orders (i.e., if 20 is on, 21 should be off and vice
@@ -24,13 +28,16 @@ Sign off: to get credit for the lab show the following:
       pin 21 is connected to 3v (either directly, via an LED, or via a
       touch sensor or whatever other device you might want to try).
 
-   3. That you can forward the signal from one pi to another.
-      This requires the ability to run two pi's at once (as described
-      in 0-blink).
+If you have used a pi before, implement `gpio_pullup` and `gpio_pulldown`.
+Ideally you also do some extensions.
 
-      Not everyone will be able to do this if you need to buy additional
-      adaptors for your laptop --- make sure you can do this part very
-      soon, since we need two pi's at once for networking.
+   - Extension: That you can forward the signal from one pi to another.
+     This requires the ability to run two pi's at once (as described
+     in 0-blink).
+
+     Not everyone will be able to do this if you need to buy additional
+     adaptors for your laptop --- make sure you can do this part very
+     soon, since we need two pi's at once for networking.
 
 --------------------------------------------------------------------------
 ### Part 1.  Make blink work. (30 minutes)
@@ -135,7 +142,7 @@ What you will do below:
 </p>
 
 --------------------------------------------------------------------------
-### Part 3. Forward one pi signal to another.
+### Extension: Forward one pi signal to another.
 
 We now do a cool trick: transparently forward signals from one pi to
 another. While mechanically trivial, this is a "hello world" version of
@@ -190,6 +197,59 @@ tricks:
       Unix servers.  (One of many examples where we will be able to write
       custom, clean, simple code that is far faster or more powerful
       than a full-fledged "real" system.)
+--------------------------------------------------------------------------
+### Extension: Implement `gpio_set_pullup` and `gpio_set_pulldown`
+
+These are described, with much ambiguity, in the Broadcom document on
+page 101 (using my pdf reader page numbering).  Some issues:
+
+  1. They say to use clock delays, but do not way which clock (the pi clock?
+  The GPU clock?  Some other clock?)
+
+  2. A straight-forward reading of steps (5) and (6) imply you have
+  to write to the `GPPUD` to and `GPPUDCLK` after setup to signal
+  you are done setting up.  Two problems: (1) write what value? (2)
+  the only values you could write to `GPPUD`, will either disable the
+  pull-up/pull-down or either repeat what you did, or flip it.
+
+In other domains, you don't use other people's implementation to make
+legal decisions about what acts are correct, but when dealing with
+devices, we may not have a choice (though, in this case: what could we
+do in terms of measurements?).
+
+Two places you can often look for the pi:
+
+  1. Linux source.  On one hand: the code may be battle-tested, or
+  written with back-channel knowledge.  On the other hand:
+  it will have lots of extra Linux puke everywhere, and linux is far from not-buggy.
+
+  2. `dwelch76` code, which tends to be simple, but does things (such as
+  eliding memory barriers) that the documents explicitly say are wrong
+  (and has burned me in the past).
+
+For delays:
+[Linux]
+(https://elixir.bootlin.com/linux/v4.8/source/drivers/pinctrl/bcm/pinctrl-bcm2835.c#L898) uses 150 usec.  [dwelch76]
+(https://github.com/dwelch67/raspberrypi/blob/master/uart01/uart01.c)
+uses something that is 2-3x 150 pi system clock cycles.  The
+the general view is that we are simply giving the hardware "enough" time to settling
+into a new state rather than meeting some kind of deadline and, as a result,
+that too-much is much better than too-little, so I'd go with 150usec.
+
+For what to write:  from looking at both Linux and dwelch67 it *seems*
+that after steps (1)-(4) at set up,
+you then do step (6), disabling the clock, but do not do step (5) since its simply
+hygenic.
+
+Since we are setting "sticky" state in the hardware and mistakes lead to non-determinant
+results, this is one case where I think it makes sense to be pedantic with memory barriers:
+do them at the start and end of the routine.  (NOTE, strictly speaking: if we are using
+the timer peripheral I think we need to use them there too, though I did not.  This
+is a place where we should perhaps switch to using the cycle counter.)
+
+If you get confused, [this
+page](http://what-when-how.com/Tutorial/topic-334jc9v/Raspberry-Pi-Hardware-Reference-126.html)
+gives an easier-to-follow example than the broadcom.
 
 --------------------------------------------------------------------------
 ### Extension: Break and tweak stuff.
