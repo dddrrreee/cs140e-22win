@@ -318,21 +318,36 @@ Install the toolchain:
    -  For a mac use the [cs107e install notes](http://cs107e.github.io/guides/install/mac/).  Note: do not 
       install the python stuff.
 
-   -  For [ubuntu/linux](https://github.com/eistec/mulle/wiki/Installing-toolchain-%28GCC%29):
+   -  For [ubuntu/linux](https://askubuntu.com/questions/1243252/how-to-install-arm-none-eabi-gdb-on-ubuntu-20-04-lts-focal-fossa), ARM recently
+      changed their method for distributing the tool change.   Now you
+      must manually install.  As of this lab, the following works:
 
-           sudo add-apt-repository ppa:team-gcc-arm-embedded/ppa
-           sudo apt-get update
-           sudo apt-get install gcc-arm-none-eabi
-       
+            wget https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
+
+            sudo tar xjf gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 -C /usr/opt/
+
+      Then either add symlinks to these:
+
+            sudo ln -s /usr/opt/gcc-arm-none-eabi-10.3-2021.10/bin/* /usr/bin/
+
+      Or, cleaner, add `/usr/opt/gcc-arm-none-eabi-10.3-2021.10/bin` to your
+      `path` variable in your shell configuration file (e.g., `.tchsrc`
+       or `.bashrc`), save it, and `source` the configuration.  When you run:
+
+
+            arm-none-eabi-gcc
+            arm-none-eabi-ar
+            arm-none-eabi-objdump 
+
+      You should not get a "Command not found" error.
+
+
       You may also have to add your username to the `dialout` group.
 
       If gcc can't find header files, try:
 
            sudo apt-get install libnewlib-arm-none-eabi
 
-    - For other Linuxes, search your package manager for "arm-none-eabi-gcc".  
-      Worst case, install from [the ARM developer 
-      site](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads)
 
 Now test that the toolchain works and produces a runnable binary:
 
@@ -349,7 +364,12 @@ Now test that the toolchain works and produces a runnable binary:
    3. If everything worked, your LED light should be blinking.  Congratulations!
 
 --------------------------------------------------------------------------
-#### 5.  Run two pi's at once
+#### 5.  Extension: Run two pi's at once
+
+Because of supply chain issues, we don't have enough pi's (yet?) to give
+out two. However, if you are working in a group, it's worth getting two
+pi's running at the same time --- this will clarify issues and also make
+it easier to do networking.
 
 Configuring your second pi is a great way to re-enforce the steps above.
 Also you're going to want two working systems at all times.  It will make
