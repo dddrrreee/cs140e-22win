@@ -1,0 +1,112 @@
+#include "rpi-asm.h"
+
+@ linker hack so we can force this file in the first portion of 
+@ the linked binary.
+.section ".text.boot"
+
+@ this is where we start.  if you look in any '.list' file, you 
+@ better see code at the first addresses (in our case: starting
+@ at 0x8000).
+.globl _start
+_start:
+
+#ifdef RPI_FP_ENABLED
+
+    @  enable fpu
+    mrc p15, 0, r0, c1, c0, 2
+    orr r0,r0,#0x300000 ;@ single precision
+    orr r0,r0,#0xC00000 ;@ double precision
+    mcr p15, 0, r0, c1, c0, 2
+    mov r0,#0x40000000
+    fmxr fpexc,r0
+
+    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    @ trying this from dwelch.
+    ;@ (PSR_UND_MODE|PSR_FIQ_DIS|PSR_IRQ_DIS)
+    mov r0,#0xDB
+    msr cpsr_c,r0
+    mov sp,#0x00100000
+
+    ;@ (PSR_SVC_MODE|PSR_FIQ_DIS|PSR_IRQ_DIS)
+    mov r0,#0xD3
+    msr cpsr_c,r0
+    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+#endif
+
+
+    mov sp, #STACK_ADDR @ initialize stack pointer
+    mov fp, #0          @ clear frame pointer reg.  don't think needed.
+    @ bl notmain        @ we could jump right to notmain
+    bl _cstart          @ call our code to do initialization.
+    bl rpi_reboot       @ if they return just reboot.
+
+@ keep put32/get32 here so that they are in the same location in every binary.
+@ if you want to override them easily, can re-define the name in rpi-asm.h
+@
+@ we write them as assembly routines to make absolutely sure the compiler
+@ cannot optimize them (reorder, eliminate, cache, etc.)
+
+@
+@ put32(addr,val).  c-code equivalant:
+@   - put32(addr, val) { *(uint32_t*)addr = val; }
+@
+@ store value <val> (passed in second argument register r1) 
+@ into memory address <addr> (passed in first argument 
+@ register, r0).
+@
+.globl put32
+.globl PUT32
+put32:
+PUT32:
+    str r1,[r0]     @ store r1 into address held in r0
+    bx lr           @ return
+
+@ get32(addr)
+@
+@ c-code equivalent: 
+@   - get32(addr) { return *(uint32_t*)addr; }
+@
+@ load value of <addr> passed in first argument register (r0).
+@
+.globl get32
+.globl GET32
+get32:
+GET32:
+    ldr r0,[r0]     @ load address held in r0 into r0
+    bx lr           @ return
+
+
+
+#ifdef RPI_FP_ENABLED
+
+.globl m4add
+m4add:
+    vmov s0,r0
+    vmov s1,r1
+    vmov s2,r2
+    vmov s3,r3
+    vadd.f32 s4,s0,s1
+    vadd.f32 s5,s2,s3
+    vmov r0,s5
+    bx lr
+
+.globl m4add2
+m4add2:
+    vmov s0,r0
+    vmov s1,r1
+    vmov s2,r2
+    vmov s3,r3
+    vadd.f32 s4,s0,s1
+    vadd.f32 s5,s2,s3
+    vmov r0,s4
+    bx lr
+
+.globl m4vmov
+m4vmov:
+    vmov s4,r0
+    vmov s5,r0
+    bx lr
+
+#endif
+
