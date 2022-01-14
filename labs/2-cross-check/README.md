@@ -357,8 +357,8 @@ since they can silently corrupt data we use or issue weird hardware commands.
 The easiest way to check all the runs:
   1. Set `TEST_SRC`:
 
-            # run all the 1-*.c 2-*.c and prog-*.c tests
-            TEST_SRC := $(wildcard ./[12]-*.c) $(wildcard ./prog-*.c)
+            # run all the tests
+            TEST_SRC := $(wildcard ./*.c)
 
   2. Compute the checksum of checksums.
 
@@ -396,13 +396,9 @@ lab tell you what they mean).
 
 What to do:
 
-  0. Do all edits to your `gpio.c` from lab 1.
-  1. Because of a mistake on my part, you'll need to copy-and-paste the
-      `gpio_func_t` `enum` declaration in `code-hello/rpi.h` into
-      `1-gpio/code/rpi.h` or it won't compile.  Kind of ridiculous.
-       Apologies for that.
-  2. Adapt your `gpio_set_output` code to bitwise-or the given flag.
-  3. Error check not just the input `pin` but also the `function` 
+  0. Do all edits to your `gpio.c` you copied from lab 1 to `1-fake-pi`
+  1. Adapt your `gpio_set_output` code to bitwise-or the given flag.
+  2. Error check not just the input `pin` but also the `function` 
       value.
 
 Checkoff:
@@ -415,14 +411,13 @@ Checkoff:
       it should produce a `hello.bin` that you can send to your pi (using
       `pi-install`) and have it print and reboot.
 
-
 ----------------------------------------------------------------------
-#### 3. Do similar tracing on the pi 
+#### 3. Do similar tracing on the pi (`2-trace`)
 
 This uses the tracing trick from the `PRELAB`.  You should look at that
 implementation if you haven't already.
 
-Implement the code in:
+Implement the code in `2-trace`:
 
   - `trace-simple.c`: implement `__wrap_PUT32` and `__wrap_GET32`
   - `trace-notmainc.c: if you want to get fancy implement this
@@ -430,6 +425,26 @@ Implement the code in:
 
 As with `1-fake-pi` start working through the tests in `2-trace/tests`.
 
+####### checkoff
+
+Note, that initially you will be using our `gpio` implementation in
+`libpi`.  When you finish the tracing above do, emit the `out` files
+and then drop in your gpio and make sure you get the same answer.
+
+   1. `make emit`.
+   2. copy your `gpio.c` to `libpi/src` (this is where you will put all your
+      source code in the upcoming labs).
+   3. Change `libpi/Makefile` to use your `gpio.c` instead of ours by changing
+      `SRC = src/gpio.c` and removing the `staff-objs/gpio.o` from `STAFF_OBJS`
+   4. Now verify tracing gives the same values: `make check`: you should get the same results.
+
+----------------------------------------------------------------------
+#### Extension: simulator validation
+
+Modify the `fake-pi.c` implementation to set memory to the actual values
+on the pi when called with `-initial`.  You should then check that you get the
+same results when run on the same program.  Note: you will have to do something
+about the tracing start/stop calls.
 
 ----------------------------------------------------------------------
 #### Extension: Implement a better version of memory that uses an array.
