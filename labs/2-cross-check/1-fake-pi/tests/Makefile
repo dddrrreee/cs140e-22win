@@ -15,6 +15,7 @@ TEST_SRC := $(wildcard ./[2]-*.c)
 
 # easiest: tell makefile to make the first batch of tests.
 TEST_SRC := $(wildcard ./[1]-*.c) 
+TEST_SRC := 1-gpio-read.c
 
 
 # make them local to this directory
