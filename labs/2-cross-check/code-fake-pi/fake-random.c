@@ -25,7 +25,7 @@ void fake_random_seed(unsigned x) {
 
 // make sure that everyone has the same random.
 void fake_random_init(void) {
-    fake_random_seed(0);
+    fake_random_seed(0x140e);
     unsigned u = fake_random();
     assert(0x6b8b4567 == u);
 }

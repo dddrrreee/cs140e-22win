@@ -146,6 +146,11 @@ void put32(volatile void *addr, uint32_t v) {
     PUT32((uint32_t)(uint64_t)addr, v);
 }
 
+uint32_t DEV_VAL32(uint32_t x) {
+    trace("DEV_VAL32=0x%x\n", x);
+    return x;
+}
+
 // same but takes <addr> as a uint32_t
 uint32_t GET32(uint32_t addr) {
     unsigned v;

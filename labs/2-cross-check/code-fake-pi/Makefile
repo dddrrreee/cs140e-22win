@@ -1,5 +1,7 @@
 # where our GPIO code is
 DIR = ../../1-gpio/code
+DIR := /home/engler/class/cs140e-22win/libpi/staff-private
+
 
 # the raw, real source code that we include.
 REAL_SRC := $(DIR)/gpio.c
@@ -8,7 +10,7 @@ REAL_SRC := $(DIR)/gpio.c
 TARGET = libpi-fake.a
 
 # the different code we want to test.
-PROG_SRC = $(DIR)/1-blink.c $(DIR)/2-blink.c $(DIR)/3-input.c
+PROG_SRC = tests/prog-1-blink.c tests/prog-2-blink.c tests/prog-3-input.c
 
 PROG_OBJS := $(PROG_SRC:.c=.o)
 PROG_OBJS := $(foreach obj, $(PROG_OBJS), ./$(notdir $(obj)))
@@ -22,12 +24,13 @@ OBJS := $(foreach obj, $(OBJS), ./$(notdir $(obj)))
 dep := $(OBJS:.o=.d)  # one dependency file for each source
 
 # automatically give make the directories to look in.
-VPATH := $(sort $(dir $(SRC)))
+VPATH := $(sort $(dir $(SRC))):$(sort $(dir $(PROG_SRC)))
 
 CC=gcc
 CFLAGS = -Wall -g -std=gnu99  -Werror -Wno-unused-function -Wno-unused-variable
 # added the include path for libpi-fake
-CFLAGS += -I$(DIR)
+# CFLAGS += -I$(DIR)
+CFLAGS += -I.
 
 DEPS := ./Makefile
 

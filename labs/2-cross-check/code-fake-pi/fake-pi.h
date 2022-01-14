@@ -22,5 +22,4 @@ unsigned fake_random(void);
 // call to exit: dump out some stats.
 void fake_pi_exit(void);
 
-
 #endif
