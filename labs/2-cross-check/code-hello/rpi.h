@@ -21,6 +21,18 @@ void put32(volatile void *addr, uint32_t v);
 // same, but takes <addr> as a uint32_t
 void PUT32(uint32_t addr, uint32_t v);
 
+
+#ifndef  RPI_UNIX
+static inline uint32_t DEV_VAL32(uint32_t x) { return x; }
+#else
+// call this to annotate that we computed an unsigned 32-bit 
+// integer from a device.
+uint32_t DEV_VAL32(uint32_t x);
+#endif
+
+
+
+
 // used to read device memory: do not use a raw dereference!
 //
 // returns the 32-bit value at <addr>:  
