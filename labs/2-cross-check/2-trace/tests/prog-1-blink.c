@@ -11,9 +11,9 @@ void notmain(void) {
     gpio_set_output(led);
     for(int i = 0; i < 10; i++) {
         gpio_set_on(led);
-        delay(1000000);
+        delay_cycles(1000000);
         gpio_set_off(led);
-        delay(1000000);
+        delay_cycles(1000000);
     }
 
     trace_stop();

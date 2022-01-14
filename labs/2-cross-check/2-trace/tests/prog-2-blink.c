@@ -14,10 +14,10 @@ void notmain(void) {
     for(int i = 0; i < 10; i++) {
         gpio_set_on(led1);
         gpio_set_off(led2);
-        delay(1000000);
+        delay_cycles(1000000);
         gpio_set_off(led1);
         gpio_set_on(led2);
-        delay(1000000);
+        delay_cycles(1000000);
     }
     trace_stop();
     clean_reboot();

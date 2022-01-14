@@ -12,7 +12,7 @@ void notmain(void) {
 
     gpio_set_output(led);
     gpio_set_input(input);
-    while(1) { 
+    for(int i = 0; i < 10; i++) {
         // could also do: 
         //  gpio_write(input, gpio_read(led));
         if(gpio_read(input))
