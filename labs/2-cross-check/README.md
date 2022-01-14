@@ -27,6 +27,9 @@ There are three parts for sign-off:
 
    1. Your checksums for the tests in `1-fake-pi/tests` pass.  
 
+      Note this includes implementing `gpio_set_function` and check that it 
+      gives the same checksum. 
+
       The quickest way to check equivalance: after doing both part 1 and
       part 2 (below) open `code/tests/Makefile` in your editor, set 
       `TEST_SRC := $(wildcard ./*.c)` (at the top of the `Makefile`)
@@ -42,13 +45,7 @@ There are three parts for sign-off:
       at a glance with everyone else.  Note: you'll have to work with
       everyone to figure out who is wrong when there is a difference.
 
-   2. You implement a new function `gpio_set_function` and check that it 
-      gives the same checksum. 
-
-   3. Compile the code in `code-hello` using your final `gpio.c` and 
-      show that it prints `hello` when run.
-
-   4. `2-trace`: You get the same checksum for all the `.out` files
+   2. `2-trace`: You get the same checksum for all the `.out` files
       produced by the tests in `2-trace/tests` --- note, there can be a
       differences in the intial values for GPIO pins when comparing pi
       zeroes to pi A+s.
@@ -432,11 +429,13 @@ Note, that initially you will be using our `gpio` implementation in
 and then drop in your gpio and make sure you get the same answer.
 
    1. `make emit`.
-   2. copy your `gpio.c` to `libpi/src` (this is where you will put all your
+   2. `make check` to make sure it passes (this compares the current run to 
+       the output files emitted in (1)).
+   3. copy your `gpio.c` to `libpi/src` (this is where you will put all your
       source code in the upcoming labs).
-   3. Change `libpi/Makefile` to use your `gpio.c` instead of ours by changing
+   4. Change `libpi/Makefile` to use your `gpio.c` instead of ours by changing
       `SRC = src/gpio.c` and removing the `staff-objs/gpio.o` from `STAFF_OBJS`
-   4. Now verify tracing gives the same values: `make check`: you should get the same results.
+   5. Now verify tracing gives the same values: `make check`: you should get the same results.
 
 ----------------------------------------------------------------------
 #### Extension: simulator validation
