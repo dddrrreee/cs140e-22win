@@ -18,7 +18,7 @@ MAKEFLAGS += --no-print-directory
 # we only look at this output
 GREP_STR := "TRACE:"
 
-.SUFFIXES: .out .run .check .emit
+SUFFIXES: .out .run .check
 
 # this will be passed in by the caller.
 # TESTS      := $(patsubst %.c, %, $(TESTS_SRC)) 
@@ -27,7 +27,6 @@ $(error TESTS is not defined: makefile invoked incorrectly)
 endif
 
 TEST_RUN   := $(patsubst %, %.run, $(TESTS))  
-TEST_EMIT  := $(patsubst %, %.emit, $(TESTS))  
 TEST_CHECK := $(patsubst %, %.check, $(TESTS))  
 TEST_CKSUM := $(patsubst %, %.cksum, $(TESTS))  
 TEST_OUT   := $(patsubst %, %.out, $(TESTS))  
@@ -42,7 +41,7 @@ all: $(TEST_RUN) # $(TEST_CHECK)
 
 # note: this will fail if output does not contain a trace.
 # we pull everything into .out so that it's easier to debug.
-%.emit: ./%
+%.out: ./%
 	./$* 2>&1  | grep $(GREP_STR) > ./$*.out
 
 # can use:
@@ -54,11 +53,10 @@ all: $(TEST_RUN) # $(TEST_CHECK)
 	@echo " Success!";
 	@rm ./$*.test
 
+
 # we could just cksum all the .outs, but this lets us be more targeted.
 %.cksum: %.out
 	cksum ./$*.out
-
-%.out: %.emit
 
 # not sure if there is a better way: use these fake target to run our
 # checks for everything.
@@ -72,4 +70,4 @@ cleanall:
 
 .PRECIOUS: $(TEST_OUT)
 
-.PHONY: all clean runall emitall checkall cksumall 
+.PHONY: all clean runall emitall checkall cksumall  $(TEST_EMIT) $(TEST_CHECK) 
