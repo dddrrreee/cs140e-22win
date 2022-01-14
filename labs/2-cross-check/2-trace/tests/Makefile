@@ -68,13 +68,13 @@ $(TRACE_OBJS):
 	$(OCP) $*.elf -O binary $*.bin
 
 # i'm not sure this actually makes things better.
-emitall: $(DEPS) $(TEST_PROGS)
+emit: $(DEPS) $(TEST_PROGS)
 	@make -f ./Makefile.test emitall "TESTS=$(TEST_PROGS)"
-runall: $(DEPS) $(TEST_PROGS)
+run: $(DEPS) $(TEST_PROGS)
 	@make -f ./Makefile.test runall "TESTS=$(TEST_PROGS)"
-checkall: $(DEPS) $(TEST_PROGS)
+check: $(DEPS) $(TEST_PROGS)
 	@make -f ./Makefile.test checkall "TESTS=$(TEST_PROGS)"
-cksumall: $(DEPS) $(TEST_PROGS)
+cksum: $(DEPS) $(TEST_PROGS)
 	@make -f ./Makefile.test cksumall "TESTS=$(TEST_PROGS)"
 
 tags: 
