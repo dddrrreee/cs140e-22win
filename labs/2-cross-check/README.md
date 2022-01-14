@@ -411,6 +411,9 @@ Checkoff:
 ----------------------------------------------------------------------
 #### 3. Do similar tracing on the pi (`2-trace`)
 
+***Note: for the `prog-hardware-loopback.c` you'll need to run a jumper
+between pins 20 and 21 (it sets and reads).***
+
 This uses the tracing trick from the `PRELAB`.  You should look at that
 implementation if you haven't already.
 
@@ -421,6 +424,7 @@ Implement the code in `2-trace`:
     so you can run raw pi programs in tracing mode.
 
 As with `1-fake-pi` start working through the tests in `2-trace/tests`.
+
 
 ####### checkoff
 
