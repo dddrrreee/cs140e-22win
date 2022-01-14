@@ -1,10 +1,4 @@
-# where our GPIO code is
-DIR = ../../1-gpio/code
-DIR := /home/engler/class/cs140e-22win/libpi/staff-private
-
-
-# the raw, real source code that we include.
-REAL_SRC := $(DIR)/gpio.c
+# copy your gpio.c to this directory.
 
 # our name for the library
 TARGET = libpi-fake.a
