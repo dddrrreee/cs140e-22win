@@ -254,6 +254,11 @@ how this works, let's run the `1-blink` from last lab using `fake-pi`:
 ----------------------------------------------------------------------
 #### Part 1. Check your code against everyone else 
 
+First things first:
+
+  - copy your `gpio.c` from the last lab to `1-fake-pi`
+  - make sure `make` works.
+
 To summarize the above description: Given the `GET32` and `PUT32`
 modifications above, a simple, stringent approach is to check that two
 `gpio` implementations are the same:
