@@ -48,15 +48,15 @@ There are three parts for sign-off:
    3. Compile the code in `code-hello` using your final `gpio.c` and 
       show that it prints `hello` when run.
 
-   2. `2-trace`: You get the same checksum for all the `.out` files
-      produced by the tests in `2-trace/tests`.
+   4. `2-trace`: You get the same checksum for all the `.out` files
+      produced by the tests in `2-trace/tests` --- note, there can be a
+      differences in the intial values for GPIO pins when comparing pi
+      zeroes to pi A+s.
 
-There's one extension:
+   5. When you put in your `gpio.o` into `libpi` you get the same output
+      for (4).
 
-   - You replace our simple but crude use of a fixed
-     number of global variables for memory with an array and array lookup.
-     The checksums you get should exactly match those in part 1: I.e.,
-     nothing should change.
+There's a bunch of extensions.
 
 ------------------------------------------------------------------------
 #### Background: Concepts you will learn.
