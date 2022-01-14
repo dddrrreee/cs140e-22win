@@ -1,4 +1,4 @@
-#include <string.h>
+#include "rpi.h"
 
 void *memmove(void *dst, const void *src, size_t count) {
   char *a = dst;
