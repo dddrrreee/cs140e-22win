@@ -164,6 +164,15 @@ uint64_t rpi_get_serial_num(void);
 void PUT32(unsigned addr, unsigned v);
 void put32(volatile void *addr, unsigned v);
 
+#ifndef  RPI_UNIX
+static inline uint32_t DEV_VAL32(uint32_t x) { return x; }
+#else 
+// call this to annotate that we computed an unsigned 32-bit 
+// integer from a device.
+uint32_t DEV_VAL32(uint32_t x);
+#endif
+
+
 // *(unsigned char *)addr = v;
 void PUT16(unsigned addr, unsigned short v);
 void put16(volatile void *addr, unsigned short v);
