@@ -330,7 +330,7 @@ and, for `void` routines, simply check and return at the start of
 the routine:
 
         // 47 is the internal led pin
-        if(pin >= 32 || pin == 47)
+        if(pin >= 32 && pin == 47)
             return;
 
 (So: At the start of `gpio_set_on`, `gpio_set_off`, `gpio_set_input`,
@@ -339,7 +339,7 @@ the routine:
 And for non-void, such as `gpio_read`, check and return `-1`:
 
         // 47 is the internal led pin
-        if(pin >= 32 || pin == 47)
+        if(pin >= 32 && pin == 47)
             return -1;
 
 
