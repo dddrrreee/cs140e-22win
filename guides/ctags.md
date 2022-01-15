@@ -79,8 +79,9 @@ class, you probably want to create a tags file at the root of the cs140e repo.
 ## Usage
 
 The way you use ctags will be slightly different depending on what editor you 
-use.  I've given a brief overview for Vim/Neovim, Emacs, and VSCode, but you 
-should look up tutorials for your specific editor to get a full guide.
+use.  I've given a brief overview for Vim/Neovim, Emacs, VSCode, and Sublime 
+Text, but you should look up tutorials for your specific editor to get a full 
+guide.
 
 To regenerate your tags file from the command line, the simplest way is what 
 was mentioned earlier: run `ctags -R .` from the root directory of the cs140e 
@@ -160,6 +161,23 @@ Search](https://marketplace.visualstudio.com/items?itemName=valderman.ctagsymbol
 provides symbol search.
 * Use `Ctrl+P`, then type `#` to get a searchable list of every symbol in your 
   project.
+
+### Sublime Text
+
+Sublime Text 4 has a pretty good indexing engine for C built-in.  It doesn't 
+always find files in `libpi` though, so we'd still recommend installing ctags.
+
+[Sublime Ctags](https://packagecontrol.io/packages/CTags)
+* Name your ctags file `.ctags` for it to get picked up automatically; you can 
+  use a command like `ctags -R -f .tags` to do this (edit the `make tags` rule 
+  in the Makefile).  Alternatively you can change the settings in the plugin to 
+  look for files named `tags`.
+
+Also recommended: [Sublime 
+Terminal](https://packagecontrol.io/packages/Terminal) or similar to easily 
+open a terminal in your current directory.
+
+[Sublime LSP](https://packagecontrol.io/packages/LSP) (see below for more info)
 
 
 ## Optional Upgrade: Language Servers
