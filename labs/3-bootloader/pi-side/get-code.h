@@ -79,19 +79,16 @@ has_data_timeout(unsigned timeout) {
     return 0;
 }
 
-// send a <GET_PROG_INFO> message every 300ms.
+// implement this routine.
 static void wait_for_data(unsigned usec_timeout) {
-    do {
-        boot_put32(GET_PROG_INFO);
-    } while(!has_data_timeout(usec_timeout));
 }
 
 // IMPLEMENT this routine.
 //
 // Simple bootloader: put all of your code here.
 static inline long get_code(void) {
-    // 1. keep sending GET_PROG_INFO every 300ms until 
-    // there is data.
+    // 0. keep sending GET_PROG_INFO every 300ms until 
+    // there is data: implement this.
     wait_for_data(300 * 1000);
 
     /****************************************************************
