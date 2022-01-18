@@ -171,8 +171,9 @@ Do these steps first:
   2. Set aside the working microSD card from step 1 and do not modify it
      during this lab.
 
-  3. Make a second working micro-SD card by copying the firmware over it.
-     Run `hello.bin` to make sure it works.
+  3. If you have a second micrsd: Make a second working micro-SD card
+     by copying the firmware over it.  Run `hello.bin` to make sure
+     it works.
 
      You will only ever modify this second microSD.  Leave the first one
      alone.  
@@ -186,8 +187,7 @@ Do these steps first:
      when in fact it was a hardware problem.  You always want a quick
      way to delta debug, especially since we are all remote.
 
-     Ideally you have a second pi.
-
+     Ideally: you have a second pi.
 
 --------------------------------------------------------------------
 ### Step 1: write the unix side `my-install` first
