@@ -19,7 +19,7 @@ No matter what editor you choose, make sure you have autocomplete and
 go-to-definition working in your editor, and make sure you know how to use 
 them.  See [the Ctags guide](ctags.md) for more info.
 
-Relevant xkcd: https://xkcd.com/378/
+Relevant xkcd: [https://xkcd.com/378/](https://xkcd.com/378/)
 
 ## Vim
 
@@ -81,8 +81,11 @@ Downsides of Emacs:
 ## VSCode/Atom/Sublime/etc.
 
 VSCode (and other modern editors) are very popular, but are generally far more 
-limited than Vim or Emacs.  They'll probably work for this class as long as you 
-[set up Ctags](ctags.md), but they may be inefficient.
+limited than Vim or Emacs for OS-style development.  They'll probably work for 
+this class as long as you [set up Ctags](ctags.md), but they may be 
+inefficient.  Of this set, [Sublime Text](https://www.sublimetext.com/) is 
+probably the best suited for this class on merit of being least IDE-like, but 
+we know many people in the past have preferred VSCode due to familiarity.
 
 Benefits of VSCode et al.:
 * really popular
@@ -90,11 +93,11 @@ Benefits of VSCode et al.:
 * standard keyboard shortcuts
 
 Downsides of VSCode et al.:
-* not well suited to C development: you'll need to install several plugins to 
-  get up to speed with Vim or Emacs users, and you'll still need to keep a few 
-  terminal windows around anyway
+* not designed for C development: you'll need to install several plugins to get 
+  up to speed, and you'll still need to keep a few terminal windows around 
+  anyway
 * not well-integrated with UNIX
-* large, slow, and memory-intensive; Atom and VSCode are both Electron apps and 
-  therefore require the same resources as a Chrome window
+* (Atom and VSCode): large, slow, and memory-intensive; these are both Electron 
+  apps and therefore require almost the same resources as a Chrome window
 * using the mouse may cause RSIs (like carpal tunnel), and is generally slower 
   than using the keyboard
