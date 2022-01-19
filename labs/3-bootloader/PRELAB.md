@@ -47,7 +47,7 @@ None of them should be very hard:
      let us know!
 
      You should give an error if there zero or more than one matching
-     tty-serial devices.  There is a `strcatf` helper function that makes
+     tty-serial devices.  There is a `strdupf` helper function that makes
      it easier to create a malloced name.
 
   3. `find_tty_last`: does the same and finds the most recent TTY-USB.
