@@ -304,6 +304,20 @@ when a message is arriving, you'll almost certainly input lose bytes,
 and also get confused.  Ask me how I know!
 
 --------------------------------------------------------------------
+#### Extension: make the bootloader better
+
+If you recall, the unix side of the bootloader has some pretty useless
+error messages.  Fix these so they are more helpful.
+
+Similarly: if the pi-side runs into trouble, do something more useful
+than just lock up.  For example, if you try to send `GET_PROG_INFO`
+some number of times without a response, blink the internal LED (pin 47)
+multiple times to show things are in a bad state and reboot.
+
+Also, you can change `boot_putk` to implement `printk` type functionality
+of taking a format string rather than a fixed string.
+
+--------------------------------------------------------------------
 #### Extensions.
 
 Many possible extensions.  Since this low level code is used by everything we 
