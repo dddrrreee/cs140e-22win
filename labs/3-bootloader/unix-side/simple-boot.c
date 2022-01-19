@@ -18,9 +18,6 @@ void simple_boot(int fd, const uint8_t *buf, unsigned n) {
     // if you want to trace PUT/GET set
     //  trace_p = 1;
 
-    if(pi_roundup(n,4) % 4 != 0)
-        panic("boot code size (%d bytes) is not a multiple of 4!\n", n);
-
     // all implementations should have the same message: same bytes,
     // same crc32: cross-check these values to detect if your <read_file> 
     // is busted.
