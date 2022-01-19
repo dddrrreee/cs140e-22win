@@ -10,7 +10,7 @@
 #   - "make cksum" it will compute checksums for all programs in TESTS
 
 # you can add a device path if you need it
-BOOTLOAD = my-install
+BOOTLOAD = my-install.trace
 
 # list out the tests you want.
 TESTS := $(wildcard ./[0123]-*.bin) $(wildcard ./prog-*.bin)
