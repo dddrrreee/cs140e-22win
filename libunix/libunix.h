@@ -46,7 +46,8 @@ FILE *fcreate_file(const char *name);
 
 
 
-
+// roundup <x> to a multiple of <n>: taken from the lcc compiler.
+#define pi_roundup(x,n) (((x)+((n)-1))&(~((n)-1)))
 
 #endif
 
