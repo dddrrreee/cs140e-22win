@@ -8,6 +8,9 @@ can print out the entire system, look at each line of code, and should
 hopefully know why it is there and what it is doing.  Importantly you have
 reached that magic point of understanding where: there is nothing else.
 
+*NOTE*:
+  - Make sure you read through the [mini-UART cheatsheet](miniUART.md)
+
 In addition, you'll implement your own *software* UART implementation
 that can entirely bypass the pi hardware and talk directly to the
 tty-USB device itself.  I.e., without using the driver above, but instead
@@ -66,22 +69,7 @@ what you did, and supporting reasons --- i.e., have page numbers and
 partial quotes for each thing you did.
 
 -------------------------------------------------------------------------
-#### What to read.
-
-Readings:
-  1. Sections 1, 2, 2.1, 2.2, 6.2 (p 102) in the Broadcom document:
-     `docs/BCM2835-ARM-Peripherals.annot.PDF` to figure out where, what,
-     and why you have to read/write values.
-     
-     The main reading is pages 8---19.  I had to read the sections about
-     10 times (not kidding).   It's do-able.  Lab will ensure we can
-     get through it to a working program.
-
-     Note that you need to setup the TX and RX GPIO pins; 6.2 says how.
-  2. [errata](https://elinux.org/BCM2835_datasheet_errata) has the
-     errata associated with the Broadcom.  
-  3. [8n1](https://en.wikipedia.org/wiki/8-N-1)
-  4. [UART](https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter).
+#### The general goals
 
 The main goal of this lab is to try to take the confusing prose and
 extract the flow chart for how to enable the miniUART with the baud rate
@@ -108,41 +96,6 @@ The main thing is to not get too worked up by not understanding something,
 and slide forward to what you do get, and cut down the residue until
 you have what you need.
 
-##### Helpful notes:
-
-  1. As with the GPIO, the upper bits of the Broadcom addresses are
-  incorrect for the pi and you will have to use different ones (for
-  the mini-UART: `0x2021`).
-
-  2.  We don't want: RTS, CTS, auto-flow control, or interrupts, so ignore
-  these.
-
-  3. You'll want to explicitly disable the mini-UART at the beginning to
-  ensure it works if `uart_init(void)` is called multiple times (as can
-  happen when we use a bootloader, or `reboot()`).
-
-  4. Similarly, you will often want to fully enable the mini-UART's ability
-  to transmit and receive as the very last step after configuring it.
-  Otherwise it will be on in whatever initial state it booted up in,
-  possibly interacting with the world before you can specify how it
-  should do so.
-
-  5. Since the device can read or write memory invisibly to the
-  compiler, we'll manipulate it using `GET32` and `PUT32` (as we 
-  did with GPIO) rather than raw pointer manipulations.
-
-  6. You'll notice the mini-UART "register" memory addresses are contiguous
-  (table on page 8, section 2.1).  Rather than attempt to type in
-  each register's address correctly, just make a large structure of
-  `unsigned` fields (which are 32-bits on the pi), one for each entry
-  in the table, and cast the mini-UART address to a pointer to this
-  struct type.  Since you will be using `GET32` and `PUT32` (as before),
-  you don't need `volatile`.
-
-  7.  If a register holds received / transmit data you will almost
-  certainly want to clear it before enabling the device.  Otherwise it
-  may hold whatever garbage was in there at boot-up.
-
 -----------------------------------------------------------------------
 ### Part 1. implement a UART device deriver:
 
@@ -167,11 +120,23 @@ Concretely, you will implement three routines (skeletons given in
   3. `void uart_putc(unsigned c)`: puts the byte `c` onto the UART transmit
      queue.  If necessary, it blocks until there is space.
 
+
+General approach for `uart_init`:
+  1. You need to turn on the UART in AUX.  Make sure you
+     read-modify-write --- don't kill the SPIm enables.
+  2. Immediately disable tx/rx (you don't want to send garbage).
+  3. Figure out which registers you can ignore (e.g., IO, p 11).
+     Many devices have many registers you can skip.
+  4. Find and clear all parts of its state (e.g., FIFO queues) since we
+     are not absolutely positive they do not hold garbage.  Disable
+     interrupts.
+  5. Configure: 115200 Baud, 8 bits, 1 start bit, 1 stop bit.  No flow
+     control.
+  6. Enable tx/rx.  It should be working!
+
 If you run `make` in `4-uart/code` it will build:
   - A simple `hello` you can use to test. I'd suggest shipping it over with your
     bootloader.  
-
-
 
 A possibly-nasty issue: 
 
