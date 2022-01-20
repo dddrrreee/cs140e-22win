@@ -38,7 +38,7 @@ The checkoff for this lab is pretty simple: bootload some programs
 and check they work the same.  More specifically:
 
   - `make check` in `tests/output-boot-trace` should pass.
-  - [tests/README](tests/README.md) gives more decription.
+  - [checkoff-tests/README](checkoff-tests/README.md) gives more decription.
 
 More detailed:
 
