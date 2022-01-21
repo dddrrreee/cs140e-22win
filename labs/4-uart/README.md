@@ -168,24 +168,23 @@ Now change your bootloader to use the new `uart.c`:
      `2-cross-check/2-trace/tests` --- still behave identically
      (`make check` passes).
 
-
-##### `libpi-fake`
-
-Your top level directory now has a `libpi-fake` directory.  To make
-it work you should (hopefully) just need to:
-  0. Read the `libpi-fake/README.md`.
-  1. Copy your `gpio.c` and `uart.c` into `libpi/src` (not `libpi-fake`).
-  2. Copy your `fake-put-get.c` into there and add your fake memory
-     prototypes (if any) to `fake-mem.h`.
-  3. As the `README` discusses: when `GET32` reads the `stat` register, 
-     you need to change the code to return a new value 
-     (since it could change), just as we did with `gpio_lev01`.
-  4. Check that the old code works by running the tests in `tests-gpio`.
-  5. Check that the uart code works by running the tests in `tests-uart`.
-     You'll have to compare your `.out` files with other people.
-
 -----------------------------------------------------------------------
-### Part 3. implement `sw_putc` for a software UART.
+##### Part 3. `libpi-fake`
+
+Your top level directory now has a `libpi-fake` directory. 
+
+  1. Check that the old code works by running the tests by
+     by doing `make check` in `libpi-fake/tests-gpio`:
+  2. Check that the uart code works by running the tests in `tests-uart`.
+     You'll have to compare your `.out` files with other people.  You
+     probably want to run these by hand one at a time.
+
+     NOTE: A big disadvantage of these checks is that they require
+     the same reads and writes be done in the same order.  This is
+     unrealistic and makes checking kinda of a pain.   We will fix this
+     in the homework.
+-----------------------------------------------------------------------
+### Part 4. implement `sw_putc` for a software UART.
 
 This part of the lab is from a cute hack Jonathan Kula did in last year's
 class as part of his final project.  
