@@ -109,6 +109,8 @@ char *name_lookup(const char *path, const char *name);
 // colon seperated list).
 const char *find_pi_binary(const char *name);
 
+void pi_echo(int unix_fd, int pi_fd, const char *portname);
+
 int exists(const char *name);
 
 #endif
