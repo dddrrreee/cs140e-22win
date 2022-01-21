@@ -186,6 +186,10 @@ Your top level directory now has a `libpi-fake` directory.
 -----------------------------------------------------------------------
 ### Part 4. implement `sw_putc` for a software UART.
 
+Note:
+   - To use our `sw-uart.o`: `staff-objs/sw-uart.o` to the libpi `Makefile`.
+   - To use yours: uncomment `sw-uart.o` from `4-sw-uart/Makefile`.
+
 This part of the lab is from a cute hack Jonathan Kula did in last year's
 class as part of his final project.  
 
