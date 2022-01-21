@@ -45,6 +45,13 @@ FILE *fcreate_file(const char *name);
 // add any other prototypes you want!
 
 
+// waits for <usec>
+int can_read_timeout(int fd, unsigned usec);
+// doesn't block.
+int can_read(int fd);
+
+int read_timeout(int fd, void *data, unsigned n, unsigned timeout);
+
 
 // roundup <x> to a multiple of <n>: taken from the lcc compiler.
 #define pi_roundup(x,n) (((x)+((n)-1))&(~((n)-1)))
