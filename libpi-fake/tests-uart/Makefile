@@ -27,7 +27,7 @@ dep := $(OBJS:.o=.d)   $(PI_OBJS:.o=.d)
 # note: if tests have the same name, you'll get a collision.
 VPATH := $(sort $(dir $(TEST_SRC))) $(sort $(dir $(PI_SRC)))
 
-LPP = $(CS140E_2021_PATH)/libpi
+LPP = $(CS140E_2022_PATH)/libpi
 LIBPI_FAKE = ../libpi-fake.a
 LPI = -I$(LPP)/include
 

@@ -22,7 +22,7 @@ dep := $(OBJS:.o=.d)  # one dependency file for each source
 # note: if tests have the same name, you'll get a collision.
 VPATH := $(sort $(dir $(TESTS)))
 
-LPP = $(CS140E_2021_PATH)/libpi
+LPP = $(CS140E_2022_PATH)/libpi
 LIBPI_FAKE = ../libpi-fake.a
 CC = gcc
 
