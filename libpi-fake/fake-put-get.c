@@ -39,6 +39,8 @@ enum {
     gpio_lev0  = (GPIO_BASE + 0x34),
     // p18
     uart_mu_stat_reg = 0x20215064,
+    //
+    uart_lsr_reg = 0x20215054,
     // p11
     uart_mu_io_reg = 0x20215040
 };
@@ -112,6 +114,7 @@ uint32_t GET32(uint32_t addr) {
     // the raw hardware, correlating with other pins or 
     // time or ...
     case uart_mu_stat_reg: 
+    case uart_lsr_reg: 
     case gpio_lev0:  v = fake_random();  break;
     default: 
         // we could warn if not written before read and its not
