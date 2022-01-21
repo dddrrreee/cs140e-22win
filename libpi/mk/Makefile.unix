@@ -19,7 +19,7 @@ VPATH := $(sort $(dir $(SRC)))
 CC=gcc
 CFLAGS += -Wall -g -std=gnu99  -Werror -Wno-unused-function -Wno-unused-variable
 # added the include path for libpi-fake
-CFLAGS += -I.
+CFLAGS += -I. # -I$(CS140E_2022_PATH)/libunix
 
 DEPS := ./Makefile
 

@@ -17,6 +17,7 @@
 export TTYUSB 
 export BOOTLOADER
 export GREP_STR 
+export START
 
 BOOTLOADER = pi-install
 

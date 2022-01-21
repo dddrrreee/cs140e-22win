@@ -54,8 +54,15 @@ void rpi_reset(unsigned seed);
  */
 
 // uart functions
+
+// initialize
 void uart_init(void);
+// disable
+void uart_disable(void);
+
+// get one byte from the uart
 int uart_getc(void);
+// put one byte on the uart
 void uart_putc(unsigned c);
 
 // returns -1 if no byte, the value otherwise.
