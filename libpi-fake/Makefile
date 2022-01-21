@@ -12,7 +12,7 @@ GPIO := $(LPP)/libpi/src/gpio.c
 
 # include uart, include gpio.
 
-SRC :=  fake-put-get.c fake-random.c pi-random.c  fake-driver.c fake-delay.c fake-dev-barrier.c $(GPIO) fake-printk.c fake-reboot.c
+SRC :=  fake-put-get.c fake-random.c pi-random.c  fake-driver.c fake-delay.c fake-dev-barrier.c $(GPIO) fake-printk.c fake-reboot.c fake-usec-delay.c
 OBJS := $(patsubst %.c, %.o, $(SRC))
 OBJS := $(foreach obj, $(OBJS), ./$(notdir $(obj)))
 
