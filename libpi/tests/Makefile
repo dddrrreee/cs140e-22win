@@ -12,4 +12,4 @@ RUN = 1
 
 TEST_SRC := hello.c
 
-include $(CS49N_2021_PATH)/libpi/mk/Makefile.template
+include $(CS140E_2022_PATH)/libpi/mk/Makefile.template
