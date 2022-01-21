@@ -199,21 +199,6 @@ and reading them similarly for input.  So, of course, we can do this
 just using GPIO.  (You can do the same for other protocols as well,
 such as I2C, that are built-in to the pi's hardware.)
 
-Wiring up the software UART is fairly simple: 
-
-  1. You'll need two GPIO pins, one for transmit, one for receive.
-     Configure these as GPIO output and inputs respectively.
-     To keep things simple, we just re-use the pins from the hardware uart.
-
-     If you get ambitious we can give you a second tty-usb device and
-     you can use that!
-
-  2. Connect these pin's to the CP2102 tty-usb device (as with the 
-     hardware remember that `TX` connects to `RX` and vice versa).
-  3. Connect the tty-usb to your pi's ground.  ***DO NOT CONNECT TO ITS POWER!!***
-
-  4. When you plug it in, the tty-usb should have a light on it and nothing
-     should get hot!
 
 As described in 
 [UART](https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter)
@@ -274,6 +259,22 @@ Note:
 #### extension: sw-uart use a second tty-usb
 
 We have extras we can give out.
+
+Wiring up the software UART is fairly simple: 
+
+  1. You'll need two GPIO pins, one for transmit, one for receive.
+     Configure these as GPIO output and inputs respectively.
+     To keep things simple, we just re-use the pins from the hardware uart.
+
+     If you get ambitious we can give you a second tty-usb device and
+     you can use that!
+
+  2. Connect these pin's to the CP2102 tty-usb device (as with the 
+     hardware remember that `TX` connects to `RX` and vice versa).
+  3. Connect the tty-usb to your pi's ground.  ***DO NOT CONNECT TO ITS POWER!!***
+
+  4. When you plug it in, the tty-usb should have a light on it and nothing
+     should get hot!
 
 Note, testing is a bit more complicated since you'll have two `UART` devices.
 
