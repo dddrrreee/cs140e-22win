@@ -1,4 +1,4 @@
-SUBDIRS= # 0-prelab code pi-cat sw-uart
+SUBDIRS= 1-uart 2-bootloader 4-sw-uart
 
 .PHONY: all check clean
 all check clean: $(SUBDIRS)

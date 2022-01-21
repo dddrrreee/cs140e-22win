@@ -46,27 +46,28 @@ Multiple reasons:
 ### Deliverables
 
 Show that:
-   1. `uart/hello` works using your `uart`.
-   2. Your bootloader works just using your `uart.o` and the libpi (see
-      `bootloader/`).
+   1. `1-uart`: `1-uart/hello` works using your `1-uart/uart.c`.
+      Your `uart.c` code should make it clear why you did what you did,
+      and supporting reasons --- i.e., have page numbers and partial
+      quotes for each thing you did.
 
-   3. ***THIS WILL CHANGE*** `hello.fake` using your `uart.c` gives the
-      same hash as everyone
-      else.  Note, there are multiple ways to do same thing, so maybe
-      do the first one as a way to resolve ambiguity.
+       After this replacement, the tracing tests from the last two labs
+       --- `3-bootloader/checkoff-tests` and `2-cross-check/2-trace/tests`
+       --- should behave identically
 
-   4. ***NOTE YOU WILL HAVE TO BUFFER TRACES***: Check that after you
-      put your `uart.c` in `libpi` that your
-      tracing lab from last time gives the same hash as everyone.
-      Note: you should be able just compile and run!  To get the cksum:
-      `pi-install hello.bin |& grep TRACE | cksum`.
+   2. `2-bootloader`: Your bootloader works just using your
+      `uart.o` and the libpi.
 
-   5. Your software UART can reliably print and echo text between the pi
+       Again: After this replacement, the tracing tests from
+       the last two labs --- `3-bootloader/checkoff-tests` and
+       `2-cross-check/2-trace/tests` --- should behave identically
+
+   3. Your fake pi implementatoin for `uart.c` gives the
+      same hash as everyone else.  Note, there are multiple ways to do
+      same thing, so maybe do the first one as a way to resolve ambiguity.
+
+   4. Your software UART can reliably print and echo text between the pi
       and your laptop.
-
-For your homework, your `uart.c` code should make it clear why you did
-what you did, and supporting reasons --- i.e., have page numbers and
-partial quotes for each thing you did.
 
 -------------------------------------------------------------------------
 #### The general goals
@@ -104,8 +105,8 @@ functionality in a private lab directory where it won't mess with anything
 else, test or (better) equivalence check it, and then, migrate it into
 your main `libpi` library so it can be used by subsequent programs.
 
-Concretely, you will implement three routines (skeletons given in
-`4-lab/code/uart.c`):
+Concretely, you will implement the routines in `4-lab/1-uart/uart.c`.
+The main tricky ones:
 
   1. `void uart_init(void)`: called to setup the miniUART.  It should
      set the baud rate to `115,200` and leave the miniUART in its default
@@ -120,7 +121,6 @@ Concretely, you will implement three routines (skeletons given in
   3. `void uart_putc(unsigned c)`: puts the byte `c` onto the UART transmit
      queue.  If necessary, it blocks until there is space.
 
-
 General approach for `uart_init`:
   1. You need to turn on the UART in AUX.  Make sure you
      read-modify-write --- don't kill the SPIm enables.
@@ -134,7 +134,7 @@ General approach for `uart_init`:
      control.
   6. Enable tx/rx.  It should be working!
 
-If you run `make` in `4-uart/code` it will build:
+If you run `make` in `4-uart/1-uart` it will build:
   - A simple `hello` you can use to test. I'd suggest shipping it over with your
     bootloader.  
 
@@ -144,16 +144,30 @@ A possibly-nasty issue:
     already initializes the UART.  As a result, your code might appear
     to work when it does not.
 
-  2. To get around this issue, when everything seems to work, you can 
-     modify `hello` to print in an infinite loop and put it on your SD
-     card as `kernel.img` and see if it can successfully print.  You can
-     detect if it does by using the `4-uart/pi-cat` program to echo all
-     values.
+  2. To get around this issue, when everything seems to work, change
+     the `Makefile` to use `hello-disable.c` instead of `hello.c`
+     This will repeatedly disable and enable the uart --- not a perfect
+     test, but a bit more rigorous.
+ 
+  3. Once your code works, make swap out the `uart.c` in the `libpi/Makefile`
+     to use yours:  copy `uart.c` to `src/uart.c`, remove it from the current
+     `1-uart/Makefile`, recompile.
 
-  3. The final test, is to recompile your `bootloader` to use your uart
+  4. Make sure `make check` for the tests in lab 3 still work.
      and see that it boots the `hello` you used above.
 
-  4. And then run the tests from lab 3.
+-----------------------------------------------------------------------
+### Part 2. replace your bootloader.
+
+Now change your bootloader to use the new `uart.c`:
+  1. Copy `pi-side/get-code.h` from the last lab into `2-bootloader`.
+  2. Change it to print out your name and "lab 4" when done.
+  3. Install it on your SD card.
+  4. As with the previous step, make sure the tracing tests from the 
+     last two labs --- `3-bootloader/checkoff-tests` and
+     `2-cross-check/2-trace/tests` --- still behave identically
+     (`make check` passes).
+
 
 ##### `libpi-fake`
 
@@ -171,7 +185,7 @@ it work you should (hopefully) just need to:
      You'll have to compare your `.out` files with other people.
 
 -----------------------------------------------------------------------
-### Extension: Part 2. implement a software UART.
+### Part 3. implement `sw_putc` for a software UART.
 
 This part of the lab is from a cute hack Jonathan Kula did in last year's
 class as part of his final project.  
@@ -190,9 +204,15 @@ Wiring up the software UART is fairly simple:
 
   1. You'll need two GPIO pins, one for transmit, one for receive.
      Configure these as GPIO output and inputs respectively.
+     To keep things simple, we just re-use the pins from the hardware uart.
+
+     If you get ambitious we can give you a second tty-usb device and
+     you can use that!
+
   2. Connect these pin's to the CP2102 tty-usb device (as with the 
      hardware remember that `TX` connects to `RX` and vice versa).
   3. Connect the tty-usb to your pi's ground.  ***DO NOT CONNECT TO ITS POWER!!***
+
   4. When you plug it in, the tty-usb should have a light on it and nothing
      should get hot!
 
@@ -220,16 +240,41 @@ Adding input is good.  Two issues:
      start sampling the data bits so that you are right in the center of 
      the bit transmission.
 
-The code is in `4-uart/sw-uart`:
+The code is in `4-uart/4-sw-uart`:
 
   1. Your software UART code goes in `sw-uart.c`.
-  2. You can test it by running `sw-uart/hello`.
+  2. You can test it by running `4-sw-uart/hello`.
 
-An example of how to use the pi cycle counters is in: `cycle-counter-ex`.
+-----------------------------------------------------------------------------
+#### Extension: speed up your bootloader / my-install
+
+Our current `my-install` and bootloader uses a pretty slow baud rate.  Later
+in the quarter this can lead to big lags when we send over larger programs.
+Start changing your `my-install` and `bootloader` to use a faster baud.
+(There will be a limit on how fast your OS can handle.)   You can do some
+simple tests to figure out what seems to work easily, maybe back down a 
+step, and then rerun the tracing tests.
+
+----------------------------------------------------------------------------
+#### extension: sw-uart speed
+
+Once you have a handle on error, it's a fun hack to see how high of a
+baud rate you can squeeze out of this code using the above tricks.
+In the end I wound up switching from micro-seconds to using the pi's
+cycle counters (`cycle-count.h` has the macros to access) and in-lining
+the GPIO routines.  (Note that as you go faster your laptop's OS might
+become the problem.)
+
 Note:
-  1. You have to initialize the cycle counters first!
-  2. Because the counter will overflow frequently you must be careful
-  how you compare values.
+  - If you switch baud rates on the pi, you'll need to change
+    it in the `pi-cat` code too.***
+  - Because the counter will overflow frequently you must be careful
+    how you compare values.
+
+----------------------------------------------------------------------------
+#### extension: sw-uart use a second tty-usb
+
+We have extras we can give out.
 
 Note, testing is a bit more complicated since you'll have two `UART` devices.
 
@@ -254,10 +299,10 @@ Note, testing is a bit more complicated since you'll have two `UART` devices.
      hack is to look at the tty-usb device --- if it is blinking regularly
      you know the pi is sending the first bootloader message :)).
   
-Note:  our big issue is with error.  At slow rates, this is probably ok.   However,
-as the overhead of reading time, writing pins, checking for deadlines gets larger
-as compared to `T` you can introduce enough noise so that you get corrupted data.
-Possible options:
+Note:  our big issue is with error.  At slow rates, this is probably ok.
+However, as the overhead of reading time, writing pins, checking for
+deadlines gets larger as compared to `T` you can introduce enough noise
+so that you get corrupted data.  Possible options:
 
   - Compute how long to wait for each bit in a way that does not lead to cumulative
       error (do something smarter than waiting for `T`, `2*T`, etc.)
@@ -297,14 +342,3 @@ Possible options:
       close-to trivial program and gives a very good measurement of error
       (it's useful in general, as well).
 
-### Extension: speed.
-
-Once you have a handle on error, it's a fun hack to see how high of a
-baud rate you can squeeze out of this code using the above tricks.
-In the end I wound up switching from micro-seconds to using the pi's
-cycle counters (`cycle-count.h` has the macros to access) and in-lining
-the GPIO routines.  (Note that as you go faster your laptop's OS might
-become the problem.)
-
-  ***NOTE: that if you switch baud rates on the pi, you'll need to change
-    it in the `pi-cat` code too.***
