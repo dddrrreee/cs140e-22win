@@ -1,0 +1,5 @@
+TRACE:simple check for kmalloc
+TRACE:kmalloc(1)=0x100000
+TRACE:kmalloc(1)=0x100004
+TRACE:kmalloc(1)=0x100008
+TRACE:done

@@ -1,0 +1,12 @@
+TRACE:checking that kmalloc rounds up to the minumum alignment (4)
+TRACE:i=0: p=0x100000
+TRACE:i=1: p=0x100004
+TRACE:i=2: p=0x100008
+TRACE:i=3: p=0x10000c
+TRACE:i=4: p=0x100010
+TRACE:i=5: p=0x100014
+TRACE:i=6: p=0x100018
+TRACE:i=7: p=0x10001c
+TRACE:i=8: p=0x100020
+TRACE:i=9: p=0x100024
+TRACE:success
