@@ -4,31 +4,31 @@ NAME= cmd-watch
 CC = gcc
 CFLAGS = -Wall -Werror -g  -Og -Wno-unused-function -Wno-unused-variable
 
-ifndef CS140E_PATH
-$(error CS140E_PATH not set!)
+ifndef CS140E_2022_PATH
+$(error CS140E_2022_PATH not set!)
 endif
 
-LPI = $(CS140E_PATH)/libpi
+LPI = $(CS140E_2022_PATH)/libpi
 # where lib unix is
-LUNIX = $(CS140E_PATH)/labs/2-bootloader/unix-side/libunix/
-LIB = $(LUNIX)/libunix.a
 
-CFLAGS += -I$(LUNIX)
+PATH_LIBUNIX = $(CS140E_2022_PATH)/libunix
+LIBUNIX = $(PATH_LIBUNIX)/libunix.a
+
+CFLAGS += -I$(PATH_LIBUNIX)
 
 # uncomment the tags part of all to get tags.
 all : libunix $(NAME) # tags
 
 libunix:
-	make -C $(LUNIX)
+	make -C $(PATH_LIBUNIX)
 
 $(NAME): $(NAME).c $(LIB) ./Makefile
-	$(CC) $(CFLAGS) $< -o $@ $(LIB)
+	$(CC) $(CFLAGS) $< -o $@ $(LIBUNIX)
 
 tags:
 	ctags *.[ch]
 
 clean :
 	rm -f *.o *~ Makefile.bak $(NAME) tags
-	@make -s -C $(LUNIX) clean
 
 .PHONY: libunix tags clean
