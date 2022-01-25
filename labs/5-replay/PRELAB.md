@@ -15,14 +15,8 @@ review) reading:
   3. As always: the man pages.  E.g., `man 2 fork`.
 
 
-The prelab will have you write two pieces of code:
-  1. A short 50-line program that will hopefully help you
-     a lot in your later CS work.
-
-  2. A `start_watchdog(int watch_pid)` routine that make it easier to
-     develop fork-exec programs (as we do in the lab) and avoid them
-     leaving random zombie processes running because of an inopportune
-     crash or mistake in your code.
+This prelab has a short optional coding component: a short 50-line program that 
+will hopefully help you a lot in your later CS work.
 
 ----------------------------------------------------------------------------------
 #### Part 0: go through the `useful-examples/` directory
@@ -41,7 +35,10 @@ There's a reasonable chance some of these tricks serve you for the next
 couple of decades, at least here and there.
 
 ----------------------------------------------------------------------------------
-#### Part 1: write `cmd-watch`
+#### Part 1: write `cmd-watch` (Optional)
+
+*Note*: This is a nice-to-have, but not a necessity for the doing the lab.  If 
+you're short on time, focus on the readings and examples (Part 0).
 
 In my opinion, `sublime` and other IDE's have  crippled how people code --- after
 saving a file, often there's 30-60seconds of switching screens, mouse
