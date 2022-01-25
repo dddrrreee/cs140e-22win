@@ -4,6 +4,8 @@ Thsese will get added to as the quarter goes forward.  They are intended as cras
 quick and dirty notes on each topic.
 
   - [GPIO](./GPIO.md): discusses GPIO and device memory.
+  - [UART](../labs/4-uart/miniUART.md): a miniUART cheat sheet with page numbers.
+  - [INTERRUPTS](../labs/6-interrupts/INTERRUPTS.md): a cheat sheet for interrupts.
 
 ### Guides 
 
