@@ -12,6 +12,7 @@ dep := $(OBJS:.o=.d)
 include $(CS140E_2022_PATH)/libpi/defs.mk
 CFLAGS += -Wno-unused-function -Wno-unused-variable 
 
+OPT_LEVEL = -O2
 # add the memmap file, libpi and the makefile as dependencies
 DEPS := $(MEMMAP) $(LPI) ./Makefile 
 
