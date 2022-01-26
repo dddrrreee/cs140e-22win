@@ -6,6 +6,8 @@ quick and dirty notes on each topic.
   - [GPIO](./GPIO.md): discusses GPIO and device memory.
   - [UART](../labs/4-uart/miniUART.md): a miniUART cheat sheet with page numbers.
   - [INTERRUPTS](../labs/6-interrupts/INTERRUPTS.md): a cheat sheet for interrupts.
+  - [caller-callee registers](caller-callee/README.md): empirically derive
+    which registers are caller and callee.
 
 ### Guides 
 
