@@ -10,30 +10,11 @@
 .globl _start
 _start:
 
-#ifdef RPI_FP_ENABLED
-
-    @  enable fpu
-    mrc p15, 0, r0, c1, c0, 2
-    orr r0,r0,#0x300000 ;@ single precision
-    orr r0,r0,#0xC00000 ;@ double precision
-    mcr p15, 0, r0, c1, c0, 2
-    mov r0,#0x40000000
-    fmxr fpexc,r0
-
-    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    @ trying this from dwelch.
-    ;@ (PSR_UND_MODE|PSR_FIQ_DIS|PSR_IRQ_DIS)
-    mov r0,#0xDB
-    msr cpsr_c,r0
-    mov sp,#0x00100000
-
-    ;@ (PSR_SVC_MODE|PSR_FIQ_DIS|PSR_IRQ_DIS)
-    mov r0,#0xD3
-    msr cpsr_c,r0
-    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-#endif
-
+    @ force the mode to be SUPER.
+    mov r0,  #SUPER_MODE
+    orr r0,r0,#(1<<7)    @ disable interrupts.
+    msr cpsr, r0
+    prefetch_flush(r1)
 
     mov sp, #STACK_ADDR @ initialize stack pointer
     mov fp, #0          @ clear frame pointer reg.  don't think needed.
