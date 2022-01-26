@@ -5,6 +5,11 @@
     the `kmalloc` implementation.
   - [INTERRUPTS](INTERRUPTS.md): this is a cheat sheet of useful page
     numbers and some notes on how the ARMv6 does exceptions.
+  - [caller-callee registers](../../guides/caller-callee/README.md):
+    this shows a cute trick on how to derive which registers `gcc` treats
+    as caller (must be saved by the caller if it wants to use them after
+    a procedure call) and callee (must be saved by a procedure before
+    it can use them and restored when it returns).
 
 Big picture for today's lab:
 
