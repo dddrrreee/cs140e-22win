@@ -46,7 +46,7 @@ the lower two bits should be 0).
 Your implementation should do the following:
    1. In `kmalloc_init` set the heap to be the address `__heap_start__`
       is located at.  Make sure it is 4-byte aligned.  Print it to make
-      sure the address makes sense.
+      sure the address makes sense.   
 
    2. `kmalloc_init_set_start(unsigned addr)` should work the same as
       `kmalloc_init`, but set the heap to start at `addr`.
@@ -59,10 +59,9 @@ Your implementation should do the following:
    4. `kmalloc_aligned`: make sure the returned pointer is aligned to
       `alignment` and is of size `nbytes`.
 
-
 When you are done:
   1. Make sure all the tests pass by running `make check`.
-  2. Copy `kmalloc.c` to `libpi/src` and update your `put-your-src-here.mk`.
+  2. Copy `kmalloc.c` to `libpi/src` and update your `Makefile`.
   3. In `0-kmalloc/Makefile` comment out 
 
             # USE_LOCAL_KMALLOC = ./kmalloc.c

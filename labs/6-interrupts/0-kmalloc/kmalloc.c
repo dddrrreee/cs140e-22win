@@ -67,27 +67,30 @@ void *kmalloc_aligned(unsigned nbytes, unsigned alignment) {
 }
 
 /*
+ * alternative to <kmalloc_init>:  set the start 
+ * of the heap to <addr>
+ */
+void kmalloc_init_set_start(unsigned _addr, unsigned max_nbytes) {
+    demand(!init_p, already initialized);
+    init_p = 1;
+    unimplemented();
+}
+
+/*
  * One-time initialization, called before kmalloc 
  * to setup heap. 
  *    - should be just a few lines of code.
  *    - sets heap pointer to the location of 
  *      __heap_start__.   print this to make sure
  *      it makes sense!
+ *    - set the max size to 2mb
  */
 void kmalloc_init(void) {
     if(init_p)
         return;
     init_p = 1;
-    unimplemented();
-}
 
-/*
- * alternative to <kmalloc_init>:  set the start 
- * of the heap to <addr>
- */
-void kmalloc_init_set_start(unsigned _addr) {
-    demand(!init_p, already initialized);
-    init_p = 1;
+    // call kmalloc_init_set_start w/ right values.
     unimplemented();
 }
 

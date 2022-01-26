@@ -5,7 +5,7 @@ void notmain() {
     uart_init();
 
     trace("TRACE: setting malloc start to 1mb\n");
-    kmalloc_init_set_start(1024 * 1024);
+    kmalloc_init_set_start(1024 * 1024, 1024*1024*8);
     trace("heap starts at %x\n", kmalloc_heap_ptr());
 
     void *heap0 = kmalloc(1);

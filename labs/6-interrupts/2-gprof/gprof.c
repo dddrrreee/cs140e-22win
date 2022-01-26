@@ -76,8 +76,6 @@ void interrupt_vector(unsigned pc) {
 // trivial program to test gprof implementation.
 // 	- look at output: do you see weird patterns?
 void notmain() {
-    uart_init();
-
     printk("about to install handlers\n");
     int_init();
 
@@ -88,7 +86,7 @@ void notmain() {
     printk("gonna enable ints globally!\n");
 
     // Q: if you move these below interrupt enable?
-    kmalloc_init();
+    kmalloc_init_set_start(1024*1024, 2 * 1024 * 1024);
     gprof_init();
 
     // Q: if you don't do?

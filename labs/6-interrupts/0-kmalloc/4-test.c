@@ -27,13 +27,17 @@ static void do_allocs(void) {
     }
 
     trace("larger allocations\n");
-    for(int i = 32; i < 1024 * 1024; i *= 2) {
+    for(int i = 32; i < 1024; i *= 2) {
         unsigned n = rpi_rand16() % 1024*16;
         void *p = kmalloc_aligned(n,i);
+        assert(p);
         trace("kmalloc_aligned(1,%d) =%x\n", i, p);
 
-        // check alignment.
-        assert(((unsigned)p & (n-1)) == 0);
+        // check power of two
+        assert( (i & -i) == i);
+        // output("%p mod %d = %d\n", p, i, (unsigned)p&(i-1));
+        // check aligned
+        assert(((unsigned)p & (i-1)) == 0);
         // assert(is_aligned((unsigned)p,i));
         // check that is zero filled
         assert(memzeroed(p, n));
@@ -44,7 +48,7 @@ void notmain(void) {
     uart_init();
 
     trace("TRACE: setting malloc start to 1mb\n");
-    kmalloc_init_set_start(1024 * 1024);
+    kmalloc_init_set_start(1024 * 1024, 1024*1024);
 
     void *p = kmalloc(1);
     assert(is_aligned((unsigned)p, 1024 * 1024));

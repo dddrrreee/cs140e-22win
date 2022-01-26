@@ -2,7 +2,7 @@
 
 void notmain(void) {
     trace("simple check kmalloc(0) fails\n");
-    kmalloc_init_set_start(1024 * 1024);
+    kmalloc_init_set_start(1024 * 1024, 1024*1024);
 
     // should fail
     void *p = kmalloc(0);
