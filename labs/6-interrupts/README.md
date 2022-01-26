@@ -3,8 +3,8 @@
 ***Make sure you read***: 
   - The [PRELAB](PRELAB.md), which has the readings and sketches
     the `kmalloc` implementation.
-  - [HINTS](HINTS.md): I've added some notes on how the ARMv6 does
-    exceptions.
+  - [INTERRUPTS](INTERRUPTS.md): this is a cheat sheet of useful page
+    numbers and some notes on how the ARMv6 does exceptions.
 
 Big picture for today's lab:
 
