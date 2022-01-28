@@ -75,11 +75,15 @@ on both the pi and Unix side will be written by you:
     from lab 2 to verify your implementation matches everyone else's.
 
 
-If you are interested in taking this further, there is a lab from last
-year we skipped (zoom makes some things hard), that you might find
-worth doing:
+We've reversed the next two labs  to give people time to finish up
+the bootloader.  We'll do a simple interrupt lab so you have a working
+example (and thus, the readings will make more sense) and then do an
+interesting trick for transparently testing the bootloader code under
+a near-exhaustive set of failures --- if it passes you will be very
+surprised if breaks in the future.
 
-  - [optional lab: replay](https://github.com/dddrrreee/cs140e-20win/tree/master/labs/5-replay).   This is a lab from the previous class: in a twist on lab-3, 
+
+  - [5-replay](5-replay): In a twist on lab-3,
     you will use Unix system calls to interpose between your Unix and
     pi bootloader code, record all reads and writes, and test your
     bootloader implementation by replaying these back, both as seen and
@@ -102,77 +106,15 @@ under a barrage of automatic checks (especially if you do the optional
 lab) and done a simple implementation of a fake pi environment that
 allows you to check correctness of pi code using your laptop.
 
----------------------------------------------------------------------
-### Part 2: Understanding the machine
-
-This set of labs intends to get you more comfortable writing low-level
-code, understanding the machine code it gets translated to, and also
-how the machine works (including its hardware devices).
-
-  - [5-digital-analyzer](5-digital-analyzer/): the goal of this lab
-    is getting you comfortable with machine code and starting to build
-    an intuition for how the hardware actually works.
-    As a driving application you'll build a fast, accurate digital
-    analyzer and test signal generator that have timing error in the
-    tens of nanoseconds.  At the end you'll have software that appears
-    more accurate than a $400 Saleae (at least the ones made in 2020).
-
-    The lab is a great example of how writing all the code yourself, and
-    having a simple system makes it very easy to do things in-practice
-    impossible on a traditional OS such as Linux or MacOS.
-
-  - [6-sw-uart](6-sw-uart/):  so far we've treated the internals
-    of hardware as a black box that you configure by writing odd values
-    to strange addresses.  In this lab, you'll start to see what device
-    hardware actually does by writing a software "bit-banging" version
-    of the UART protocol used in lab 4.
-
-    Writing your own software UART is a great way to see what the hardware
-    UART is doing --- and, as you will, see, it's actually not much!
-    For the most part, all hardware bus/communication protocols (such as
-    SPI, I2C, UART, etc) are simply one or two signals that flip between
-    1 and 0, possibly with some timing constraints.  The mechanical
-    simplicity of device communication protocols stands in sharp contrast
-    to the complexity of the datasheets that describe the hardware that
-    implements them.
-
-    After this lab, you'll start to understand that if a data sheet sucks,
-    you can frequently build your own software version.  This can be
-    helpful when starting a new machine, or doing thing the hardware
-    cannot (e.g., supporting many devices concurrently).
-
-    At a practical level, a software UART gives you a second source of
-    output for communicating with your laptop, which will turn out to
-    be very useful later when we do networking.
-
-    Finally, you'll have the startling surprise of seeing first-hand that
-    --- despite the wildly different domains --- your code from last lab
-    (digital analyzer) and this lab is almost identical.  In particular,
-    your test generating code from last lab is essentially the same as
-    how your UART code transmits bytes and your scope code is basically
-    how your UART code receives bytes.  It's *interesting* when methods
-    used to solve apparently different problems in very different domains
-    turn out to be almost equivalant.  As one actionable, semi-meta twist:
-    you'll be using your scope code to verify your software UART.
-
-At this point you should be much more comfortable understanding how the
-hardware works, what the machine code means, and how to reason about low
-level code.  And, perhaps even better, know how to figure such things
-out when you do not know them by, for example, writing some C code,
-compiling it, and examining the machine code or by measuring how long
-it takes to run.
-
-We are now going to switch gears to intensively implementing core OS
-functionality: interrupts, threads, virtual memory and file systems.
-
 -------------------------------------------------------------------------
 ### Part 2: Execution: interrupts, threads, user-level processes.
 
-  - [7-interrupts](7-interrupts/): you will walk through a simple,
-    self-contained implementation of pi interrupts (for timer-interrupts),
-    kicking each line until you understand what, how, why.  You will
-    use these to then implement a version of `gprof` (Unix statistical
-    profiler) in about 30 lines.
+  - [6-interrupts](6-interrupts/): (note: we have flipped this
+    with lab 6) you will walk through a simple, self-contained
+    implementation of pi interrupts (for timer-interrupts), kicking
+    each line until you understand what, how, why.  You will use these
+    to then implement a version of `gprof` (Unix statistical profiler)
+    in about 30 lines.
 
     Perhaps the thing I love most about this course is that because we
     write all the code ourselves, we aren't constantly fighting some
@@ -183,8 +125,7 @@ functionality: interrupts, threads, virtual memory and file systems.
     cases and have a result that is much much much slower and, worse,
     in terms of insight.
 
-
-  - [8-device-interrupts](8-device-interrupts): if you keep doing this 
+  - [7-device-interrupts](8-device-interrupts): if you keep doing this 
     kind of work the single most common
     fancy "OS" type thing you'll likely do in the future is to setup
     GPIO pin interrupts so that you can get notified when a hardware
@@ -203,9 +144,11 @@ functionality: interrupts, threads, virtual memory and file systems.
     more comfortable saving and restoring registers will save you many
     debugging headaches in the next week.
 
-***We are currently here.***
 
-  - [9-threads](9-threads/): we build a simple, but functional
+We are here ===>
+
+
+  - [8-threads](9-threads/): we build a simple, but functional
     threads package.  You will write the code for non-preemptive context
     switching:  Most people don't understand such things so, once again,
     you'll leave lab knowing something many do not.
