@@ -1,0 +1,5 @@
+THREAD: rpi_fork: tid=1, code=0x80b0, arg=0x7ffffe8, saved_sp=0x101ff0
+THREAD: rpi_fork: tid=2, code=0x80b0, arg=0x7ffffe0, saved_sp=0x104008
+THREAD: scheduler thread=0x104030
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning

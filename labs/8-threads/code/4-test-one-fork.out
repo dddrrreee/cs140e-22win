@@ -1,0 +1,2 @@
+THREAD: rpi_fork: tid=1, code=0x8034, arg=0x7ffffec, saved_sp=0x101ff0
+THREAD: scheduler thread=0x102018

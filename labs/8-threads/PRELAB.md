@@ -1,5 +1,7 @@
 ## Prelab for threads
 
+***[This will be added to over the w/e]***
+
 In this lab, you'll write a simple non-preemptive thread package.
 
 We'll have to save and restore registers for thread context switching

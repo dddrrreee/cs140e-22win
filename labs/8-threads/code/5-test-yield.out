@@ -1,0 +1,43 @@
+THREAD: rpi_fork: tid=1, code=0x8034, arg=0x0, saved_sp=0x101ff0
+THREAD: rpi_fork: tid=2, code=0x8034, arg=0x1, saved_sp=0x104008
+THREAD: rpi_fork: tid=3, code=0x8034, arg=0x2, saved_sp=0x106020
+THREAD: rpi_fork: tid=4, code=0x8034, arg=0x3, saved_sp=0x108038
+THREAD: rpi_fork: tid=5, code=0x8034, arg=0x4, saved_sp=0x10a050
+THREAD: rpi_fork: tid=6, code=0x8034, arg=0x5, saved_sp=0x10c068
+THREAD: rpi_fork: tid=7, code=0x8034, arg=0x6, saved_sp=0x10e080
+THREAD: rpi_fork: tid=8, code=0x8034, arg=0x7, saved_sp=0x110098
+THREAD: rpi_fork: tid=9, code=0x8034, arg=0x8, saved_sp=0x1120b0
+THREAD: rpi_fork: tid=10, code=0x8034, arg=0x9, saved_sp=0x1140c8
+THREAD: scheduler thread=0x1140f0
+TRACE:thread 1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:thread 2 yielding
+THREAD: rpi_yield: switching from 2 3
+TRACE:thread 3 yielding
+THREAD: rpi_yield: switching from 3 4
+TRACE:thread 4 yielding
+THREAD: rpi_yield: switching from 4 5
+TRACE:thread 5 yielding
+THREAD: rpi_yield: switching from 5 6
+TRACE:thread 6 yielding
+THREAD: rpi_yield: switching from 6 7
+TRACE:thread 7 yielding
+THREAD: rpi_yield: switching from 7 8
+TRACE:thread 8 yielding
+THREAD: rpi_yield: switching from 8 9
+TRACE:thread 9 yielding
+THREAD: rpi_yield: switching from 9 10
+TRACE:thread 10 yielding
+THREAD: rpi_yield: switching from 10 1
+TRACE:thread 1 exiting
+TRACE:thread 2 exiting
+TRACE:thread 3 exiting
+TRACE:thread 4 exiting
+TRACE:thread 5 exiting
+TRACE:thread 6 exiting
+TRACE:thread 7 exiting
+TRACE:thread 8 exiting
+TRACE:thread 9 exiting
+TRACE:thread 10 exiting
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning
