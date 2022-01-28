@@ -40,6 +40,9 @@ To migrate your code:
 ------------------------------------------------------------------------
 ### Part 1: Implement raw GPIO interrupt handling.
 
+NOTE: 
+    Make sure you put a jumper from pin 20 to pin 21!
+
 You're going to detect when the input transitions from 0 to 1 and 1 to 0.
 To reduce the chance we can a spurious spike from noise we are going to
 use the GPIO `GPREN` and `GPHEN` registers on page 98 of the broadcom
@@ -48,7 +51,7 @@ that will wait for a `011` for low-to-high and a `100` for high-to-low.
 provide it.)
 
 For this test you will just write to the GPIO pins directly and check
-that you received the  expected event.  In `part1-gpio-int`:
+that you received the  expected event.  In `1-gpio-int`:
 
    0. `1-gpio-int-ex.c` has the example driver.
    1. You need to wire your pin 20 to your pin 21 (i.e., have a loopback
@@ -60,7 +63,6 @@ that you received the  expected event.  In `part1-gpio-int`:
       Print the time it took both to receive the interrupt (you can
       modify your assmebly) and to completely handle it and return.
 
-
 #### Testing
 
 If you do a pull, there are more tests in `lipi-fake/tests-gpio-int`.
@@ -68,7 +70,7 @@ I put the `.out` files to make checking easier.  I did `dev_barriers`
 perhaps more `dev_barriers` than needed in the routines used by the
 interrupt handlers.
 
-For what it's worth, here are my checksums:
+For what it's worth, here are my checksums and linecounts:
 
         libpi-fake/tests-gpio-int % cksum *.out
         3619577664 88 6-gpio-event-clear.out
@@ -80,11 +82,22 @@ For what it's worth, here are my checksums:
         2310831047 5592 7-gpio-set-falling-n.out
         137501872 5592 7-gpio-set-rising-n.out
 
+
+        libpi-fake/tests-gpio-int % wc *.out
+            4     7    88 6-gpio-event-clear.out
+            4     7    90 6-gpio-event-detected.out
+            8    11   198 6-gpio-set-falling.out
+            8    11   198 6-gpio-set-rising.out
+        97   100  2024 7-gpio-event-clear-n.out
+        97   100  2136 7-gpio-event-detected-n.out
+        225   228  5592 7-gpio-set-falling-n.out
+        225   228  5592 7-gpio-set-rising-n.out
+        668   692 15918 total
+        
 These have a bunch of `dev_barriers` so probably checking without them
 first.  For ordering, I enabled the GPIO address first and then the IRQ
 address (both are read-modify-write).  The `.out` files are checked in
 so you can see what the actual differences are.
-
 
 Extension:  
   1. If you have a touch touch sensor use it to trigger interrupts and
@@ -116,7 +129,7 @@ rather than writing them.  As a simple hack, you can just have it write
 to the loopback pin as well and then measure when these occur.
 
 ------------------------------------------------------------------------
-### Part 1: use the vector register: 1-vector-base
+### Part 3: use the vector register: 3-vector-base
 
 For this you'll do some simple tricks to speed up your interrupt
 code and make it more flexble:
@@ -132,7 +145,6 @@ What to do:
 
   - The test `0-test-vector-base.c` should should show a speedup and
     complete correctly.
-
 
   2. Make your own: `libpi/src/int-init-reg.c` that implements the 
      routine:
@@ -154,7 +166,36 @@ What to do:
      not want to skip, `gcc` will not save it.
 
 ------------------------------------------------------------------------
-### Part 4: a interrupt-based software uart
+### Homework 1: change the hardware UART to use interrupts.
+
+***THIS is getting written***
+
+Modify augment your UART driver so that clients can set up
+interrupts by adding a routine:
+   - `uart_init_int()`: enable the hardware UART's interrupts for
+    both for transmission and receive.  
+
+You will have to provide different versions:
+  - `uart_putc_int`: puts a character on a circular buffer for the interrupt
+    handler to transmit.
+
+  - `uart_getc_int`: pulls a character from a circular buffer (if any)
+    that was placed there by the UART interrupt handler.
+
+  - `uart_has_data_int`: checks if there is data on the circular 
+    buffer or queue.
+
+  - Interrupt handler: should try to push any characters it can from 
+    its transmit queue to the hardware FIFO (until it is full).  It 
+    should pull as many characters as the hardware FIFO has.
+
+You need to think carefully so that you don't have characters sitting idle
+on the circular buffer.  Also, handle the case where there is no room!
+
+
+
+------------------------------------------------------------------------
+### Extension: a interrupt-based software uart
 
 As with lab 6, the code in the digital analyzer shares a lot of 
 similarity with the software UART code.  So we'll build on part
@@ -172,9 +213,6 @@ first step is to just fix this problem by:
   3. Have `sw_uart_get8_int` reconstruct the character using the
      timing data.
 
-***This part is being written***
-
-------------------------------------------------------------------------
 #### Discussion: Handling concurrency
 
 I claimed, somewhat duplicitously, that we were going to do pre-emptive
@@ -229,32 +267,7 @@ The structure should should be pretty simple:
      happens and just panic.  (We will do something better, soon.)
 
 ------------------------------------------------------------------------
-### Homework 1: change the hardware UART to use interrupts.
-
-Modify augment your UART driver so that clients can set up
-interrupts by adding a routine:
-   - `uart_init_int()`: enable the hardware UART's interrupts for
-    both for transmission and receive.  
-
-You will have to provide different versions:
-  - `uart_putc_int`: puts a character on a circular buffer for the interrupt
-    handler to transmit.
-
-  - `uart_getc_int`: pulls a character from a circular buffer (if any)
-    that was placed there by the UART interrupt handler.
-
-  - `uart_has_data_int`: checks if there is data on the circular 
-    buffer or queue.
-
-  - Interrupt handler: should try to push any characters it can from 
-    its transmit queue to the hardware FIFO (until it is full).  It 
-    should pull as many characters as the hardware FIFO has.
-
-You need to think carefully so that you don't have characters sitting idle
-on the circular buffer.  Also, handle the case where there is no room!
-
-------------------------------------------------------------------------
-### Homework 2: do a smarter interrupt handler.
+### Extension do a smarter sw-uart interrupt handler.
 
 Obviously, sitting and polling in the interrupt handler to get a
 character is a bit outrageous.  For homework, you should reduce the
@@ -310,3 +323,4 @@ you *could* try doing it that way and see if it is more intuitive.
 That way at least you are always just putting a character into the buffer.
 We'll give full credit either way.  You should record errors, however,
 ideally in an error log, but at least as a counter.
+
