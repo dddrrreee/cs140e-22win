@@ -15,10 +15,15 @@ RUN = 1
 #CHECK = 0
 
 ifdef CS140E_STAFF
+ifndef CS140_ACT_AS_STUDENT
 STAFF_OBJS += staff-objs/kmalloc.o
 STAFF_OBJS += staff-objs/sw-uart.o
 STAFF_OBJS += staff-objs/interrupts-asm.o      
 STAFF_OBJS += staff-objs/interrupts-vec-asm.o 
+STAFF_OBJS += staff-objs/interrupts-vec-asm.o 
+STAFF_OBJS += staff-objs/rpi-thread.o 
+STAFF_OBJS += staff-objs/rpi-thread-asm.o 
+endif
 endif
 
 include $(CS140E_2022_PATH)/libpi/mk/Makefile.lib.template
