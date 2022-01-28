@@ -150,6 +150,7 @@ look on page 113:
 
   - To set this, we bitwise-or a 1 to the `(49-32)` position in
     `Enable_IRQs_2` (which covers interrupts `[32-64)`).
+     (see `libpi/includes/rpi-interrupts.h`)
 
 This appears magic, especially since the documents are not clear.  But,
 mechanically, it's just a few lines.   You should look at the timer
