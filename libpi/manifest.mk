@@ -17,6 +17,8 @@ RUN = 1
 ifdef CS140E_STAFF
 STAFF_OBJS += staff-objs/kmalloc.o
 STAFF_OBJS += staff-objs/sw-uart.o
+STAFF_OBJS += staff-objs/interrupts-asm.o      
+STAFF_OBJS += staff-objs/interrupts-vec-asm.o 
 endif
 
 include $(CS140E_2022_PATH)/libpi/mk/Makefile.lib.template
