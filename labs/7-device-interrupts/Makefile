@@ -4,7 +4,7 @@
 # ah: for test, doesn't work for us b/c we don't have the code...
 #
 # also it is tricky if they swap with our code and their code.
-SUBDIRS= 0-circular-example 3-vector-base 
+SUBDIRS= 0-circular-example 1-gpio-int 2-logic-analyzer 3-vector-base 
 # 1-gpio-int 3-vector-base
 
 .PHONY: all check clean

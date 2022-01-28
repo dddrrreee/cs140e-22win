@@ -106,16 +106,13 @@ Extension:
      one to make it darker.
 
 ------------------------------------------------------------------------
-### Part 2: a simple digital analyzer 
-
-We built a polling-based digital analyzer in lab 5 --- it had the issue
-that it could not monitor itself.  
+### Part 2: a simple digital analyzer : 2-logic-analyzer
 
 Interrupts often make everything worse.  This is a case where you can
-use them to find bugs in your code before you use it live.  Note that
-if you run your `uart_put8` on the loop-back pin from the previous part,
-your interrupt handler will catch all the transitions.  We will use that
-to make sure your code works.
+use them to find bugs in your code before you use it live.  Note that if
+you run your software uart `sw_uart_put8` on the loop-back pin from the
+previous part, your interrupt handler will catch all the transitions.
+We will use that to make sure your code works.
 
   1. Look in `2-logic-analyzer.c`
   2. Modify the interrupt handler to catch and record (using cycles) when 
