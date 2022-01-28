@@ -1,0 +1,4 @@
+TRACE:dev_barrier
+TRACE:PUT32:20200040:100000
+TRACE:dev_barrier
+TRACE:1 calls to random

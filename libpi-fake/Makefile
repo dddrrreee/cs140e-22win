@@ -3,7 +3,7 @@ TARGET = libpi-fake.a
 LPP = $(CS140E_2022_PATH)
 
 # define where gpio.c is, and the programs you want to run.
-GPIO := $(LPP)/libpi/src/gpio.c
+GPIO := $(LPP)/libpi/src/gpio.c $(LPP)/libpi/src/gpio-int.c
 
 # GPIO := ../libpi/staff-private/gpio.c ../libpi/staff-private/gpio-int.c 
 
