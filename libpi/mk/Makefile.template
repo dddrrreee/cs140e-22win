@@ -19,7 +19,7 @@ export BOOTLOADER
 export GREP_STR 
 export START
 
-BOOTLOADER = pi-install
+BOOTLOADER ?= pi-install
 
 MAKEFLAGS += --no-print-directory
 TEST_PROGS := $(patsubst %.c, %.bin, $(TEST_SRC))
