@@ -16,20 +16,19 @@ Check-off:
 ### Part 0: House-keeping (2 minutes)
 
 I moved all the class-provided interrupt support code to
-`libpi/cs140e-interrupt` so that all subsequent labs can use it.
+`libpi/staff-src` so that all subsequent labs can use it.
 To migrate your code:
 
   1. Put your assembly code from last lab
      (`7-interrupts/1-syscall/interrupts-asm.S`) in `libpi/src` so all
-     your code can use it.  Add this to `put-your-src-here.mk` as 
-     before.   
+     your code can use it.  Add this to `Makefile` if needed
 
   2. We have staff implementations that you can 
-     add to `put-your-src-here.mk:STAFF_OBJS`:
+     add to `STAFF_OBJS`:
 
-                staff-objs/sw-uart.o            \
-                staff-objs/interrupts-asm.o     \
-                staff-objs/gpio-int.o           \
+                STAFF_OBJS += staff-objs/sw-uart.o
+                STAFF_OBJS += staff-objs/interrupts-asm.o
+                STAFF_OBJS += staff-objs/gpio-int.o
 
 
   3. Make sure you've looked through and run the two examples in
@@ -117,14 +116,23 @@ rather than writing them.  As a simple hack, you can just have it write
 to the loopback pin as well and then measure when these occur.
 
 ------------------------------------------------------------------------
-### Part 3: use the vector register: 3-vector-base
-
+### Part 1: use the vector register: 1-vector-base
 
 For this you'll do some simple tricks to speed up your interrupt
 code and make it more flexble:
 
-  1. Implement the routines in `3-vector-base/vector-base.h`.  The driver in
-     that directory should show a speedup and complete correctly.
+You'll write the inline assembly to set the vector base.  See:
+  - 3-121 in `../../docs/arm1176.pdf`
+
+What to do:
+  - You only have to modify `1-vector-base/vector-base.h`
+  - There are two tests (you have to modify the makefile to run each).
+  - When the tests pass, move the `vector-base.h` file to `libpi/src` and make
+    sure they still work.
+
+  - The test `0-test-vector-base.c` should should show a speedup and
+    complete correctly.
+
 
   2. Make your own: `libpi/src/int-init-reg.c` that implements the 
      routine:
