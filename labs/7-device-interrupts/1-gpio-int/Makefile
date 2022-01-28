@@ -1,8 +1,12 @@
 TEST_SRC = 1-gpio-int-ex.c 2-logic-analyzer.c
 
-STAFF_OBJS = interrupts-asm.o sw-uart.o
+# comment out interrupts-asm when you put in your own.
+STAFF_OBJS += interrupts-asm.o 
 
-# if you need to override the install
+STAFF_OBJS += sw-uart.o
+
+# if you need to override the install can change this (include the
+# device name if you need it)
 BOOTLOADER = my-install
 
 # automatically run the code
