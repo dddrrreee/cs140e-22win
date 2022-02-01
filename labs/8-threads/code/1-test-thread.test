@@ -1,1 +1,1 @@
-read-exact.c:read_exact:10:PANIC:attempted to read 1 bytes, got 0
+PANIC:1-test-thread.c:notmain:37:done

@@ -1,6 +1,7 @@
 # define this if you need to give the device for your pi
 TTYUSB = 
 BOOTLOADER = my-install
+GREP_STR := 'TRACE:\|THREAD:\|ERROR:\|PANIC:' 
 
 # uncomment if you want it to automatically run.
 RUN=1
@@ -13,11 +14,11 @@ TEST_SRC := $(wildcard ./[1]-test*.c)
 TEST_SRC := $(wildcard ./[4]-test*.c)
 TEST_SRC := $(wildcard ./[5]-test*.c)
 TEST_SRC := $(wildcard ./[2]-*.c)
-TEST_SRC := $(wildcard ./[1]-*.c)
 TEST_SRC := $(wildcard ./*-test-*.c)
+TEST_SRC := $(wildcard ./[1]-*.c)
 
 # put all your miscellaneous assembly in this file. 
-ifdef CS14E_STAFF
+ifdef CS140E_STAFF
 SUPPORT_OBJS := lab-c-helpers.o 
 else
 SUPPORT_OBJS := lab-c-helpers.o rpi-thread.o  thread-asm.o

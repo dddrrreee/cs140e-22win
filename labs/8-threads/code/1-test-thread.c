@@ -34,6 +34,7 @@ void notmain() {
     uart_init();
     kmalloc_init_set_start(1024 * 1024, 1024*1024);
 
+    panic("done");
     printk("about to test summing of 30 threads\n");
 
     // change this to increase the number of threads.

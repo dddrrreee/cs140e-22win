@@ -9,5 +9,15 @@ THREAD: rpi_fork: tid=8, code=0x8034, arg=0x7, saved_sp=0x110098
 THREAD: rpi_fork: tid=9, code=0x8034, arg=0x8, saved_sp=0x1120b0
 THREAD: rpi_fork: tid=10, code=0x8034, arg=0x9, saved_sp=0x1140c8
 THREAD: scheduler thread=0x1140f0
+TRACE:trivial thread: arg=0
+TRACE:trivial thread: arg=1
+TRACE:trivial thread: arg=2
+TRACE:trivial thread: arg=3
+TRACE:trivial thread: arg=4
+TRACE:trivial thread: arg=5
+TRACE:trivial thread: arg=6
+TRACE:trivial thread: arg=7
+TRACE:trivial thread: arg=8
+TRACE:trivial thread: arg=9
 THREAD: rpi_exit: done running threads, back to scheduler
 THREAD: done with all threads, returning
