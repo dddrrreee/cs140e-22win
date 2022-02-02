@@ -1,0 +1,10 @@
+TRACE:about to write known register values to the stack
+TRACE:sp[0]=4, expect=4
+TRACE:sp[1]=5, expect=5
+TRACE:sp[2]=6, expect=6
+TRACE:sp[3]=7, expect=7
+TRACE:sp[4]=8, expect=8
+TRACE:sp[5]=9, expect=9
+TRACE:sp[6]=10, expect=10
+TRACE:sp[7]=11, expect=11
+TRACE:sp[8]=14, expect=14

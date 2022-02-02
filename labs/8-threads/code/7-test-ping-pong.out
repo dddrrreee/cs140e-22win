@@ -1,0 +1,98 @@
+THREAD: rpi_fork: tid=1, code=0x8254, arg=0x7ffbfb8, saved_sp=0x101ff0
+THREAD: rpi_fork: tid=2, code=0x8254, arg=0x7ffbfb0, saved_sp=0x104008
+THREAD: scheduler thread=0x104030
+TRACE:tid=1, arg=0x7ffbfb8
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2, arg=0x7ffbfb0
+TRACE:tid=2: got=1, sending=2
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=2, sending=3
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2: got=3, sending=4
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=4, sending=5
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2: got=5, sending=6
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=6, sending=7
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2: got=7, sending=8
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=8, sending=9
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2: got=9, sending=10
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=10, sending=11
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2: got=11, sending=12
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=12, sending=13
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2: got=13, sending=14
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=14, sending=15
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2: got=15, sending=16
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=16, sending=17
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2: got=17, sending=18
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=18, sending=19
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2: got=19, sending=20
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=20, sending=21
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2: got=21, sending=22
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=22, sending=23
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2: got=23, sending=24
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=24, sending=25
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2: got=25, sending=26
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=26, sending=27
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2: got=27, sending=28
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=28, sending=29
+TRACE:tid=1 yielding
+THREAD: rpi_yield: switching from 1 2
+TRACE:tid=2: got=29, sending=30
+TRACE:tid=2 yielding
+THREAD: rpi_yield: switching from 2 1
+TRACE:tid=1: got=30, sending=31
+TRACE:tid=2: got=31, sending=32
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning

@@ -1,0 +1,114 @@
+FOUND: </dev/ttyUSB0>
+opened tty port </dev/ttyUSB0>.
+my-install: tty-usb=</dev/ttyUSB0> program=<./5-test-restart.bin> about to boot
+TRACE:simple_boot: sending 8868 bytes, crc32=f035625c
+waiting for a start
+pi: <addr=0x8000, n=8868, cksum=0xf035625c>
+putting code
+bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+TRACE:0: about to start threads package wth nothing
+THREAD: scheduler thread=0x100000
+THREAD: done with all threads, returning
+TRACE:1: about to start threads package wth nothing
+THREAD: scheduler thread=0x102018
+THREAD: done with all threads, returning
+TRACE:2: about to start threads package wth nothing
+THREAD: scheduler thread=0x104030
+THREAD: done with all threads, returning
+TRACE:3: about to start threads package wth nothing
+THREAD: scheduler thread=0x106048
+THREAD: done with all threads, returning
+TRACE:4: about to start threads package wth nothing
+THREAD: scheduler thread=0x108060
+THREAD: done with all threads, returning
+TRACE:5: about to start threads package wth nothing
+THREAD: scheduler thread=0x10a078
+THREAD: done with all threads, returning
+TRACE:6: about to start threads package wth nothing
+THREAD: scheduler thread=0x10c090
+THREAD: done with all threads, returning
+TRACE:7: about to start threads package wth nothing
+THREAD: scheduler thread=0x10e0a8
+THREAD: done with all threads, returning
+TRACE:8: about to start threads package wth nothing
+THREAD: scheduler thread=0x1100c0
+THREAD: done with all threads, returning
+TRACE:9: about to start threads package wth nothing
+THREAD: scheduler thread=0x1120d8
+THREAD: done with all threads, returning
+TRACE:0: about to fork and run one thread
+THREAD: rpi_fork: tid=11, code=0x8034, arg=0x7ffffec, saved_sp=0x1160e0
+THREAD: scheduler thread=0x116108
+TRACE:in thread 0x1140f0, tid=11 with 0xdeadbeef
+success: got to the first thread
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning
+TRACE:1: about to fork and run one thread
+THREAD: rpi_fork: tid=13, code=0x8034, arg=0x7ffffec, saved_sp=0x1160e0
+THREAD: scheduler thread=0x118120
+TRACE:in thread 0x1140f0, tid=13 with 0xdeadbeef
+success: got to the first thread
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning
+TRACE:2: about to fork and run one thread
+THREAD: rpi_fork: tid=15, code=0x8034, arg=0x7ffffec, saved_sp=0x1160e0
+THREAD: scheduler thread=0x11a138
+TRACE:in thread 0x1140f0, tid=15 with 0xdeadbeef
+success: got to the first thread
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning
+TRACE:3: about to fork and run one thread
+THREAD: rpi_fork: tid=17, code=0x8034, arg=0x7ffffec, saved_sp=0x1160e0
+THREAD: scheduler thread=0x11c150
+TRACE:in thread 0x1140f0, tid=17 with 0xdeadbeef
+success: got to the first thread
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning
+TRACE:4: about to fork and run one thread
+THREAD: rpi_fork: tid=19, code=0x8034, arg=0x7ffffec, saved_sp=0x1160e0
+THREAD: scheduler thread=0x11e168
+TRACE:in thread 0x1140f0, tid=19 with 0xdeadbeef
+success: got to the first thread
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning
+TRACE:5: about to fork and run one thread
+THREAD: rpi_fork: tid=21, code=0x8034, arg=0x7ffffec, saved_sp=0x1160e0
+THREAD: scheduler thread=0x120180
+TRACE:in thread 0x1140f0, tid=21 with 0xdeadbeef
+success: got to the first thread
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning
+TRACE:6: about to fork and run one thread
+THREAD: rpi_fork: tid=23, code=0x8034, arg=0x7ffffec, saved_sp=0x1160e0
+THREAD: scheduler thread=0x122198
+TRACE:in thread 0x1140f0, tid=23 with 0xdeadbeef
+success: got to the first thread
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning
+TRACE:7: about to fork and run one thread
+THREAD: rpi_fork: tid=25, code=0x8034, arg=0x7ffffec, saved_sp=0x1160e0
+THREAD: scheduler thread=0x1241b0
+TRACE:in thread 0x1140f0, tid=25 with 0xdeadbeef
+success: got to the first thread
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning
+TRACE:8: about to fork and run one thread
+THREAD: rpi_fork: tid=27, code=0x8034, arg=0x7ffffec, saved_sp=0x1160e0
+THREAD: scheduler thread=0x1261c8
+TRACE:in thread 0x1140f0, tid=27 with 0xdeadbeef
+success: got to the first thread
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning
+TRACE:9: about to fork and run one thread
+THREAD: rpi_fork: tid=29, code=0x8034, arg=0x7ffffec, saved_sp=0x1160e0
+THREAD: scheduler thread=0x1281e0
+TRACE:in thread 0x1140f0, tid=29 with 0xdeadbeef
+success: got to the first thread
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning
+DONE!!!
+
+Saw done
+
+bootloader: pi exited.  cleaning up

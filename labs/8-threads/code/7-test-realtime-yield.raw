@@ -1,0 +1,20 @@
+FOUND: </dev/ttyUSB0>
+opened tty port </dev/ttyUSB0>.
+my-install: tty-usb=</dev/ttyUSB0> program=<./7-test-realtime-yield.bin> about to boot
+TRACE:simple_boot: sending 8856 bytes, crc32=6e8e75f6
+waiting for a start
+pi: <addr=0x8000, n=8856, cksum=0x6e8e75f6>
+putting code
+bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+THREAD: rpi_fork: tid=1, code=0x80b0, arg=0x7ffffe8, saved_sp=0x101ff0
+THREAD: rpi_fork: tid=2, code=0x80b0, arg=0x7ffffe0, saved_sp=0x104008
+THREAD: scheduler thread=0x104030
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning
+done
+DONE!!!
+
+Saw done
+
+bootloader: pi exited.  cleaning up

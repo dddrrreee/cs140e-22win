@@ -1,0 +1,2 @@
+TRACE:sp_after=0x7ffffec (val=0xdeadbeef), sp_before=0x7fffff0 (val=0x21f4)
+TRACE:wrote to stack after modifying sp

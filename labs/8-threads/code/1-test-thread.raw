@@ -1,0 +1,80 @@
+FOUND: </dev/ttyUSB0>
+opened tty port </dev/ttyUSB0>.
+my-install: tty-usb=</dev/ttyUSB0> program=<./1-test-thread.bin> about to boot
+TRACE:simple_boot: sending 9048 bytes, crc32=c6869719
+waiting for a start
+pi: <addr=0x8000, n=9048, cksum=0xc6869719>
+putting code
+bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+about to test summing of 30 threads
+THREAD: rpi_fork: tid=1, code=0x8034, arg=0x100000, saved_sp=0x101ff8
+THREAD: rpi_fork: tid=2, code=0x8034, arg=0x102020, saved_sp=0x104018
+THREAD: rpi_fork: tid=3, code=0x8034, arg=0x104040, saved_sp=0x106038
+THREAD: rpi_fork: tid=4, code=0x8034, arg=0x106060, saved_sp=0x108058
+THREAD: rpi_fork: tid=5, code=0x8034, arg=0x108080, saved_sp=0x10a078
+THREAD: rpi_fork: tid=6, code=0x8034, arg=0x10a0a0, saved_sp=0x10c098
+THREAD: rpi_fork: tid=7, code=0x8034, arg=0x10c0c0, saved_sp=0x10e0b8
+THREAD: rpi_fork: tid=8, code=0x8034, arg=0x10e0e0, saved_sp=0x1100d8
+THREAD: rpi_fork: tid=9, code=0x8034, arg=0x110100, saved_sp=0x1120f8
+THREAD: rpi_fork: tid=10, code=0x8034, arg=0x112120, saved_sp=0x114118
+THREAD: rpi_fork: tid=11, code=0x8034, arg=0x114140, saved_sp=0x116138
+THREAD: rpi_fork: tid=12, code=0x8034, arg=0x116160, saved_sp=0x118158
+THREAD: rpi_fork: tid=13, code=0x8034, arg=0x118180, saved_sp=0x11a178
+THREAD: rpi_fork: tid=14, code=0x8034, arg=0x11a1a0, saved_sp=0x11c198
+THREAD: rpi_fork: tid=15, code=0x8034, arg=0x11c1c0, saved_sp=0x11e1b8
+THREAD: rpi_fork: tid=16, code=0x8034, arg=0x11e1e0, saved_sp=0x1201d8
+THREAD: rpi_fork: tid=17, code=0x8034, arg=0x120200, saved_sp=0x1221f8
+THREAD: rpi_fork: tid=18, code=0x8034, arg=0x122220, saved_sp=0x124218
+THREAD: rpi_fork: tid=19, code=0x8034, arg=0x124240, saved_sp=0x126238
+THREAD: rpi_fork: tid=20, code=0x8034, arg=0x126260, saved_sp=0x128258
+THREAD: rpi_fork: tid=21, code=0x8034, arg=0x128280, saved_sp=0x12a278
+THREAD: rpi_fork: tid=22, code=0x8034, arg=0x12a2a0, saved_sp=0x12c298
+THREAD: rpi_fork: tid=23, code=0x8034, arg=0x12c2c0, saved_sp=0x12e2b8
+THREAD: rpi_fork: tid=24, code=0x8034, arg=0x12e2e0, saved_sp=0x1302d8
+THREAD: rpi_fork: tid=25, code=0x8034, arg=0x130300, saved_sp=0x1322f8
+THREAD: rpi_fork: tid=26, code=0x8034, arg=0x132320, saved_sp=0x134318
+THREAD: rpi_fork: tid=27, code=0x8034, arg=0x134340, saved_sp=0x136338
+THREAD: rpi_fork: tid=28, code=0x8034, arg=0x136360, saved_sp=0x138358
+THREAD: rpi_fork: tid=29, code=0x8034, arg=0x138380, saved_sp=0x13a378
+THREAD: rpi_fork: tid=30, code=0x8034, arg=0x13a3a0, saved_sp=0x13c398
+THREAD: scheduler thread=0x13c3c0
+in thread 0x100008, tid=1 with 0x0
+in thread 0x102028, tid=2 with 0x1
+in thread 0x104048, tid=3 with 0x2
+in thread 0x106068, tid=4 with 0x3
+in thread 0x108088, tid=5 with 0x4
+in thread 0x10a0a8, tid=6 with 0x5
+in thread 0x10c0c8, tid=7 with 0x6
+in thread 0x10e0e8, tid=8 with 0x7
+in thread 0x110108, tid=9 with 0x8
+in thread 0x112128, tid=10 with 0x9
+in thread 0x114148, tid=11 with 0xa
+in thread 0x116168, tid=12 with 0xb
+in thread 0x118188, tid=13 with 0xc
+in thread 0x11a1a8, tid=14 with 0xd
+in thread 0x11c1c8, tid=15 with 0xe
+in thread 0x11e1e8, tid=16 with 0xf
+in thread 0x120208, tid=17 with 0x10
+in thread 0x122228, tid=18 with 0x11
+in thread 0x124248, tid=19 with 0x12
+in thread 0x126268, tid=20 with 0x13
+in thread 0x128288, tid=21 with 0x14
+in thread 0x12a2a8, tid=22 with 0x15
+in thread 0x12c2c8, tid=23 with 0x16
+in thread 0x12e2e8, tid=24 with 0x17
+in thread 0x130308, tid=25 with 0x18
+in thread 0x132328, tid=26 with 0x19
+in thread 0x134348, tid=27 with 0x1a
+in thread 0x136368, tid=28 with 0x1b
+in thread 0x138388, tid=29 with 0x1c
+in thread 0x13a3a8, tid=30 with 0x1d
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning
+count = 30, sum=435
+SUCCESS!
+DONE!!!
+
+Saw done
+
+bootloader: pi exited.  cleaning up

@@ -1,0 +1,19 @@
+FOUND: </dev/ttyUSB0>
+opened tty port </dev/ttyUSB0>.
+my-install: tty-usb=</dev/ttyUSB0> program=<./4-test-one-fork.bin> about to boot
+TRACE:simple_boot: sending 8796 bytes, crc32=eb318803
+waiting for a start
+pi: <addr=0x8000, n=8796, cksum=0xeb318803>
+putting code
+bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+about to fork and run one threa
+THREAD: rpi_fork: tid=1, code=0x8034, arg=0x7ffffec, saved_sp=0x101ff0
+THREAD: scheduler thread=0x102018
+in thread 0x100000, tid=1 with 0xdeadbeef
+success: got to the first thread
+DONE!!!
+
+Saw done
+
+bootloader: pi exited.  cleaning up

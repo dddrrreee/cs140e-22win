@@ -1,0 +1,34 @@
+FOUND: </dev/ttyUSB0>
+opened tty port </dev/ttyUSB0>.
+my-install: tty-usb=</dev/ttyUSB0> program=<./2-write-regs.bin> about to boot
+TRACE:simple_boot: sending 9688 bytes, crc32=dbd71885
+waiting for a start
+pi: <addr=0x8000, n=9688, cksum=0xdbd71885>
+putting code
+bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+TRACE:about to write known register values to the stack
+sp=0x7ffffcc, *stored_sp=0x7ffffcc
+sp[0]=4, expect=4
+sp[1]=5, expect=5
+sp[2]=6, expect=6
+sp[3]=7, expect=7
+sp[4]=8, expect=8
+sp[5]=9, expect=9
+sp[6]=10, expect=10
+sp[7]=11, expect=11
+sp[8]=14, expect=14
+TRACE:sp[0]=4, expect=4
+TRACE:sp[1]=5, expect=5
+TRACE:sp[2]=6, expect=6
+TRACE:sp[3]=7, expect=7
+TRACE:sp[4]=8, expect=8
+TRACE:sp[5]=9, expect=9
+TRACE:sp[6]=10, expect=10
+TRACE:sp[7]=11, expect=11
+TRACE:sp[8]=14, expect=14
+DONE!!!
+
+Saw done
+
+bootloader: pi exited.  cleaning up

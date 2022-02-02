@@ -1,0 +1,17 @@
+FOUND: </dev/ttyUSB0>
+opened tty port </dev/ttyUSB0>.
+my-install: tty-usb=</dev/ttyUSB0> program=<./2-where-push.bin> about to boot
+TRACE:simple_boot: sending 8692 bytes, crc32=d27bac38
+waiting for a start
+pi: <addr=0x8000, n=8692, cksum=0xd27bac38>
+putting code
+bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+about to check asm push
+TRACE:sp_after=0x7ffffec (val=0xdeadbeef), sp_before=0x7fffff0 (val=0x21f4)
+TRACE:wrote to stack after modifying sp
+DONE!!!
+
+Saw done
+
+bootloader: pi exited.  cleaning up

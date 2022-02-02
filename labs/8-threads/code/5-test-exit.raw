@@ -1,0 +1,38 @@
+FOUND: </dev/ttyUSB0>
+opened tty port </dev/ttyUSB0>.
+my-install: tty-usb=</dev/ttyUSB0> program=<./5-test-exit.bin> about to boot
+TRACE:simple_boot: sending 8520 bytes, crc32=db70093d
+waiting for a start
+pi: <addr=0x8000, n=8520, cksum=0xdb70093d>
+putting code
+bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+THREAD: rpi_fork: tid=1, code=0x8034, arg=0x0, saved_sp=0x101ff0
+THREAD: rpi_fork: tid=2, code=0x8034, arg=0x1, saved_sp=0x104008
+THREAD: rpi_fork: tid=3, code=0x8034, arg=0x2, saved_sp=0x106020
+THREAD: rpi_fork: tid=4, code=0x8034, arg=0x3, saved_sp=0x108038
+THREAD: rpi_fork: tid=5, code=0x8034, arg=0x4, saved_sp=0x10a050
+THREAD: rpi_fork: tid=6, code=0x8034, arg=0x5, saved_sp=0x10c068
+THREAD: rpi_fork: tid=7, code=0x8034, arg=0x6, saved_sp=0x10e080
+THREAD: rpi_fork: tid=8, code=0x8034, arg=0x7, saved_sp=0x110098
+THREAD: rpi_fork: tid=9, code=0x8034, arg=0x8, saved_sp=0x1120b0
+THREAD: rpi_fork: tid=10, code=0x8034, arg=0x9, saved_sp=0x1140c8
+THREAD: scheduler thread=0x1140f0
+TRACE:trivial thread: arg=0
+TRACE:trivial thread: arg=1
+TRACE:trivial thread: arg=2
+TRACE:trivial thread: arg=3
+TRACE:trivial thread: arg=4
+TRACE:trivial thread: arg=5
+TRACE:trivial thread: arg=6
+TRACE:trivial thread: arg=7
+TRACE:trivial thread: arg=8
+TRACE:trivial thread: arg=9
+THREAD: rpi_exit: done running threads, back to scheduler
+THREAD: done with all threads, returning
+SUCCESS
+DONE!!!
+
+Saw done
+
+bootloader: pi exited.  cleaning up
