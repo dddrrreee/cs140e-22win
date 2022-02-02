@@ -13,11 +13,23 @@
 #   all:
 # (note the double ::)
 
-# export all of the makefile variables.
+# export any makefile var that is defined.  [if we blindly export 
+# cannot check what is defined in sub-make]
+ifdef TTYUSB
 export TTYUSB 
+endif
+
+ifdef BOOTLOADER
 export BOOTLOADER
+endif
+
+ifdef GREP_STR
 export GREP_STR 
+endif
+
+ifdef START
 export START
+endif
 
 BOOTLOADER ?= pi-install
 
@@ -103,12 +115,9 @@ endif
 %.run: %.bin
 	$(BOOTLOADER) $(TTYUSB) ./$<
 
-ifdef ENABLE_EMIT
+ifneq ($(CAN_EMIT), 0)
 emit: libs $(DEPS) $(TEST_PROGS)
-	@make -e -f $(MK_CHK) emit "TESTS=$(TEST_PROGS)"
-else
-emit: 
-	$( error "do not run emit!" )
+	make -e -f $(MK_CHK) emit "TESTS=$(TEST_PROGS)"
 endif
 
 run: libs $(DEPS) $(TEST_PROGS)
