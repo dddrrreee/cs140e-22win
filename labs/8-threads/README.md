@@ -2,6 +2,13 @@
 
 ***MAKE SURE YOU DO THE [PRELAB](PRELAB.md) FIRST!***
 
+Note:
+  - By default the `Makefile` will use our code (`code/staff-rpi-thread.o`
+    `code/staff-thread-asm.o`).
+  - If you run `make check` in `code` all the tests should pass.
+  - Before you start implementing, comment out `USE_STAFF=1` to use
+    your code.  You can flip back and forth to test.
+
 Big picture:  by the end of this lab you will have a very simple
 round-robin threading package for "cooperative" (i.e., non-preemptive)
 threads.
@@ -50,7 +57,11 @@ to find.  So we'll break it down into several smaller pieces.
 
 ### Sign-off:
 
-   - You pass the tests in the 2-threads` directory.
+   - You pass `make check` in the `code` directory with all the tests
+     enabled:
+
+            # in makefile:
+            TEST_SRC := $(wildcard ./[0-9]*.c)
 
 ----------------------------------------------------------------------
 ### Hints
@@ -176,16 +187,22 @@ What to do:
      to the values passed into `rpi_fork` and put the thread on the 
      run queue.
   2. `rpi_thread_start` remove threads in FIFO order, and call
-      each function, free the thread block.
+     each function, free the thread block.  When there are no more
+     threads, return back to the caller.
+  3. Make sure you keep the `trace` calls in the thread code: we use these
+     for testing!
 
 What you do not have to do:
   1. Write any assembly.
   2. Do anything with the thread stack.
 
+Tests:
+  - The tests with a `1-*` prefix cover part 1.
+  - `1-test-run-one.c`: run a single thread to completion.
+  - `1-test-run-n.c`: run N threads to completion.
 
 How to test (this part and all the others):
 
-  0. The tests with a `1-*` prefix cover part 1.
   1. To run them, set the `TEST_SRC` variable in the `Makefile` to:
 
             TEST_SRC := $(wildcard ./[1]-*.c)
@@ -242,49 +259,40 @@ Our next step is to start writing assembly code and build up the
 context-switching code in pieces.  
 
 ----------------------------------------------------------------------
-### Part 3: context-switching.
+### Part 3: trivial `rpi_thread_start`
 
-There is no part 3.
 
 ----------------------------------------------------------------------
 ### Part 4: building `rpi_fork` and `rpi_start_thread`
 
-Given that you have context-switching, the main tricky thing is figuring
-out how to setup a newly created thread so that when you run context
-switching on it, the right thing will happen (i.e., it will invoke to
-`code(arg)`).
+Given your have done state saving both in the interrupt labs and in Part 2
+above you should be able to implement `rpi_cswitch` without too much fuss:
 
-   - The standard way to do this is by manually storing values
-     onto the thread's stack (sometimes called "brain-surgery") so that
-     when its state is loaded via `rpi_cswitch` control will jump to
-     a trampoline routine (written in assembly) with `code` with `arg`
-     in known registers The trampoline will then branch-and-link to the
-     `code` with `arg` in `r0`.
+  - Put your `cswitch` code into `rpi_cswitch` in `thread-asm.S`
+    This will be based on your code from `2-write-regs-asm.S` except
+    that you will add the code to restore the registers as well.
+    For today: only save the callee saved registers.  Since we are doing
+    non-pre-emptive threads, the compiler will have saved any live caller
+    registers when calling `rpi_yield`.
 
-   - The use of a trampoline lets us handle the problem of missing
-     `rpi_exit` calls.  The problem: If the thread code does not call
-     `rpi_exit` explicitly but instead returns, the value in the `lr`
-     register that it jumps to will be nonsense.  Our hack: have our
-     trampoline that calls the thread code simply call `rpi_exit` if the
-     intial call to `code` returns.
 
-  - `rpi_start_thread` will context switch into the first thread it
-     removes from the run queue.  Doing so will require creating a
-     dummy thread so that when there are no more runnable threads,
-     `rpi_cswitch` will transfer control back and we can return back
-     to the main program.  (If you run into problems, try first just
-     rebooting when there are no runnable threads.)
+After context-switching, the main tricky thing left to figure out is how
+to setup a newly created thread so that when you run context switching
+on it, the right thing will happen (i.e., it will invoke to `code(arg)`).
 
-  - `rpi_cswitch`: this will be based on your code from `2-write-regs-asm.S`
-    except that you will add the code to restore the registers as well.
+  - The standard way to do this: during thread creation (`rpi_fork`)
+    manually store values onto the thread's stack (sometimes called
+    "brain-surgery") so that when the thread's state is loaded via
+    `rpi_cswitch` control will jump to a trampoline routine (written in
+    assembly) with `code` with `arg` in known registers.   The trampoline
+    will then branch-and-link (using the `bl` instruction) to the `code`
+    address with the value of `arg` in `r0` (note: you will have to
+    move it there).
+    
+    As you'll see in part 6: The use of a trampoline lets us handle
+    the problem of missing `rpi_exit` calls.
 
 What to do `rpi_fork` :
-  0. Move your `cswitch` code into `rpi_cswitch` in `thread-asm.S`
-
-     Make sure you verify that your `rpi_cswitch` code works when you
-     pass the current thread as both arguments --- behaviorally this
-     is a no-op since your code should save and restore the state,
-     and resume right after the call.
 
   1. `rpi_fork` should write the address of trampoline
      `rpi_init_trampoline` to the `lr` offset in the thread
@@ -304,6 +312,16 @@ What to do `rpi_fork` :
      call out to C code to print out its values so you can sanity check
      that they make sense.
 
+The other big routine is `rpi_start_thread`:
+
+  - `rpi_start_thread` will context switch into the first thread it
+    removes from the run queue.  Doing so will require creating a
+    dummy thread (store it in the `scheduler_thread` global variable)
+    so that when there are no more runnable threads, `rpi_cswitch` will
+    transfer control back and we can return back to the main program.
+    (If you run into problems, try first just rebooting when there are
+    no runnable threads.)
+
 What to do for `rpi_start_thread`:
   1. If the runqueue is empty, return.
   2. Otherwise: allocate a thread block, set the `scheduler_thread`
@@ -315,10 +333,10 @@ Note, you *do not* have to do with the scheduler thread:
  - You contxt-switch out of the scheduler thread once and into it once
    when runque is empty.
 
-There is a trivial program to test a single fork in
-  - `4-test-one-fork.c`: it forks a single thread, runs it, and exits.
-    This makes it easier to debug if something is going on in your context
-    switching.
+Tests:
+  - `4-test-one-fork.c`: There is a trivial program that
+    it forks a single thread, runs it, and exits.  This makes it easier
+    to debug if something is going on in your context switching.
 
 ----------------------------------------------------------------------
 ### Part 5: adding `rpi_exit` and `rpi_yield`
@@ -327,21 +345,28 @@ You'll now finish out the main routines:
 
   - `rpi_exit` if it can dequeue a runnable thread, context switch
      into it.  Otherwise resume the initial start thread created in
-     step 1.
+     step 1 (held in `scheduler_thread`).
 
-  - Change `rpi_yield` so that it works as expected.
+  - Change `rpi_yield` so that it works as expected and yields to the
+    first thread on the run-queue (if any).  Make sure you handle
+    the case that there is no thread.
 
-There are a two tests:
+Tests:
   - `5-test-exit.c`: forks `N` threads that all explicitly call `rpi_exit`.
   - `5-test-yield.c`: forks `N` threads that all explicitly call `rpi_yield`
      and then call `rpi_exit`.
+  - `5-test-yield-fail.c`: yields with an empty run queue.
+  - `5-test-restart.c`: restarts the threads package over and over.
 
 ----------------------------------------------------------------------
 ### Part 6: Handle missing `rpi_exit` calls.
 
-Now we just make sure threads work when threads do not have an explicit
-`rpi_exit`.  If your trampoline in part 4 works as expected, this should
-"just work".
+Note: If the thread code does not call `rpi_exit` explicitly but instead
+returns, the value in the `lr` register that it jumps to will be nonsense.
+Our hack: have our trampoline (from part 4) that calls the thread code
+simply call `rpi_exit` if the intial call to `code` returns.
+
+If your trampoline in part 4 works as expected, this should "just work".
 
    - `6-test-implicit-exit.c`: should run and print `SUCCESS`.
 
