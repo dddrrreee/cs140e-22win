@@ -10,8 +10,7 @@
 #   - "make cksum" it will compute checksums for all programs in TESTS
 
 # you can add a device path if you need it
-# BOOTLOAD ?= ../code.staff/my-install
-BOOTLOAD ?= ../code.staff/run-trace my-install
+BOOTLOAD ?= ../code/run-trace my-install
 
 # list out the tests you want.
 TESTS := $(wildcard ./[0]-*.bin)
@@ -20,7 +19,6 @@ TESTS := $(wildcard ./[0123]-*.bin)
 
 # ignore all trace output.
 GREP_STR ?= -v 'INTERPOSE:\|/dev'
-# ./15-watchpoint/code.staff.0/old/Makefile~:GREP_STR := 'TRACE:\|ERROR:\|PANIC:' 
 
 
 .SUFFIXES: .out .run .check .emit
@@ -57,7 +55,7 @@ all: binaries run
 	cksum ./$*.out
 
 binaries:
-	make -C ../code.staff
+	make -C ../code
 
 # not sure if there is a better way: use these fake target to run our
 # checks for everything.
