@@ -45,6 +45,19 @@ For lab, you should implement:
      If it helps, the bootloader in `5-replay/staff-binaries/kernel.img`
      *should* handle timeouts.
 
+  3. extension: make a copy of `run-pi-timeout.c` and modify it to do
+     byte corruption similar to how it does timeout.  Note that corrupting
+     the bytes for the code address and size may not lead to an error
+     you can catch --- skip those bytes (4 through 8 iirc) and just do
+     the others.
+
+  4. extension: fix the bootprotocol so that it is not broken!
+
+  5. extension: emit a log of the bytes sent back and forth and see that
+     replaying one side works.  Note that the pi-side can be a bit
+     non-deterministic in that it can send more `GET_PROG_INFO` than
+     you expect so you may have to handle this.
+
 That's all the writeup!
 
 ***The rest of the prose is old : you can ignore it for tonight***
