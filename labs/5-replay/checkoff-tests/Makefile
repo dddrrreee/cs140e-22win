@@ -32,7 +32,7 @@ TEST_CKSUM := $(patsubst %, %.cksum, $(TESTS))
 TEST_OUT   := $(patsubst %.bin, %.out, $(TESTS))  
 
 # set whatever you want the default action to be.
-all: run
+all: binaries run
 
 %.run: %
 	@echo "\n-------------------[about to run <./$*]-----------------------";
@@ -56,13 +56,16 @@ all: run
 %.cksum: %.out
 	cksum ./$*.out
 
+binaries:
+	make -C ../code.staff
+
 # not sure if there is a better way: use these fake target to run our
 # checks for everything.
-emitall: $(TEST_EMIT) 
+emitall: $(TEST_EMIT)  binaries
 # make -f ./Makefile GREP_STR="-v \"/dev\""  BOOTLOAD=my-install emitall
 emit: 
 	make -f ./Makefile BOOTLOAD=my-install emitall
-check: $(TEST_CHECK) 
+check: binaries $(TEST_CHECK) 
 run: $(TEST_RUN) 
 cksum:  $(TEST_CKSUM)
 
@@ -72,4 +75,4 @@ clean:
 cleanall:
 	rm -f *.out *.test
 
-.PHONY: all clean run emit check cksum emitall
+.PHONY: all clean run emit check cksum emitall binaries
