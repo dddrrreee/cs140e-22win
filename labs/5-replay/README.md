@@ -47,7 +47,7 @@ For lab, you should implement:
 
 That's all the writeup!
 
-**** The rest of the prose is old : you can ignore it for tonight ****
+***The rest of the prose is old : you can ignore it for tonight***
 
 **** The rest of the prose is old : you can ignore it for tonight ****
 
