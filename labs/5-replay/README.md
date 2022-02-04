@@ -34,14 +34,16 @@ For lab, you should implement:
   2. the code needed by `run-pi-timeout.c` (also in `interpose.c`):
      this works similar to step 1 except that it will stop sending
      after the n-th byte to the  pi side  and then make sure that (1)
-     `my-install` exits with an error and (2) then rerunning `my-install`
-     works (i.e., your pi recovers).   You should also verify that you had
-     received a `BOOT_ERROR` from the pi (at some point the pi field
-     `last_u32` held `BOOT_ERROR`).
+     `my-install` both prints it received a `BOOT_ERROR` from the pi and
+     exits using `exit(1)` and (2) 
+     rerunning `my-install` works (i.e., your pi recovers).
+
+     In addition: You should also verify that you had received a
+     `BOOT_ERROR` from the pi (at some point the pi field `last_u32`
+     held `BOOT_ERROR`).
 
      For this test to work your bootloader will have to send a
      `BOOT_ERROR` in all places it gets a timeout and then reboot.
-
 
      The check for this is trivial:
 
@@ -57,6 +59,11 @@ For lab, you should implement:
      the bytes for the code address and size may not lead to an error
      you can catch --- skip those bytes (4 through 8 iirc) and just do
      the others.
+
+     For this test you'll have to update your `my-install` to do something
+     more useful when it gets an unexpected response.  Just copy your
+     `simple-boot.c` into `5-replay/my-install` make and install (also:
+     check that this passes your tests first!)
 
   4. extension: fix the bootprotocol so that it is not broken!
 
