@@ -26,11 +26,18 @@ For lab, you should implement:
             # now make check (which uses run-trace) should work
             % make check
 
+     In addition to `my-install` exiting with 0, you should check that
+     you've seen a `BOOT_SUCCESS` (you can see this in `u->last_u32`
+     field of the pi entpoint, which holds the last 32-bits read from
+     that endpoint).
+
   2. the code needed by `run-pi-timeout.c` (also in `interpose.c`):
      this works similar to step 1 except that it will stop sending
      after the n-th byte to the  pi side  and then make sure that (1)
      `my-install` exits with an error and (2) then rerunning `my-install`
-     works (i.e., your pi recovers).
+     works (i.e., your pi recovers).   You should also verify that you had
+     received a `BOOT_ERROR` from the pi (at some point the pi field
+     `last_u32` held `BOOT_ERROR`).
 
      For this test to work your bootloader will have to send a
      `BOOT_ERROR` in all places it gets a timeout and then reboot.
