@@ -46,23 +46,35 @@ int main(int argc, char *argv[]) {
         if(argv[i][0] != '-')
             break;
         if(strcmp(argv[i], "-lo") == 0) {
-            if(++i == argc-need_args)
+            if(++i == argc)
                 usage(argv[0], "-lo needs an integer");
             lo = atoi(argv[i]);
         } else if(strcmp(argv[i], "-hi") == 0) {
-            if(++i == argc-need_args)
+            if(++i == argc)
                 usage(argv[0], "-hi needs an integer");
             hi = atoi(argv[i]);
         }
     }
-    if(argc != i + need_args)
+    int left = argc - i;
+    output("left = %d, need=%d, i = %d\n", left, need_args,i);
+    if(left < 2)
         usage(argv[0], "missing non-optional arguments");
+    if(left > 3)
+        usage(argv[0], "too many arguments");
+
     if(lo > hi)
         usage(argv[0], "lo is > hi");
 
     char *install = argv[i+0];
-    char *dev_name = argv[i+1];
-    char *pi_prog = argv[i+2];
+    char *dev_name, *pi_prog;
+    if(left == 2) {
+        pi_prog = argv[i+1];
+        dev_name = find_ttyusb();
+    } else { 
+        assert(left == 3);
+        dev_name = argv[i+1];
+        pi_prog = argv[i+2];
+    }
 
     output("-------------------------------------------------------------------\n");
     trace_output("going to forward: %s %s %s>\n", install, dev_name, pi_prog);
