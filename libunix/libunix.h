@@ -56,5 +56,28 @@ int read_timeout(int fd, void *data, unsigned n, unsigned timeout);
 // roundup <x> to a multiple of <n>: taken from the lcc compiler.
 #define pi_roundup(x,n) (((x)+((n)-1))&(~((n)-1)))
 
+// non-blocking check if <pid> exited cleanly.
+// returns:
+//   - 0 if not exited;
+//   - 1 if exited cleanly (exitcode in <status>, 
+//   - -1 if exited with a crash (status holds reason)
+int child_clean_exit_noblk(int pid, int *status);
+
+
+// return current number of usec --- probably better to make a larger datatype.
+// makes printing kinda annoying however.
+// this should be u64
+typedef unsigned time_usec_t;
+time_usec_t time_get_usec(void);
+unsigned time_get_sec(void);
+
+
+// close all open file descriptors except 0,1,2 and <fd>
+void close_open_fds_except(int fd);
+// close all open file descriptors except 0,1,2.
+void close_open_fds(void);
+
+
+
 #endif
 

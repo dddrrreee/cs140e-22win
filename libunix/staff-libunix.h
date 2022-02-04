@@ -101,6 +101,8 @@ int suffix_cmp(const char *s, const char *suffix);
 int prefix_cmp(const char *s, const char *prefix);
 
 void run_system(const char *fmt, ...);
+int run_system_err_ok(int verbose_p, const char *fmt, ...) ;
+
 
 // lookup <name> in directory <path> and return <path>/<name>
 char *name_lookup(const char *path, const char *name);
