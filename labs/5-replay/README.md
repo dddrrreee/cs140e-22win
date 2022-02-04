@@ -26,6 +26,9 @@ For lab, you should implement:
      For this test to work your bootloader will have to send a
      `BOOT_ERROR` in all places it gets a timeout and then reboot.
 
+
+That's all the writeup!
+
 **** The rest of the prose is old and needs to be updated ***
 
 ### Background
