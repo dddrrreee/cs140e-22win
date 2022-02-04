@@ -61,8 +61,6 @@ int tty_gone(const char *ttyname);
 
 // return current number of usec --- probably better to make a larger datatype.
 // makes printing kinda annoying however.
-typedef unsigned time_usec_t;
-time_usec_t time_get_usec(void);
 
 // call this to check errors for closing a descriptor:
 #define close_nofail(fd) no_fail(close(fd))
