@@ -17,6 +17,15 @@ For lab, you should implement:
      sit between the unix side and the pi side and transparently forward
      between them.
 
+     To check this:
+		    % cd 5-replay/checkoff-tests
+
+            # emit all the .outs (they will be different for your bootloader)
+            % make emit
+
+            # now make check (which uses run-trace) should work
+            % make check
+
   2. the code needed by `run-pi-timeout.c` (also in `interpose.c`):
      this works similar to step 1 except that it will stop sending
      after the n-th byte to the  pi side  and then make sure that (1)
@@ -26,6 +35,15 @@ For lab, you should implement:
      For this test to work your bootloader will have to send a
      `BOOT_ERROR` in all places it gets a timeout and then reboot.
 
+
+     The check for this is trivial:
+
+            % cd 5-replay/code
+            # run with timeouts b/n 1...80
+            % make run.timeout
+
+     If it helps, the bootloader in `5-replay/staff-binaries/kernel.img`
+     *should* handle timeouts.
 
 That's all the writeup!
 
