@@ -8,6 +8,7 @@ We are getting into the more advanced readings, so you'll likely have
 to read each part of the arm manual several times.  I've annotated some
 of the key bits to hopefully help.
 
+
 Low-level ARM readings for the lab:
 
   - Re-read the armv6 chapter from the interrupts lab
@@ -31,3 +32,7 @@ Low-level ARM readings for the lab:
 
   - [fault registers](./docs/arm1176-fault-regs.pdf): These are useful
     for figuring out which fault happened.
+
+
+Since the documents can be a bit much, we also give a 
+[cheat sheet for chapter 13](./DEBUG-cheat-sheet.md).
