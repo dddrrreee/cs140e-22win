@@ -18,10 +18,28 @@ is written more in definitional voice, where it can be unclear what steps
 to perform to  accomplish a goal.  So you have to read chapter 13 with
 a goal in mind, gather up the different rules scattered throughout, and
 hope you don't miss "must" or "do A before B" edict (there are several
-of these!).   We'll give some of the page numbers below to hopefully
-make this a bit easier.  Of course: if you want the full experience just
-ignore these hints and go into the chapter raw.  This is certainly the
-way to learn!
+of these!).   
+We'll give some of the page numbers below to hopefully make this a bit
+easier.  Of course: if you want the full experience just ignore these
+hints and go into the chapter raw.  This is certainly the way to learn!
+
+-----------------------------------------------------------------------
+### A big single-stepping gotcha
+
+It's an unfortunate truism that hardware manuals often have important
+rules buried in the  middle of a chapter, in the middle of a bunch of
+other prose.   You have to expect this dynamic and get in the habit of
+reading everything very carefully.
+
+This chapter is no different.  If you look at the bottom of page 13-16
+you see this major rule for single stepping:
+
+   - "[if a] mismatch occurs while the processor is running in a 
+     privileged mode ... it is ignored"
+
+This is major!!   It's very easy to miss this unflagged sentence and
+try to do mis-match breakpoints and not be able to figure out what is
+going on.  
 
 -----------------------------------------------------------------------
 ### Useful page index
