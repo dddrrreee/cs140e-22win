@@ -9,6 +9,10 @@ quick and dirty notes on each topic.
   - [caller-callee registers](caller-callee/README.md): empirically derive
     which registers are caller and callee.
 
+  - [debug hardware cheat sheet](../labs/9-debug-hardware/DEBUG-cheat-sheet.md):
+    cheat sheet for debug hardware --- watchpoints, breakpoints and how
+    to handle exceptions.
+
 ### Guides 
 
 These are quick guides on various useful things such as `make` and `tags`.
