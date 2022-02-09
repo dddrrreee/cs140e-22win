@@ -251,6 +251,27 @@ How to get the instruction fault status register (IFSR):
 </td></tr></table>
 
 -----------------------------------------------------------------------------
+### Part 3: port your code to a simple interface
+
+So far we've done very low level hacking to get things working --- this is
+great for a time-limited situation, since there aren't much moving pieces.
+It's not so great if you want to use the stuff later. 
+
+The final part of the lab is trivially wrapping your code up in a
+simple-minded interface that (1) slightly abstracts the interface and
+(2) handles determining exception type and just calling the required
+client handler.
+
+  - `debug-fault.h`: interface, plus some simple accessor routines (you have to 
+    define).
+  - `debug-fault.c`: the rest of the interface: it keeps track of which handler
+    to run.
+
+If you do things correctly, the tests should match previous tests exactly:
+  - `3-debug-watchpt.c` will generate a `.out` that matches `1-watchpt-test.c`.
+  - `3-debug-brkpt.c` will generate a `.out` that matches `2-brkpt-test.c`.
+
+-----------------------------------------------------------------------------
 ### Extension: make an always-on assertion system
 
 Assertions are great, but they  have the downside that they are only
