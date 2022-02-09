@@ -179,6 +179,10 @@ Note:
 
 With that said, we inline some of the key facts below.
 
+To initialize co-processor 14:
+  - You'll need to install exception handlers (do not enable interrupts).
+  - You'll then need to enable any bits in the status register.
+
 To set a watchpoint you can follow the recipe on 13-47.
   1. Enable monitor debugging using the `DSCR` (13-7): bits 14 and 15.
   2. Set the "watchpoint value register" (WVR) on 13-20 to 0.
