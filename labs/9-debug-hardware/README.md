@@ -268,6 +268,8 @@ client handler.
     to run.
 
 If you do things correctly, the tests should match previous tests exactly:
+  - First copy `Makefile.new` over `Makefile` (this extends the `Makefile` and
+    avoids some git conflicts).
   - `3-debug-watchpt.c` will generate a `.out` that matches `1-watchpt-test.c`.
   - `3-debug-brkpt.c` will generate a `.out` that matches `2-brkpt-test.c`.
 
