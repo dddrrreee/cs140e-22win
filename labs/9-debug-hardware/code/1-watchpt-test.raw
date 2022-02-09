@@ -1,0 +1,20 @@
+FOUND: </dev/ttyUSB0>
+opened tty port </dev/ttyUSB0>.
+my-install: tty-usb=</dev/ttyUSB0> program=<./1-watchpt-test.bin> about to boot
+TRACE:simple_boot: sending 6880 bytes, crc32=b09bfa85
+waiting for a start
+pi: <addr=0x8000, n=6880, cksum=0xb09bfa85>
+putting code
+bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+TRACE:set watchpoint for addr 0x0
+TRACE:should see a store fault!
+TRACE:store fault at pc=0x8024
+TRACE:should see a load fault!
+TRACE:load fault at pc=0x802c
+TRACE:SUCCESS
+DONE!!!
+
+Saw done
+
+bootloader: pi exited.  cleaning up

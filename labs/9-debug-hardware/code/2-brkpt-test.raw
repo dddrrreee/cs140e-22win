@@ -1,0 +1,93 @@
+FOUND: </dev/ttyUSB0>
+opened tty port </dev/ttyUSB0>.
+my-install: tty-usb=</dev/ttyUSB0> program=<./2-brkpt-test.bin> about to boot
+TRACE:simple_boot: sending 7000 bytes, crc32=70dbe6b4
+waiting for a start
+pi: <addr=0x8000, n=7000, cksum=0x70dbe6b4>
+putting code
+bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+set breakpoint for addr 0x8034
+about to call 0x8034: should see a fault!
+lr=0x8034, foo=0x8034
+ifar=0x0
+ifsr=0x2
+dscr[2:5]=1
+TRACE:running foo: 0
+TRACE:worked!  fill do 10 repeats
+TRACE:should see a breakpoint fault!
+lr=0x8034, foo=0x8034
+ifar=0x0
+ifsr=0x2
+dscr[2:5]=1
+TRACE:running foo: 0
+TRACE:n_faults=1, i=0
+TRACE:should see a breakpoint fault!
+lr=0x8034, foo=0x8034
+ifar=0x0
+ifsr=0x2
+dscr[2:5]=1
+TRACE:running foo: 1
+TRACE:n_faults=2, i=1
+TRACE:should see a breakpoint fault!
+lr=0x8034, foo=0x8034
+ifar=0x0
+ifsr=0x2
+dscr[2:5]=1
+TRACE:running foo: 2
+TRACE:n_faults=3, i=2
+TRACE:should see a breakpoint fault!
+lr=0x8034, foo=0x8034
+ifar=0x0
+ifsr=0x2
+dscr[2:5]=1
+TRACE:running foo: 3
+TRACE:n_faults=4, i=3
+TRACE:should see a breakpoint fault!
+lr=0x8034, foo=0x8034
+ifar=0x0
+ifsr=0x2
+dscr[2:5]=1
+TRACE:running foo: 4
+TRACE:n_faults=5, i=4
+TRACE:should see a breakpoint fault!
+lr=0x8034, foo=0x8034
+ifar=0x0
+ifsr=0x2
+dscr[2:5]=1
+TRACE:running foo: 5
+TRACE:n_faults=6, i=5
+TRACE:should see a breakpoint fault!
+lr=0x8034, foo=0x8034
+ifar=0x0
+ifsr=0x2
+dscr[2:5]=1
+TRACE:running foo: 6
+TRACE:n_faults=7, i=6
+TRACE:should see a breakpoint fault!
+lr=0x8034, foo=0x8034
+ifar=0x0
+ifsr=0x2
+dscr[2:5]=1
+TRACE:running foo: 7
+TRACE:n_faults=8, i=7
+TRACE:should see a breakpoint fault!
+lr=0x8034, foo=0x8034
+ifar=0x0
+ifsr=0x2
+dscr[2:5]=1
+TRACE:running foo: 8
+TRACE:n_faults=9, i=8
+TRACE:should see a breakpoint fault!
+lr=0x8034, foo=0x8034
+ifar=0x0
+ifsr=0x2
+dscr[2:5]=1
+TRACE:running foo: 9
+TRACE:n_faults=10, i=9
+TRACE:SUCCESS
+DONE!!!
+
+Saw done
+
+bootloader: pi exited.  cleaning up

@@ -269,3 +269,27 @@ Note we don't have a write coprocessor version since if you look at the
 You can check your logic in doing this for the other instructions (and
 ours for this one) by looking on page 13-26, where table 13-19 lists
 out all the different debug instructions.
+
+
+IF you want to write the code for this raw:
+
+    static inline uint32_t cp14_debug_id_get(void) {
+        // the documents seem to imply the general purpose register 
+        // SBZ ("should be zero") so we clear it first.
+        uint32_t ret = 0;
+
+        asm volatile ("mrc p14, 0, %0, c0, c0, 0" : "=r"(ret));
+        return ret;
+    }
+
+
+Or, `armv6-debug.h` provides some macros to make this more concise:
+
+    // This macro invocation creates a routine called cp14_debug_id_macro
+    // that is equivalant to <cp14_debug_id_get>
+    //
+    // you can see this by adding "-E" to the gcc compile line and inspecting
+    // the output.
+    coproc_mk_get(debug_id_macro, p14, 0, c0, c0, 0)
+
+
