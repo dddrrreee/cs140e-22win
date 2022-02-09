@@ -24,7 +24,7 @@ TEST_SRC := $(wildcard ./3-*.c)
 # TEST_SRC := $(wildcard ./7*.c)
 TEST_SRC := $(wildcard ./0-*.c)
 TEST_SRC := $(wildcard ./1-*.c)
-TEST_SRC := $(wildcard ./2-*.c)
+TEST_SRC := $(wildcard ./[0123]-*.c)
 TEST_SRC := $(wildcard ./3-*.c)
 
 # to run all the tests.
@@ -39,7 +39,7 @@ GREP_STR := 'TRACE:\|THREAD:\|ERROR:\|PANIC:'
 include $(CS140E_2022_PATH)/libpi/mk/Makefile.template
 
 # override the default rules.  should have a cleaner solution
-1-brkpt-test.elf:  1-brkpt-test.o $(DEPS) $(START) $(LIBS)
+2-brkpt-test.elf:  2-brkpt-test.o $(DEPS) $(START) $(LIBS)
 	$(LD) $(START)  $< -T $(MEMMAP) -o $@  $(LIBS)
 1-watchpt-test.elf:  1-watchpt-test.o $(DEPS) $(START) $(LIBS)
 	$(LD) $(START)  $< -T $(MEMMAP) -o $@  $(LIBS)
