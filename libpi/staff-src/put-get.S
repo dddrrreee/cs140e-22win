@@ -32,15 +32,18 @@ PUT16:
 
 
 .globl put8
-put8:
-    strb r1,[r0]
-    bx lr
-
 .globl PUT8
+put8:
 PUT8:
     strb r1,[r0]
     bx lr
 
+.globl get8
+.globl GET8
+get8:
+GET8:
+    ldrb r0,[r0]
+    bx lr
 
 
 @.globl get32
@@ -49,7 +52,7 @@ PUT8:
 @    bx lr
 @
 @@.globl GET32
-GET32:
+@ GET32:
 @    ldr r0,[r0]
 @    bx lr
 @
