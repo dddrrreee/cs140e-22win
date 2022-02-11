@@ -48,7 +48,8 @@ VPATH := $(sort $(dir $(ALL_SRC)))
 
 DEFS = $(CS140E_2022_PATH)/libpi/defs.mk
 include $(DEFS)
-CFLAGS += -Wno-unused-function -Wno-unused-variable  $(EXTRA_CFLAGS)
+# CFLAGS += -Wno-unused-function -Wno-unused-variable  $(EXTRA_CFLAGS)
+CFLAGS += $(EXTRA_CFLAGS)
 
 ifndef MK_CHK
     MK_CHK := $(LPP)/mk/Makefile.check

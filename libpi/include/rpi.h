@@ -161,7 +161,7 @@ void enable_cache(void) ;
 void disable_cache(void) ;
 void flush_all_caches(void);
 
-unsigned rpi_get_model(void);
+uint32_t rpi_get_model(void);
 uint32_t rpi_get_memsize(void);
 uint64_t rpi_get_serial_num(void);
 
@@ -304,5 +304,6 @@ void *pi_sec_read(uint32_t lba, uint32_t nsec);
 // used in case the .bin is different.
 void custom_loader(void) ;
 
+#include "rpi-extra.h"
 
 #endif
