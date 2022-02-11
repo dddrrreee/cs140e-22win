@@ -304,6 +304,9 @@ void *pi_sec_read(uint32_t lba, uint32_t nsec);
 // used in case the .bin is different.
 void custom_loader(void) ;
 
+unsigned cyc_per_sec(void);
+
+
 #include "rpi-extra.h"
 
 #endif
