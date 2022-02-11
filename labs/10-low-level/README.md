@@ -52,3 +52,7 @@ The CS107E website has a nice writeup on
 [building backtraces](http://cs107e.github.io/assignments/assign4/)
 
 Implement this and show it works!  (We'll push some code in a bit).
+
+There is a trivial program in `code-backtrace` to test (weakly) test it.
+It manually prints the call stack --- when you print the backtrace it
+should match this (different formatting is ok).
