@@ -60,3 +60,10 @@ Implement this and show it works!  (We'll push some code in a bit).
 There is a trivial program in `code-backtrace` to test (weakly) test it.
 It manually prints the call stack --- when you print the backtrace it
 should match this (different formatting is ok).
+
+### Extension: exception backtraces
+
+If we get a weird exception, we'd like to print out where it the original
+code it came from (besides just the exception pc) --- the issue here is
+that you need to get the original frame pointer so we can walk backwards.
+This shouldn't require too much work, but is useful.
