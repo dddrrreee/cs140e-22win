@@ -37,6 +37,10 @@ We have a simple explanation in [mailbox](code-mbox/README.md).
 You should fill in the missing code in `code-mbox/mbox.h`) so that you
 can see how they work and use them to get the memory size of the pi.
 
+
+Note: the serial number should be different across all pi's.  For the pi zero, I was
+getting 0 for the model number.
+
 Copy this header to `libpi/src`.
 
 #### 3. Increase your pi memory to 496MB
