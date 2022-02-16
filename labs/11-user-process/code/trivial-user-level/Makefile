@@ -5,13 +5,18 @@
 # if you want to just grab all tests do:
 TESTS = test2-swi
 TESTS = 0-test-nop 1-test-hello
-TESTS := $(wildcard ./[0-3]*-test.c)
 TESTS = 0-test-nop.c
+TESTS := $(wildcard ./[0-3]*-test-*.c)
 
 # if you want to run with register checking.
 TYPE= reg-equiv.
 
+USE_STAFF=1
+ifeq ($(USE_STAFF),1)
+OS_PATH = ../trivial-os.staff
+else
 OS_PATH = ../trivial-os
+endif
 OS_BIN = $(OS_PATH)/trivial-os.bin
 
 # if you want to compile everything in a directory, do something like this.

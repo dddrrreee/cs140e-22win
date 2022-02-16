@@ -71,7 +71,7 @@ What to do for each part:
      the user code can call the `trivial-os` no matter
      how its code has dilated or shrunk.
 
-  1. You will write `user_mode_run_fn` (in `trivial-os/user-mode-run-fn.S`).
+  1. You will write `user_mode_run_fn` (in `trivial-os/trivial-os-asm.S`).
      This will change to user mode (using the `cps` instruction),
      set the stack pointer to the value given, and jump to the code.
      This should be a short routine.
@@ -170,7 +170,7 @@ we are modify the `sp`,
  --- since we are pushing the `sp` 
 
 -------------------------------------------------------------------
-#### PC Hashes
+#### Part 3: PC Hashes
 
 Below are some of the hashes I got for the test programs.  The main thing
 to pay attention to is the final two `TRACE:EQUIV` print statements
@@ -278,7 +278,7 @@ For `3-test-vec.c`:
 
 
 ---------------------------------------------------------
-### Full reg hash
+### Part 4: Full reg hash
 
 Note:
   - do not clear `r1`.
@@ -287,8 +287,144 @@ Note:
   - definitely don't clear `r13`!
 
 
+        user_code=0x400004, prog name=<0-test-nop.bin>
+        TRACE:	reg hash=0xfac07451
+        TRACE:	spsr=0x190
+        TRACE:	pc = 0x400004, lr = 0x400004
+        TRACE:	regs[0] = 0x400004
+        TRACE:	regs[1] = 0x7000000
+        TRACE:	regs[2] = 0x0
+        TRACE:	regs[3] = 0x0
+        TRACE:	regs[4] = 0x0
+        TRACE:	regs[5] = 0x0
+        TRACE:	regs[6] = 0x0
+        TRACE:	regs[7] = 0x0
+        TRACE:	regs[8] = 0x0
+        TRACE:	regs[9] = 0x0
+        TRACE:	regs[10] = 0x0
+        TRACE:	regs[11] = 0x0
+        TRACE:	regs[12] = 0x0
+        TRACE:	regs[13] = 0x7000000
+        TRACE:	regs[14] = 0x0
+        TRACE:	regs[15] = 0x400004
+        TRACE:------------------------------------------------------
+        TRACE:	reg hash=0x831b8654
+        TRACE:	spsr=0x190
+        TRACE:	pc = 0x400010, lr = 0x400010
+        TRACE:	regs[0] = 0x400004
+        TRACE:	regs[1] = 0x7000000
+        TRACE:	regs[2] = 0x0
+        TRACE:	regs[3] = 0x0
+        TRACE:	regs[4] = 0x0
+        TRACE:	regs[5] = 0x0
+        TRACE:	regs[6] = 0x0
+        TRACE:	regs[7] = 0x0
+        TRACE:	regs[8] = 0x0
+        TRACE:	regs[9] = 0x0
+        TRACE:	regs[10] = 0x0
+        TRACE:	regs[11] = 0x0
+        TRACE:	regs[12] = 0x0
+        TRACE:	regs[13] = 0x7000000
+        TRACE:	regs[14] = 0x400008
+        TRACE:	regs[15] = 0x400010
+        TRACE:------------------------------------------------------
+        TRACE:	reg hash=0xdb3c14aa
+        TRACE:	spsr=0x190
+        TRACE:	pc = 0x400008, lr = 0x400008
+        TRACE:	regs[0] = 0x400004
+        TRACE:	regs[1] = 0x7000000
+        TRACE:	regs[2] = 0x0
+        TRACE:	regs[3] = 0x0
+        TRACE:	regs[4] = 0x0
+        TRACE:	regs[5] = 0x0
+        TRACE:	regs[6] = 0x0
+        TRACE:	regs[7] = 0x0
+        TRACE:	regs[8] = 0x0
+        TRACE:	regs[9] = 0x0
+        TRACE:	regs[10] = 0x0
+        TRACE:	regs[11] = 0x0
+        TRACE:	regs[12] = 0x0
+        TRACE:	regs[13] = 0x7000000
+        TRACE:	regs[14] = 0x400008
+        TRACE:	regs[15] = 0x400008
+        TRACE:------------------------------------------------------
+        TRACE:	reg hash=0x79ec1afc
+        TRACE:	spsr=0x190
+        TRACE:	pc = 0x40000c, lr = 0x40000c
+        TRACE:	regs[0] = 0xffffffff
+        TRACE:	regs[1] = 0x7000000
+        TRACE:	regs[2] = 0x0
+        TRACE:	regs[3] = 0x0
+        TRACE:	regs[4] = 0x0
+        TRACE:	regs[5] = 0x0
+        TRACE:	regs[6] = 0x0
+        TRACE:	regs[7] = 0x0
+        TRACE:	regs[8] = 0x0
+        TRACE:	regs[9] = 0x0
+        TRACE:	regs[10] = 0x0
+        TRACE:	regs[11] = 0x0
+        TRACE:	regs[12] = 0x0
+        TRACE:	regs[13] = 0x7000000
+        TRACE:	regs[14] = 0x400008
+        TRACE:	regs[15] = 0x40000c
+        TRACE:------------------------------------------------------
+        0-test-nop.bin: sys_exit(-1): going to reboot
+        part=4
+        equiv values
+        TRACE:EQUIV:	number instructions = 10
+        TRACE:EQUIV:	reg hash = 0xc5b473a4
+        DONE!!!
+        
+
+0-test-exit.bin:
+        
+        TRACE:EQUIV:	number instructions = 10
+        TRACE:EQUIV:	reg hash = 0x1ee2a76e
+
+
+1-test-hello.bin: 
+
+        TRACE:EQUIV:	number instructions = 884
+        TRACE:EQUIV:	reg hash = 0xe9817e19
+
+3-test-vec.bin:
+
+        TRACE:EQUIV:	number instructions = 194
+        TRACE:EQUIV:	reg hash = 0x22edf8ea
+
 --------------------------------------------------------------------
-Part 4: Context switching: user-level context saving and restoring
+Part 5: replace our `breakpoint.h` implementation
+
+The code currently calls our single-step implementation (in
+`single-step.o`).  For this part, you should modify your debug hardware
+code to support mismatching and implement the following routines:
+
+
+        // this will mismatch on the first instruction at user level.
+        void brkpt_mismatch_start(void);
+
+        // stop mismatching.
+        void brkpt_mismatch_stop(void);
+
+        // set a mismatch on <addr> --- we'll get a prefetch abort 
+        // on any pc value that is not equal to <addr>
+        void brkpt_mismatch_set(uint32_t addr);
+
+In a common pattern for equivalance checking: when you drop this in,
+and rerun the hashes they should be the same.    
+
+--------------------------------------------------------------------
+Part 6: setup your code to use timer interrupts
+
+Whether we have interrupts or not, user mode behavior should not chnage.
+Check this by:
+  1. Add a part 5 that configures and uses timer interrupts (using code
+     similar to `6-interrupts`).
+  2. Rerun the hashes: none should change.  
+  3. As you make the interrupts closer and closer, no hash should change.
+
+--------------------------------------------------------------------
+Context switching: user-level context saving and restoring
 
 This lab found an interesting bug in our old context switching code.
 When doing single stepping, we can't simply do:
@@ -322,5 +458,3 @@ What to do:
       at the end.
    4. Make sure your tests still pass!
 
---------------------------------------------------------------------
-Part 5: replace our mismatch implementation
