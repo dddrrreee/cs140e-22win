@@ -21,40 +21,6 @@ we need code at user level so (1) single-stepping works and (2) the
 addresses are the same for everyone.
 
 
---------------------------------------------------------------------
-Context switching: user-level context saving and restoring
-
-This lab found an interesting bug in our old context switching code.
-When doing single stepping, we can't simply do:
-
-        ldm r0, {r0-r15}^
-
-to reload user state.  If you look at the ARMv6 document, you'll see
-`ldm` behaves differently depending on if you have the `pc` (`r15`)
-as one of the registers.
-
-<table><tr><td>
-  <img src="images/ldm-pc.png"/>
-</td></tr></table>
-
-This bug is a bit interesting in that we missed this nuance for the past
-4-5 years but had managed to avoid getting bitten by it despite doing
-context switching in different ways b/c of how it was implemented.
-We didn't realize the bug in lab 10 because we had no other process
-running.
-
-In any case, first step is to fix your code to use `rfe` and (if you
-want) `srs` to restore and save state. If you look at the `prelab-code`
-directory you'll see an example that uses them.  You'll want to look in
-the ARMv6 manual to make sure you understand.
-
-What to do:
-   1. Copy your `10-process/code` into `15-integration/code` (we never
-      want to mutate a working system that we've already checked).
-   2. Make sure your tests run as before.
-   3. Rewrite the equivalance assembly to use the `rfe` instructon
-      at the end.
-   4. Make sure your tests still pass!
 
 
 --------------------------------------------------------------------
@@ -214,89 +180,100 @@ The instruction count is just those instructions that got hashed.
 I would start with `0-test-nop.c` since it is the simplest:
 
 
-        TRACE:simple_boot: sending 10942 bytes, crc32=97023887
-        user_code=0x400004, prog name=<0-test-nop.bin>
-        TRACE:inst 0 = pc=0x400004, pc_hash=0xa3d1fb72
-        TRACE:inst 1 = pc=0x400010, pc_hash=0xb5f459d5
-        TRACE:inst 2 = pc=0x400008, pc_hash=0x44a6b13a
-        TRACE:inst 3 = pc=0x40000c, pc_hash=0x48be2e85
-        TRACE:inst 4 = pc=0x400014, pc_hash=0x7fb1242d
-        TRACE:inst 5 = pc=0x400018, pc_hash=0x4c6c9ecb
-        TRACE:inst 6 = pc=0x40001c, pc_hash=0x2900fa70
-        TRACE:inst 7 = pc=0x400020, pc_hash=0xca1ba4db
-        TRACE:inst 8 = pc=0x4000e0, pc_hash=0x51ddacb5
-        TRACE:inst 9 = pc=0x4000e4, pc_hash=0xeb144180
-        0-test-nop.bin: sys_exit(-1): going to reboot
-        part=3
-        equiv values
-        TRACE:EQUIV:	number instructions = 10
-        TRACE:EQUIV:	pc hash = 0xeb144180
-        DONE!!!
+    TRACE:simple_boot: sending 11414 bytes, crc32=2f9501d7
+    waiting for a start
+    pi: <addr=0x8000, n=11414, cksum=0x2f9501d7>
+    putting code
+    bootloader: Done.
+    listening on ttyusb=</dev/ttyUSB0>
+    kernel: stack is roughly at: 0x7ffffe8
+    user_code=0x400004, prog name=<0-test-nop.bin>
+    TRACE:inst 0 = pc=0x400004, pc_hash=0xa3d1fb72
+    TRACE:inst 1 = pc=0x400010, pc_hash=0xb5f459d5
+    TRACE:inst 2 = pc=0x400008, pc_hash=0x44a6b13a
+    TRACE:inst 3 = pc=0x40000c, pc_hash=0x48be2e85
+    TRACE:inst 4 = pc=0x400014, pc_hash=0x7fb1242d
+    TRACE:inst 5 = pc=0x400018, pc_hash=0x4c6c9ecb
+    TRACE:inst 6 = pc=0x40001c, pc_hash=0x2900fa70
+    TRACE:inst 7 = pc=0x400020, pc_hash=0xca1ba4db
+    TRACE:inst 8 = pc=0x4000e4, pc_hash=0x7c98abf1
+    TRACE:inst 9 = pc=0x4000e8, pc_hash=0xafd42265
+    0-test-nop.bin: sys_exit(-1): going to reboot
+    part=3
+    equiv values
+    TRACE:EQUIV:	number instructions = 10
+    TRACE:EQUIV:	pc hash = 0xafd42265
+    DONE!!!
 
 Then `0-test-exit.c` since it is the simplest:
 
-        kernel: stack is roughly at: 0x7ffffe8
-        user_code=0x400004, prog name=<0-test-exit.bin>
-        TRACE:inst 0 = pc=0x400004, pc_hash=0xa3d1fb72
-        TRACE:inst 1 = pc=0x400010, pc_hash=0xb5f459d5
-        TRACE:inst 2 = pc=0x400014, pc_hash=0x625d1830
-        TRACE:inst 3 = pc=0x400018, pc_hash=0x3db2a8ee
-        TRACE:inst 4 = pc=0x400020, pc_hash=0x4e403840
-        TRACE:inst 5 = pc=0x400024, pc_hash=0x31fa5b24
-        TRACE:inst 6 = pc=0x400028, pc_hash=0xfd7f8720
-        TRACE:inst 7 = pc=0x40002c, pc_hash=0xd449b7d7
-        TRACE:inst 8 = pc=0x4000ec, pc_hash=0x760878e6
-        TRACE:inst 9 = pc=0x4000f0, pc_hash=0x6142cdaa
-        0-test-exit.bin: sys_exit(0): going to reboot
-        part=3
-        equiv values
-        TRACE:EQUIV:	number instructions = 10
-        TRACE:EQUIV:	pc hash = 0x6142cdaa
-
+    TRACE:simple_boot: sending 11423 bytes, crc32=cc87ea74
+    user_code=0x400004, prog name=<0-test-exit.bin>
+    TRACE:inst 0 = pc=0x400004, pc_hash=0xa3d1fb72
+    TRACE:inst 1 = pc=0x400010, pc_hash=0xb5f459d5
+    TRACE:inst 2 = pc=0x400014, pc_hash=0x625d1830
+    TRACE:inst 3 = pc=0x400018, pc_hash=0x3db2a8ee
+    TRACE:inst 4 = pc=0x400020, pc_hash=0x4e403840
+    TRACE:inst 5 = pc=0x400024, pc_hash=0x31fa5b24
+    TRACE:inst 6 = pc=0x400028, pc_hash=0xfd7f8720
+    TRACE:inst 7 = pc=0x40002c, pc_hash=0xd449b7d7
+    TRACE:inst 8 = pc=0x4000f0, pc_hash=0x3500ce93
+    TRACE:inst 9 = pc=0x4000f4, pc_hash=0x4696ca4e
+    0-test-exit.bin: sys_exit(0): going to reboot
+    part=3
+    equiv values
+    TRACE:EQUIV:	number instructions = 10
+    TRACE:EQUIV:	pc hash = 0x4696ca4e
+    
 For `1-test-hello.c`:
 
-        TRACE:simple_boot: sending 11188 bytes, crc32=1a64f659
-        user_code=0x400004, prog name=<1-test-hello.bin>
-        TRACE:inst 0 = pc=0x400004, pc_hash=0xa3d1fb72
-        TRACE:inst 1 = pc=0x400010, pc_hash=0xb5f459d5
-        TRACE:inst 2 = pc=0x400014, pc_hash=0x625d1830
-        TRACE:inst 3 = pc=0x400018, pc_hash=0x3db2a8ee
-        TRACE:inst 4 = pc=0x4000ac, pc_hash=0x1e2417b1
-        TRACE:inst 5 = pc=0x4000b0, pc_hash=0x2467244e
-        TRACE:inst 6 = pc=0x4000b4, pc_hash=0x77935371
-        TRACE:inst 7 = pc=0x4000b8, pc_hash=0x6015a263
-        TRACE:inst 8 = pc=0x4000bc, pc_hash=0xe6ea6ef2
-        TRACE:inst 9 = pc=0x4000c0, pc_hash=0x5c44fe6b
-        hello world
-        user: stack is roughly at 0x6fffff8
-        user: cpsr=0x60000190
-        USER MODE!
-        1-test-hello.bin: sys_exit(0): going to reboot
-        part=3
-        equiv values
-        TRACE:EQUIV:	number instructions = 903
-        TRACE:EQUIV:	pc hash = 0x208a81bf
-
+    TRACE:simple_boot: sending 11652 bytes, crc32=e3df0073
+    TRACE:inst 0 = pc=0x400004, pc_hash=0xa3d1fb72
+     TRACE:inst 1 = pc=0x400010, pc_hash=0xb5f459d5
+    TRACE:inst 2 = pc=0x400014, pc_hash=0x625d1830
+    TRACE:inst 3 = pc=0x400018, pc_hash=0x3db2a8ee
+    TRACE:inst 4 = pc=0x4000ac, pc_hash=0x1e2417b1
+    TRACE:inst 5 = pc=0x4000b0, pc_hash=0x2467244e
+    TRACE:inst 6 = pc=0x4000b4, pc_hash=0x77935371
+    TRACE:inst 7 = pc=0x4000c4, pc_hash=0x88a05aeb
+    TRACE:inst 8 = pc=0x4000c8, pc_hash=0x59cc4453
+    TRACE:inst 9 = pc=0x4000cc, pc_hash=0x146f6ad5
+    hello world
+    user: stack is roughly at 0x6fffff8
+    user: cpsr=0x60000190
+    USER MODE!
+    1-test-hello.bin: sys_exit(0): going to reboot
+    part=3
+    equiv values
+    TRACE:EQUIV:	number instructions = 884
+    TRACE:EQUIV:	pc hash = 0xd5bec853
+    DONE!!!
 
 For `3-test-vec.c`:
 
-    TRACE:simple_boot: sending 11014 bytes, crc32=f5b4e0e4
+    TRACE:simple_boot: sending 11486 bytes, crc32=cb1d156d
+    waiting for a start
+    pi: <addr=0x8000, n=11486, cksum=0xcb1d156d>
+    putting code
+    bootloader: Done.
+    listening on ttyusb=</dev/ttyUSB0>
+    kernel: stack is roughly at: 0x7ffffe8
     user_code=0x400004, prog name=<3-test-vec.bin>
     TRACE:inst 0 = pc=0x400004, pc_hash=0xa3d1fb72
     TRACE:inst 1 = pc=0x400010, pc_hash=0xb5f459d5
     TRACE:inst 2 = pc=0x400014, pc_hash=0x625d1830
     TRACE:inst 3 = pc=0x400018, pc_hash=0x3db2a8ee
-    TRACE:inst 4 = pc=0x40001c, pc_hash=0x8813e346
-    TRACE:inst 5 = pc=0x400020, pc_hash=0xba9e1d0e
-    TRACE:inst 6 = pc=0x400024, pc_hash=0x9044e6cc
-    TRACE:inst 7 = pc=0x400028, pc_hash=0x81f94e0b
-    TRACE:inst 8 = pc=0x400018, pc_hash=0xc8eac881
-    TRACE:inst 9 = pc=0x40001c, pc_hash=0x55b0761c
+    TRACE:inst 4 = pc=0x400028, pc_hash=0xd88ec3d5
+    TRACE:inst 5 = pc=0x40002c, pc_hash=0xfdf9a1ed
+    TRACE:inst 6 = pc=0x40001c, pc_hash=0x7fab503d
+    TRACE:inst 7 = pc=0x400020, pc_hash=0x413ff992
+    TRACE:inst 8 = pc=0x400024, pc_hash=0xead93cec
+    TRACE:inst 9 = pc=0x400028, pc_hash=0x4115398d
     3-test-vec.bin: sys_exit(0): going to reboot
-
+    part=3
     equiv values
-    TRACE:EQUIV:	number instructions = 211
-    TRACE:EQUIV:	pc hash = 0xeacf4b75
+    TRACE:EQUIV:	number instructions = 194
+    TRACE:EQUIV:	pc hash = 0x22ab7818
     DONE!!!
 
 
@@ -309,109 +286,41 @@ Note:
     flags can be different.
   - definitely don't clear `r13`!
 
-I would start with `0-test-nop.c` since it is the simplest:
 
-        kernel: stack is roughly at: 0x7ffffe8
-        user_code=0x400004, prog name=<0-test-nop.bin>
-        TRACE:	reg hash=0xfac07451
-        TRACE:	spsr=0x190
-        TRACE:	pc = 0x400004, lr = 0x400004
-        TRACE:	regs[0] = 0x400004
-        TRACE:	regs[1] = 0x7000000
-        TRACE:	regs[2] = 0x0
-        TRACE:	regs[3] = 0x0
-        TRACE:	regs[4] = 0x0
-        TRACE:	regs[5] = 0x0
-        TRACE:	regs[6] = 0x0
-        TRACE:	regs[7] = 0x0
-        TRACE:	regs[8] = 0x0
-        TRACE:	regs[9] = 0x0
-        TRACE:	regs[10] = 0x0
-        TRACE:	regs[11] = 0x0
-        TRACE:	regs[12] = 0x0
-        TRACE:	regs[13] = 0x7000000
-        TRACE:	regs[14] = 0x0
-        TRACE:	regs[15] = 0x400004
-        TRACE:------------------------------------------------------
-        TRACE:	reg hash=0x831b8654
-        TRACE:	spsr=0x190
-        TRACE:	pc = 0x400010, lr = 0x400010
-        TRACE:	regs[0] = 0x400004
-        TRACE:	regs[1] = 0x7000000
-        TRACE:	regs[2] = 0x0
-        TRACE:	regs[3] = 0x0
-        TRACE:	regs[4] = 0x0
-        TRACE:	regs[5] = 0x0
-        TRACE:	regs[6] = 0x0
-        TRACE:	regs[7] = 0x0
-        TRACE:	regs[8] = 0x0
-        TRACE:	regs[9] = 0x0
-        TRACE:	regs[10] = 0x0
-        TRACE:	regs[11] = 0x0
-        TRACE:	regs[12] = 0x0
-        TRACE:	regs[13] = 0x7000000
-        TRACE:	regs[14] = 0x400008
-        TRACE:	regs[15] = 0x400010
-        TRACE:------------------------------------------------------
-        TRACE:	reg hash=0xdb3c14aa
-        TRACE:	spsr=0x190
-        TRACE:	pc = 0x400008, lr = 0x400008
-        TRACE:	regs[0] = 0x400004
-        TRACE:	regs[1] = 0x7000000
-        TRACE:	regs[2] = 0x0
-        TRACE:	regs[3] = 0x0
-        TRACE:	regs[4] = 0x0
-        TRACE:	regs[5] = 0x0
-        TRACE:	regs[6] = 0x0
-        TRACE:	regs[7] = 0x0
-        TRACE:	regs[8] = 0x0
-        TRACE:	regs[9] = 0x0
-        TRACE:	regs[10] = 0x0
-        TRACE:	regs[11] = 0x0
-        TRACE:	regs[12] = 0x0
-        TRACE:	regs[13] = 0x7000000
-        TRACE:	regs[14] = 0x400008
-        TRACE:	regs[15] = 0x400008
-        TRACE:------------------------------------------------------
-        TRACE:	reg hash=0x79ec1afc
-        TRACE:	spsr=0x190
-        TRACE:	pc = 0x40000c, lr = 0x40000c
-        TRACE:	regs[0] = 0xffffffff
-        TRACE:	regs[1] = 0x7000000
-        TRACE:	regs[2] = 0x0
-        TRACE:	regs[3] = 0x0
-        TRACE:	regs[4] = 0x0
-        TRACE:	regs[5] = 0x0
-        TRACE:	regs[6] = 0x0
-        TRACE:	regs[7] = 0x0
-        TRACE:	regs[8] = 0x0
-        TRACE:	regs[9] = 0x0
-        TRACE:	regs[10] = 0x0
-        TRACE:	regs[11] = 0x0
-        TRACE:	regs[12] = 0x0
-        TRACE:	regs[13] = 0x7000000
-        TRACE:	regs[14] = 0x400008
-        TRACE:	regs[15] = 0x40000c
-        TRACE:------------------------------------------------------
-        0-test-nop.bin: sys_exit(-1): going to reboot
-        part=4
-        equiv values
-        TRACE:EQUIV:	number instructions = 10
-        TRACE:EQUIV:	reg hash = 0x28c48d80
-        DONE!!!
+--------------------------------------------------------------------
+Part 4: Context switching: user-level context saving and restoring
 
+This lab found an interesting bug in our old context switching code.
+When doing single stepping, we can't simply do:
 
-For `1-test-hello.c`:
+        ldm r0, {r0-r15}^
 
-    TRACE:EQUIV:	number instructions = 903
-    TRACE:EQUIV:	reg hash = 0xb44f8d18
+to reload user state.  If you look at the ARMv6 document, you'll see
+`ldm` behaves differently depending on if you have the `pc` (`r15`)
+as one of the registers.
 
-For `0-test-exit.c`:
+<table><tr><td>
+  <img src="images/ldm-pc.png"/>
+</td></tr></table>
 
-    TRACE:EQUIV:	number instructions = 10
-    TRACE:EQUIV:	reg hash = 0x2d1558a7
+This bug is a bit interesting in that we missed this nuance for the past
+4-5 years but had managed to avoid getting bitten by it despite doing
+context switching in different ways b/c of how it was implemented.
+We didn't realize the bug in lab 10 because we had no other process
+running.
 
-For `3-test-vec.c`:
+In any case, first step is to fix your code to use `rfe` and (if you
+want) `srs` to restore and save state. If you look at the `prelab-code`
+directory you'll see an example that uses them.  You'll want to look in
+the ARMv6 manual to make sure you understand.
 
-    TRACE:EQUIV:	number instructions = 211
-    TRACE:EQUIV:	reg hash = 0x3a4a9734
+What to do:
+   1. Copy your `10-process/code` into `15-integration/code` (we never
+      want to mutate a working system that we've already checked).
+   2. Make sure your tests run as before.
+   3. Rewrite the equivalance assembly to use the `rfe` instructon
+      at the end.
+   4. Make sure your tests still pass!
+
+--------------------------------------------------------------------
+Part 5: replace our mismatch implementation
