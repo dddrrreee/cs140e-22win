@@ -5,6 +5,8 @@ void _cstart() {
     extern int __bss_start__, __bss_end__;
 	void notmain();
 
+    custom_loader();
+
     int* bss = &__bss_start__;
     int* bss_end = &__bss_end__;
  
