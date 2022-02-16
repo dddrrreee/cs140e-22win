@@ -65,15 +65,15 @@ describe what to do.
 
 The lab has five parts; 
   1. You control which of the five parts is being run by modifying
-     the `part` variable in `fake-kernel/trivial-os.c` and set it to `0`,
+     the `part` variable in `trivial-kernel/trivial-os.c` and set it to `0`,
      `1`, etc.  You can also use the given enumeration type.
 
-  2. You should do all `make` invocations in `fake-user-level` since
+  2. You should do all `make` invocations in `trivial-user-level` since
      that is what actually runs things.
 
   3. All your real modifications will be done in `trivial-os/equiv.c` or
      in `trivial-os/trivial-os-asm.S`.  You should not have to touch
-     `fake-user-level`.
+     `trivial-user-level`.
 
 What to do for each part:
 
@@ -92,7 +92,7 @@ What to do for each part:
      not have a file system  (yet) and so do the following hack (which
      is useful elsewhere, so no worries).
 
-     We use the program `fake-user-level/pitag-linker` to concatenate
+     We use the program `trivial-user-level/pitag-linker` to concatenate
      the user program to the `trivial-os.bin`  and produce a new binary we
      can bootload over and jump to.  Mechanically this lets us combine
      two distinct programs.
@@ -144,7 +144,7 @@ What to do for each part:
        You should check that your hashes match everyone else's.  I'll add
        more tests.  I would start with `0-test-nop.c` since that is a
        trivial program.  I also checked in some pre-built binaries in
-       `fake-user-level-prebuilt` since it appears people's compilers
+       `trivial-user-level-prebuilt` since it appears people's compilers
        can give slightly different output.
      
        You should only count instructions you hash.
