@@ -425,6 +425,8 @@ The code currently calls our single-step implementation (in
 `single-step.o`).  For this part, you should modify your debug hardware
 code to support mismatching and implement the following routines:
 
+***NOTE: these routines call `cp14_enable` if it hasn't been called
+yet.***
 
         // this will mismatch on the first instruction at user level.
         void brkpt_mismatch_start(void);
