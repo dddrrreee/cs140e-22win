@@ -277,6 +277,13 @@ For `3-test-vec.c`:
     DONE!!!
 
 
+If you run:
+
+        TESTS := $(wildcard ./[0-3]*-test-*.c)
+        % make emitall
+        % grep EQUIV *.out | sort -n | cksum
+        799754351 496
+
 ---------------------------------------------------------
 ### Part 4: Full reg hash
 
@@ -391,6 +398,13 @@ Note:
 
         TRACE:EQUIV:	number instructions = 194
         TRACE:EQUIV:	reg hash = 0x22edf8ea
+
+
+        TESTS := $(wildcard ./[0-3]*-test-*.c)
+
+        % make emitall
+        % grep EQUIV *.out | sort -n | cksum
+        4147204067 500
 
 --------------------------------------------------------------------
 Part 5: replace our `breakpoint.h` implementation
