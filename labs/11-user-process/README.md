@@ -277,10 +277,15 @@ For `3-test-vec.c`:
     DONE!!!
 
 
-If you run:
-
+From `trivial-user-level-prebuilt` (or if your compiler matches
+our output: `trivial-user-level`):
+    
         TESTS := $(wildcard ./[0-3]*-test-*.c)
+
+        # emit all the .outs
         % make emitall
+
+        # cksum the .outs and canonicalize
         % grep EQUIV *.out | sort -n | cksum
         799754351 496
 
@@ -400,9 +405,16 @@ Note:
         TRACE:EQUIV:	reg hash = 0x22edf8ea
 
 
+From `trivial-user-level-prebuilt` (or if your compiler matches
+our output: `trivial-user-level`):
+
+        # all tests
         TESTS := $(wildcard ./[0-3]*-test-*.c)
 
+        # generate the .out's
         % make emitall
+
+        # cksum everything.
         % grep EQUIV *.out | sort -n | cksum
         4147204067 500
 
