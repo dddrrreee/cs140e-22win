@@ -2,7 +2,7 @@ NAME = pitag-linker
 
 CC = gcc
 
-USE_STAFF = 1
+USE_STAFF = 0
 ifeq ($(USE_STAFF),1)
 LIBUNIX_PATH := $(CS140E_STAFF_2022_PATH)/libunix
 else

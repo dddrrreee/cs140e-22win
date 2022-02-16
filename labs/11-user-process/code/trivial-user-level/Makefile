@@ -11,7 +11,7 @@ TESTS := $(wildcard ./[0-3]*-test-*.c)
 # if you want to run with register checking.
 TYPE= reg-equiv.
 
-USE_STAFF=1
+USE_STAFF=0
 ifeq ($(USE_STAFF),1)
 OS_PATH = ../trivial-os.staff
 else
