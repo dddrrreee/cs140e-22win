@@ -326,6 +326,18 @@ This test:
 Look at the `3-test\*c` tests: these read, write and execute unmapped memory.
 Each should die and print an informative error message.
 
+  1. The tests set the address they are reading, writing or jumping to 
+     as `proc.die_addr` --- you should check that the fault address you 
+     get is the same as this expected fault address.
+  
+  2. I print something along the lines of:
+
+
+        3-test-die-unmapped-read.out:ERROR: attempting to load unmapped addr 0x8400000: dying [reason=101]
+        3-test-die-unmapped-run.out:ERROR: attempting to run unmapped addr 0x8400000 [reason=101]
+        3-test-die-unmapped-write.out:ERROR: attempting to store unmapped addr 0x8400000: dying [reason=101]
+
+
 -----------------------------------------------------------------------
 ## Part 4: run single stepping and show you pass.
 
