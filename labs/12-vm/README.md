@@ -191,6 +191,14 @@ The document you'll need for this part is:
   which describes the page table format(s), and how to setup/manage
   hardware state for page tables and the TLB.
 
+
+Add the following to `mmu.c`:
+
+        void domain_access_ctrl_set(uint32_t r) {
+            staff_cp15_domain_ctrl_wr(r);
+        }
+
+
 ##### implement `mmu_section`
 
 Implement the `mmu_section` routine we used in Part 0.  You'll likely
