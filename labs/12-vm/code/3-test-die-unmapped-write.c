@@ -11,7 +11,7 @@ void vm_test(void) {
     output("should die with a message about an unmmaped write\n");
     volatile uint32_t *p = (void*)(STACK_ADDR +  4*OneMB);
     proc.die_addr = (uint32_t)p;
-    get32(p);
+    put32(p,1);
     panic("should not be reached\n");
 }
 
