@@ -230,32 +230,29 @@ them for easy reference:
 </td></tr></table>
 
 ----------------------------------------------------------------------
-## Part 2: handle a couple exceptions: `2-test-fault.c`
+## Part 2: handle a couple exceptions
 
 For the last part of the lab, you'll handle two exceptions:
   1. A write close to the end of the stack: you should grow the stack
      and return.
   2. A write to memory that has been marked read-only: you should change
      the permissiona and return.
-  3. The code is in `2-test-fault.c`: you only have to fill in
-     `data_abort_vector`.  Right now it's not implemented, so it 
-     will just check the faulting address is the expected one and
-     reboot.
-  4. Note: you may well not have defined the trampoline for
-     `data_abort_vector` in `libpi/src/interrupts-asm.S`: you can do that,
-     or you could drop in ours:  `staff-objs/interrupts-asm.o`.
 
-A big part of VM is what to do when a translation does not exist,
-or the operation on it has insufficient privilege (e.g., a write to a
-read-only segment).
 
-Fortunately, handling these operations isn't much different from how we did 
-interrupts and system calls:
-  1. You define an exception handler (in our case `data_abort_vector`).
-  2. When you get a fault, you read the fault status register 
-     to get the reason (b4-20) and also the fault address (b4-44).
-  3. If the fault is recoverable, you can take an action, otherwise just 
-     kill the process (for us: reboot).
+##### Automatically grow the stack: `2-stack-write.c`
+
+For this test:
+  1.  The test is `2-stack-write.c`.
+  2. The code is in `mmu-except.c` --- you will need to add this to your
+     `Makefile`.  As usual there is a staff version `staff-mmu-except.o`.
+
+What to do:
+
+  - You only have to fill in `data_abort_vector` in `mmu-except.c`.
+    You probably want to look at the debug lab to see how to get the fault
+    address, etc.
+
+  - The test should run to completion and print `success`.
 
 More detailed, to handle a write to an unmapped section:
   1. Use the "Data Fault Status Register" to get the cause (b4-19,
@@ -278,12 +275,30 @@ More detailed, to handle a write to an unmapped section:
      further and further down (heuristic: if the access is within a MB or so 
      of the stack size grow it, otherwise kill it).
 
+
+###### Catch insufficient privileges
+
+*** Still adding this***
+
+A big part of VM is what to do when a translation does not exist,
+or the operation on it has insufficient privilege (e.g., a write to a
+read-only segment).
+
+Fortunately, handling these operations isn't much different from how we did 
+interrupts and system calls:
+  1. You define an exception handler (in our case `data_abort_vector`).
+  2. When you get a fault, you read the fault status register 
+     to get the reason (b4-20) and also the fault address (b4-44).
+  3. If the fault is recoverable, you can take an action, otherwise just 
+     kill the process (for us: reboot).
+
 To handle a read or write to a section that has insufficient permission:
 
   1. Get the cause and fault, check that it is a section permission error.
   2. Change the permissions to what the access needs.
   3. Call `mmu_sync_pte_mods()` to sync things up.
   4. Return.
+
 
 -----------------------------------------------------------------------
 ### Extensions
