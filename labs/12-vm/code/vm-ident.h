@@ -17,4 +17,12 @@ enum { OneMB = 1024 * 1024 };
 // we use a non-zero domain id to test things out.
 enum { dom_id = 1};
 
+extern volatile struct proc_state {
+    fld_t *pt;
+    unsigned sp_lowest_addr;
+    unsigned fault_addr;
+    unsigned dom_id;
+    unsigned fault_count;
+} proc;
+
 #endif
