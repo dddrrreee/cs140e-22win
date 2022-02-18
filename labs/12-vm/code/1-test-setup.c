@@ -7,6 +7,7 @@
 #include "mmu.h"
 
 
+#if 0
 // for today, just crash and burn if we get a fault.
 void data_abort_vector(unsigned lr) {
     unsigned fault_addr;
@@ -21,6 +22,7 @@ void interrupt_vector(unsigned lr) {
     staff_mmu_disable();
     panic("impossible\n");
 }
+#endif
 
 /*
  * an ugly, trivial test run.
