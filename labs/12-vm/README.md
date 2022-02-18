@@ -342,12 +342,6 @@ Each should die and print an informative error message.
 
 
 -----------------------------------------------------------------------
-## Part 4: run single stepping and show you pass.
-
-Adding this.
-
-
------------------------------------------------------------------------
 ### Extensions
 
 There's a ton of extensions to do:
