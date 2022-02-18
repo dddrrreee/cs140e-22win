@@ -354,5 +354,3 @@ There's a ton of extensions to do:
   1. Do real permissions.
   2. Do domains.
   3. Do smaller pages.
-  4. Protect null so that null reads and writes crash: part of this is changing the 
-     code to use the "high" exception handlers.
