@@ -35,10 +35,7 @@ void rpi_reboot(void) {
         // of stuff.
         // assert(!at_user_level());
     }
-#if 0
-    // should fold in the above?
-    reboot_reset();
-#endif
+    reboot_callout();
 
     uart_flush_tx();
     delay_ms(10);

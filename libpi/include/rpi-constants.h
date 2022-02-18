@@ -14,6 +14,7 @@
 
 // put right above STACK_ADDR
 #define INT_STACK_ADDR      0x9000000  
+#define INT_STACK_ADDR2      0xA000000  
 
 // free MB we can use.
 #define FREE_MB            0x6000000

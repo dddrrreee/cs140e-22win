@@ -306,6 +306,8 @@ void custom_loader(void) ;
 
 unsigned cyc_per_sec(void);
 
+// called during reboot: can turn off MMU etc.
+void reboot_callout(void);
 
 #include "rpi-extra.h"
 
