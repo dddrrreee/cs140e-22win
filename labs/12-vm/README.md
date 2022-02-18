@@ -6,32 +6,31 @@ working.  The background reading and intutive chit-chat is in the
 `README.md` has been stripped down to mostly mechanical instructions so
 you have more time to look at the code.
 
-As with the FAT32 lab, since there are a bunch of data structures (in this case
-for the machine state) there's a bunch of data structure code.   The rough
-breakdown:
+Since there are a bunch of data structures (in this case for the machine
+state) there's a bunch of data structure code.   The rough breakdown:
 
    - `staff-*.o`: these are the object files we give you to get you
-     started. As with fat32, you can view today's and wednesday's labs
-     as fetchquests for how-do-I-do-X where the goal is to implement
-     everything yourself and delete our implementations.
+     started. You can view today's and tues's labs as fetchquests for
+     how-do-I-do-X where the goal is to implement everything yourself
+     and delete our implementations.
 
-  - `mmu.h`: this has the data structures we will use today.   I've tried to comment
-    and give some page numbers, but buyer beware.    
+  - `mmu.h`: this has the data structures we will use today.   I've tried
+    to comment and give some page numbers, but buyer beware.
 
-  - `mmu-helpers.c`: these contain printing and sanity checking routines
-    (same as in the fat32 lab).
+  - `mmu-helpers.c`: these contain printing and sanity checking routines.
 
-  - `arm-coprocessor-asm.h`: has a fair number of instructions used to access the
-    privileged state (typically using "co-processor 15").  Sometimes the arm docs
-    do not match the syntax expected by the GNU assembler.  You can usuaully figure
-    out how to do the instruction by looking in this file for a related one so you
-    can see how the operands are ordered.
+  - `arm-coprocessor-asm.h`: has a fair number of instructions used to
+    access the privileged state (typically using "co-processor 15").
+    Sometimes the arm docs do not match the syntax expected by the GNU
+    assembler.  You can usually figure out how to do the instruction
+    by looking in this file for a related one so you can see how the
+    operands are ordered.
 
-   - `docs/README.md` gives a rundown of where some key registers / machine state
-     is defined.  In general, if the page numbers begin with a `b` they
-     are from the armv6 general documents (the pdf's that begin with
-     `armv6` such as `armv6.b2-memory.annot.pdf`) Without a letter prefix
-     they come from the `arm1176*` pdf's.
+   - `docs/README.md` gives a rundown of where some key registers /
+     machine state is defined.  In general, if the page numbers begin
+     with a `b` they are from the armv6 general documents (the pdf's that
+     begin with `armv6` such as `armv6.b2-memory.annot.pdf`) Without a
+     letter prefix they come from the `arm1176*` pdf's.
 
 #### Check-off
 
@@ -59,11 +58,11 @@ You can perhaps skip this, but to repeat the pre-lab:
    page table format cannot be changed, and is defined by the architecture
    manual (otherwise the hardware will not know what the bits mean).
 
- - What is the page-table function's domain?  The r/pi has a 32-bit address space,
-   which is 4 billion bytes, 4 billion divided by one million is 4096.  Thus,
-   the page table needs to map at most 4096 virtual segments, starting at 
-   zero and counting up to 4096.  Thus the function's domain are the 
-   integers ``[0..4096)`.
+ - What is the page-table function's domain?  The r/pi has a 32-bit
+   address space, which is 4 billion bytes, 4 billion divided by one
+   million is 4096.  Thus, the page table needs to map at most 4096
+   virtual segments, starting at zero and counting up to 4096.  Thus the
+   function's domain are the integers ``[0..4096)`.
 
  - What is the page-table funtion's range?  Not including GPIO,
    The r/pi has 512MB of memory, so 512 physical segments.  Thus the
@@ -75,7 +74,7 @@ You can perhaps skip this, but to repeat the pre-lab:
    ==> [0..512)`.  (GPIO also adds some numbers to the range, but you
    get the idea.)  You built fancier functions in your intro programming
    class.  (In fact, such a function is so simple I'd bet that it wouldn't
-   even rise to a programming assignment.)  
+   even rise to a programming assignment.)
 
 The only tricky thing here is that we need ours to be very fast.
 This mapping (address translation) happens on every instruction,
@@ -101,40 +100,80 @@ The above is pretty much all we will do:
      find its translations.
 
 ----------------------------------------------------------------------
-## Part 0: setup the mappings.
+## Part 0: define the first_level_descriptor structure.
 
-At the start of the driver, you need to map the address space.  
-First, drop in the following code and make sure it compiles:
+This is a bit basic, but it's good practice.  You'll need to finish the
+`struct first_level_descriptor` in file `armv6-vm.h` based on the PTE
+layout given on B4-27 (screenshot below):
 
-    // map the first MB: shouldn't need more memory than this.
-    staff_mmu_map_section(pt, 0x0, 0x0, dom_id);
-    // map the page table: for lab cksums must be at 0x100000.
-    staff_mmu_map_section(pt, 0x100000,  0x100000, dom_id);
+  - We've defined fields for the section base address, `nG`, `S`,
+    `APX`, `TEX`, `AP`, `IMP`, `Domain`, `XN`, `C`, `B`, and the tag.
 
-    // map the GPIO: make sure these are not cached and not writeback.
-    // [how to check this in general?]
-    staff_mmu_map_section(pt, 0x20000000, 0x20000000, dom_id);
-    staff_mmu_map_section(pt, 0x20100000, 0x20100000, dom_id);
-    staff_mmu_map_section(pt, 0x20200000, 0x20200000, dom_id);
+  - You should look at the structure `struct control_reg1` given in
+    `armv6-cp15.h` to see how to use bitfields in C.
 
-Then, add the mapping for the stack and the interrupt stack.  
+Provided helper routines:
+
+  - It is very easy to make mistakes.  If you look in `mmu-helpers.c`
+    you can see how the `fld_check_offsets()` routine (modeled on
+    `check_control_reg()` that uses the `check_bitfield` macro to verify
+    that each field is at its correct bit offset, with its correct
+    bit width.
+
+  - There is a routine `fld_print` to print all the fields in your
+    structure.
+
+  - HINT: the first field is at offset 0 and the `AssertNow` uses tricks
+    to do a compile-time assert.
+
+***When this is done***:
+  - the code should compile.
+  - `make check` should pass (testing `0-test-structs.c`)
+
+----------------------------------------------------------------------
+##### The PTE for 1MB sections document:
+<table><tr><td>
+  <img src="images/part1-section.png"/>
+</td></tr></table>
+
+----------------------------------------------------------------------
+## Part 1: make `1-tests*.c` pass
+
+##### Setup the stack mappings in `vm-ident.c`
+
+Add the mapping for the stack and the interrupt stack at the places
+indicated. 
+
    1. Look in `libpi/cs140-start.S` to get where the normal stack is ---
       also recall the stack grows down.
    2. For the interrupt stack use `INT_STACK_ADDR`.
 
-To make the hashes match, I did the above chunk of code, then finally
-the two stacks (user stack and then the interrupt stack).
+##### Setup your interrupt handlers in `mmu.c:mmu_install_handlers` 
 
-      // map stack (grows down)
-      staff_mmu_map_section(pt, STACK_ADDR-OneMB, STACK_ADDR-OneMB, dom_id);
+You'll use your `vector_base` code.
 
-      // if we don't setup the interrupt stack = super bad infinite loop
-      staff_mmu_map_section(pt, INT_STACK_ADDR-OneMB, INT_STACK_ADDR-OneMB, dom_id);
 
-After you do both, everything should compile, run and pass `make check`.
+***When this is done***:
+   - the code should still compile
+   - the `1-tests*` should pass `make check`.
+
 
 ----------------------------------------------------------------------
-## Part 1: implement the code to setup page tables using 1MB sections (45 min)
+## Part 2: replace the calls to `staff_*`
+
+You'll go through and start implementing your own versions of the 
+MMU routines.
+
+  - Implement all routines at the end of `mmu.c` that have an
+    `unimplemented()`.
+
+  - If you implement a routine `foo`: you should replace all calls to
+    `staff_foo` with calls to `foo` (there are some calls in `1-test*.c`,
+    in `mmu.c`, and in `vm-ident.c`.
+
+  - You do not have to implement `domain_access_ctrl_set`: we will do
+    this on thursday.  Doing it correctly requires following some rules
+    that we don't want to get into here.
 
 You'll write the code to fill in the page table assuming the use of
 1MB sections.
@@ -144,52 +183,10 @@ The document you'll need for this part is:
   which describes the page table format(s), and how to setup/manage
   hardware state for page tables and the TLB.
 
-You'll do this in two steps:  Part 1.A and Part 1.B.
+##### implement `mmu_section`
 
-
-#### Part 1.A: define the page table entry structure.
-
-**NOTE: we defined this for you, so this part is easy. **
-
-First, you should define a `struct first_level_descriptor` in file `armv6-vm.h`
-based on the PTE layout given on B4-27 (screenshot below):
-  -  You'll defined fields for the section base address, `nG`, `S`,
-  `APX`, `TEX`, `AP`, `IMP`, `Domain`, `XN`, `C`, `B`, and the tag.
-  - You should look at the structure `struct control_reg1` given in
-  `vm.h` to see how to use bitfields in C.
-  - It is very easy to make mistakes. You will write a function
-  `fld\_check()` modeled on `check_control_reg()` that uses the
-  `check_bitfield` macro to verify that each field is at its correct
-   bit offset, with its correct bit width.
-  - Write a function `fld_print` to print all the fields in your structure.
-  - HINT: the first field is at offset 0 and the `AssertNow` uses tricks
-  to do a compile-time assert.
-
-
-
-----------------------------------------------------------------------
-##### The PTE for 1MB sections document:
-<table><tr><td>
-  <img src="images/part1-section.png"/>
-</td></tr></table>
-
-----------------------------------------------------------------------
-## Finishing Part 1
-
-To finish part 1:
-  - Implement all routines at the end of `mmu.c` that have an `unimplemented()`.
-  - If you implement a routine `foo`: you should replace all calls to
-    `staff_foo` with calls to `foo` (there are some calls in `driver.c`
-    and in `mmu.c`.
-  - You do not have to implement `write_domain_access_ctrl`: we will do
-    this on thursday.  Doing it correctly requires following some rules
-    that we don't want to get into here.
-
-----------------------------------------------------------------------
-#### Part 1.B: implement `mmu_section`
-
-Now, re-implement the `mmu_section` routine we used in Part 0.
-You'll likely want to build the `fld_set_base_addr` helper.
+Implement the `mmu_section` routine we used in Part 0.  You'll likely
+want to build the `fld_set_base_addr` helper.
 
 The code you wrote then should behave the same.  You'll want to figure
 out what all the bits do.  (Hint: most will be set to 0s.)
@@ -223,7 +220,6 @@ them for easy reference:
 <table><tr><td>
   <img src="images/part1-xp-xn-axp-tex.png"/>
 </td></tr></table>
-
 
 ----------------------------------------------------------------------
 ## Part 2: handle a couple exceptions: `2-test-fault.c`
