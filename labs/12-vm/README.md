@@ -192,13 +192,6 @@ The document you'll need for this part is:
   hardware state for page tables and the TLB.
 
 
-Add the following to `mmu.c`:
-
-        void domain_access_ctrl_set(uint32_t r) {
-            staff_cp15_domain_ctrl_wr(r);
-        }
-
-
 ##### implement `mmu_section`
 
 Implement the `mmu_section` routine we used in Part 0.  You'll likely
@@ -217,6 +210,19 @@ Useful pages:
 
 The following screenshots are taken from the B4 section, but we inline
 them for easy reference:
+
+
+##### How do I know when I'm done?
+
+***What to do to complete***:
+  - remove `staff-mmu.o` from `STAFF_OBJS` in the `Makefile`.
+  - to fix a link error, add the following to `mmu.c`:
+
+        void domain_access_ctrl_set(uint32_t r) {
+            staff_cp15_domain_ctrl_wr(r);
+        }
+
+  - your test should complete as before.
 
 ----------------------------------------------------------------------
 ##### The definitions for `S`, `R`, `AXP`, `AP`:
@@ -240,7 +246,10 @@ them for easy reference:
 ----------------------------------------------------------------------
 ## Part 2: handle a couple exceptions
 
-For the last part of the lab, you'll handle two exceptions:
+*** Fixing the makefile***:
+  - add `mmu-except.o` to `SUPPORT_OBJS` in the `Makefile`.
+
+For the next part of the lab, you'll handle two exceptions:
   1. A write close to the end of the stack: you should grow the stack
      and return.
   2. A write to memory that has been marked read-only: you should change
@@ -283,10 +292,7 @@ More detailed, to handle a write to an unmapped section:
      further and further down (heuristic: if the access is within a MB or so 
      of the stack size grow it, otherwise kill it).
 
-
-###### Catch insufficient privileges
-
-*** Still adding this***
+###### Catch insufficient privileges: `2-test-no-access-write.c`
 
 A big part of VM is what to do when a translation does not exist,
 or the operation on it has insufficient privilege (e.g., a write to a
@@ -306,6 +312,24 @@ To handle a read or write to a section that has insufficient permission:
   2. Change the permissions to what the access needs.
   3. Call `mmu_sync_pte_mods()` to sync things up.
   4. Return.
+
+
+This test:
+  - sets the faulting address in `proc.fault_addr`.
+  - in `data_abort_vector`:  see if the fault adddress matches this,
+    and if so, add the mapping and return.
+  - the test should complete.
+
+----------------------------------------------------------------------
+## Part 3: die with informative error messages.
+
+Look at the `3-test\*c` tests: these read, write and execute unmapped memory.
+Each should die and print an informative error message.
+
+-----------------------------------------------------------------------
+## Part 4: run single stepping and show you pass.
+
+Adding this.
 
 
 -----------------------------------------------------------------------
