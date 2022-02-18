@@ -9,7 +9,8 @@ void vm_test(void) {
     assert(mmu_is_enabled());
 
     output("should die with a message about an unmmaped read\n");
-    volatile uint32_t *p = (void*)(STACK_ADDR - OneMB - 16);
+    volatile uint32_t *p = (void*)(STACK_ADDR +  4*OneMB);
+    proc.die_addr = (uint32_t)p;
     get32(p);
     panic("should not be reached\n");
 }

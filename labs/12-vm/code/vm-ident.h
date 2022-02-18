@@ -23,6 +23,9 @@ extern volatile struct proc_state {
     unsigned fault_addr;
     unsigned dom_id;
     unsigned fault_count;
+
+    // used for the die checks.
+    unsigned die_addr;
 } proc;
 
 #endif
