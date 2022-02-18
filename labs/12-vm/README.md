@@ -9,6 +9,7 @@ you have more time to look at the code.
 Since there are a bunch of data structures (in this case for the machine
 state) there's a bunch of data structure code.   The rough breakdown:
 
+
    - `staff-*.o`: these are the object files we give you to get you
      started. You can view today's and tues's labs as fetchquests for
      how-do-I-do-X where the goal is to implement everything yourself
@@ -31,6 +32,13 @@ state) there's a bunch of data structure code.   The rough breakdown:
      with a `b` they are from the armv6 general documents (the pdf's that
      begin with `armv6` such as `armv6.b2-memory.annot.pdf`) Without a
      letter prefix they come from the `arm1176*` pdf's.
+
+What to modify:
+
+  - `mmu.c`: this will hold your MMU code.  Each routine should have
+    a corresponding staff implementation.
+  - `vm-ident.c` this has simple calls to setup an identity address space.
+  - the various tests.
 
 #### Check-off
 
