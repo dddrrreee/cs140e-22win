@@ -163,5 +163,8 @@ static inline uint32_t mod_pow2_ptr(void *x, uint32_t n) {
     return mod_pow2((uint32_t)x,n);
 }
 
+// turn off all the output from mmu helpers
+void mmu_be_quiet(void);
+
 
 #endif

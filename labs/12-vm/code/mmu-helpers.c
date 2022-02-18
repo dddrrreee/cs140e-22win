@@ -9,7 +9,12 @@
             printk("\t0x%x\n", (x)->field);             \
 } while(0)
 
+static int quiet_p = 0;
+void mmu_be_quiet(void) { quiet_p = 1; }
+
 void hash_print(const char *msg, const void *data, unsigned n) {
+    if(quiet_p)
+        return;
     printk("HASH:%s: hash=%x,nbytes=%d\n", msg, fast_hash(data,n),n);
 }
 
@@ -17,6 +22,8 @@ void hash_print(const char *msg, const void *data, unsigned n) {
  * domain helper
  */
 void domain_acl_print(void) {
+    if(quiet_p)
+        return;
     printk("domain access control:\n");
     printk("\t%b\n", domain_access_ctrl_get());
 }
@@ -156,6 +163,8 @@ static void fld_check_offsets(void) {
 }
 
 void fld_print(fld_t *f) {
+    if(quiet_p)
+        return;
     printk("------------------------------\n");
     printk("0x%x:\n", f);
     print_field(f, sec_base_addr);
