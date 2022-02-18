@@ -337,6 +337,9 @@ Each should die and print an informative error message.
         3-test-die-unmapped-run.out:ERROR: attempting to run unmapped addr 0x8400000 [reason=101]
         3-test-die-unmapped-write.out:ERROR: attempting to store unmapped addr 0x8400000: dying [reason=101]
 
+        3-test-die-permission-error.out:ERROR: attempting to run addr 0x8400000 with no permissions [reason=1101]
+        3-test-die-permission-error-write.out:ERROR: attempting to store addr 0x8400000 permission error: dying [reason=1101]
+
 
 -----------------------------------------------------------------------
 ## Part 4: run single stepping and show you pass.
