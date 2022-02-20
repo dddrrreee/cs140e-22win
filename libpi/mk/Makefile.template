@@ -109,6 +109,9 @@ endif
 
 ./%.d: %.c $(DEPS)
 	$(CC) $(CFLAGS) $< -MM -MT $(@:.d=.o) >$@
+./%.d: %.S $(DEPS)
+	$(CC) $(CFLAGS) $< -MM -MT $(@:.d=.o) >$@
+
 %.list: %.elf
 	$(OD) -D   $*.elf > $*.list
 %.bin: %.list
