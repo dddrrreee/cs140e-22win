@@ -15,7 +15,7 @@ The following is a raw list of rules from the text and then an attempted
 summary.  There might be mistakes.  Let me know if so!
 
 ----------------------------------------------------------------------
-##### Operations that force order (A before B)
+#### Operations that force order (A before B)
 
 Life is causal.  You (1) open a door and (2) walk through it.  However,
 hardware runs many things simultaneously and the implementation is allowed
@@ -52,35 +52,29 @@ Operations to add ordering:
     Also: if you change instruction memory.
 
 ----------------------------------------------------------------------
-##### 2.7.1: coherence
+#### 2.7.1: coherence
 
 Tension:
-   - correctness: memory acts as if there is one copy of X.
+   - correctness: we want memory acts as if there is one copy of X.
    - speed: X and it's meta-data (e.g., VM translation) gets cached in
-     different ways
+     different ways.
 
-Where:
-  - if read/written:
-     - data cache (several levels)
-     - write buffer (if it's modified in cache)
-  - if executed:
-     - instruction cache 
-     - prefetch buffer
-     - branch prediction [btac/btb]
-  - meta data: 
-     - tlb entries
-     - asid
+     when you write X or change its mapping, these different caches may
+     not be automatically: have to seek and destroy all copies to don't
+     access stale data.
 
-when you write X or change its mapping, these different caches may not
-be automatically: have to seek and destroy all copies to don't access
-stale data.
+Example state we have to keep coherent:
+  - if data read/written: data cache (several levels) and write buffer
+    (if it's modified in cache)
+  - if executed: instruction cache , prefetch buffer, branch prediction
+    [btac/btb]
+  - meta data: tlb entries, asid
 
-very common:
-   - device memory not synced with cache memory
-   - instruction / data not synced.
+  - device memory not synced with cache memory
+  - instruction / data not synced.
 
 ----------------------------------------------------------------------
-###### 2.7.2
+###### 2.7.2 Ordering
 
   + B2.7.2 (b2-21): all cache and branch predictor maintenance operations
     are executed in program order w.r.t. each other.  (Otherwise we'd
