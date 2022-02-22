@@ -24,37 +24,32 @@ A might complete after a second B --- if they are not purely independent
 this overlap can cause interference.  An example is clearing the TLB or
 cache: this will likely take significant time [measure!]
 
-2.6.1: DMB
+Operations to add ordering:
+  - DMB (2.6.1): all explicit [load/store, but not instruction fetch]
+    before DMB are globally observed before any explicit [load/store]
+    after is observered.
 
-    - DMB: all explicit [load/store, but not instruction fetch] before
-      DMB are globally observed before any explicit [load/store] after
-      is observered.
+    *HOWEVER*: does not guarantee *completion* of load/store.
+    especially does not guarantee completion of non-load/store
+    operations.  [page table, tlb flush, etc]  So, in general today,
+    doesn't seem to help us much.
 
-      *HOWEVER*: does not guarantee *completion* of load/store.
-      especially does not guarantee completion of non-load/store
-      operations.  [page table, tlb flush, etc]  So, in general today,
-      doesn't seem to help us much.
+  - DSB (2.6.2):  includes all cache, tlb and branch prediction
+    maintanance ops as well as load/store.
 
-2.6.2: DSB
+    DSB completes only after the completion of all preceeding 
+      + explicit memory operations
+      + cache, branch, tlb maintance
 
-    - DSB:  includes all cache, tlb and branch prediction maintanance ops
-      as well as load/store.
+      - NOTE: this only helps order operations w.r.t. loads/stores: necessary
+        but not sufficient for instruction fetches.  [see next]
 
-      DSB completes only after the completion of all preceeding 
-        + explicit memory operations
-        + cache, branch, tlb maintance
+  - PrefetchFlush (2.6.3): flushes pipeline: everything after is
+    re-fetched.  do after changes to ASID, tlb ops, branch predictor
+    ops, cp15 regs so instructions get refetched w/ right context.
+    [XXX: What exactly gets cached or checked when?]
 
-        - NOTE: this only helps order operations w.r.t. loads/stores: necessary
-          but not sufficient for instruction fetches.  [see next]
-      
-2.6.3: PrefetchFlush
-
-    - flushes pipeline: everything after is re-fetched.  do after
-      changes to ASID, tlb ops, branch predictor ops, cp15 regs so
-      instructions get refetched w/ right context.  [XXX: What exactly
-      gets cached or checked when?]
-
-      Also: if you change instruction memory.
+    Also: if you change instruction memory.
 
 ----------------------------------------------------------------------
 ##### 2.7.1: coherence
