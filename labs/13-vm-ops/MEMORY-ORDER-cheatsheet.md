@@ -97,15 +97,18 @@ Example state we have to keep coherent:
     visible to all explicit loads and stores appearing after the DMB.
     (XXX: instruction prefetch explicit?  I don't think so?)
 
-  - DMB: does not ensure visible to all other observers (e.g., page
+  - DMB: *does not* ensure visible to all other observers (e.g., page
     table walk done by hardware)
 
         `A; DSB; B` --- A will be visible to B if B is an explicit load or
         store.
 
-  + DSB: does to the above: all maintance ops / modifications will be 
-    *completed* (visible) after the instruction to all observers.
 
+    We basically never use it today :)
+
+  + DSB: *does* ensure completion of all maintance ops / modifications
+    so they will be done and visible after the instruction to all
+    observers.
 
         `A; DSB; B` --- A completed before B for all values of A and B.
 
