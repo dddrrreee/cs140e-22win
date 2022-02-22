@@ -74,13 +74,13 @@ Example state we have to keep coherent:
   - instruction / data not synced.
 
 ----------------------------------------------------------------------
-###### 2.7.2 Ordering
+#### 2.7.2 Ordering
 
   + B2.7.2 (b2-21): all cache and branch predictor maintenance operations
     are executed in program order w.r.t. each other.  (Otherwise we'd
     have to stick ordering operations before/after each).
 
-        A; B  - if A,B are branch predict/cache op, A always has effect
+      - A; B  - if A,B are branch predict/cache op, A always has effect
         before B.  A<B.
 
     [NOTE: are we guaranteed that they *complete*?]
@@ -100,24 +100,23 @@ Example state we have to keep coherent:
   - DMB: *does not* ensure visible to all other observers (e.g., page
     table walk done by hardware)
 
-        `A; DSB; B` --- A will be visible to B if B is an explicit load or
+      - `A; DSB; B` --- A will be visible to B if B is an explicit load or
         store.
 
-
-    We basically never use it today :)
+    Because it doesn't guarantee completion we do not use DMB today :)
 
   + DSB: *does* ensure completion of all maintance ops / modifications
     so they will be done and visible after the instruction to all
     observers.
 
-        `A; DSB; B` --- A completed before B for all values of A and B.
+      - `A; DSB; B` --- A completed before B for all values of A and B.
 
   + Prefetch flush or return from exception: causes all branch predict
     operations before to be visible to instructions after. (note how 
     the wording differs from DMB above, which just says "cache maintance 
     operations")
 
-        `A; PrefetchFlush; B`: the effects of any branch predictor maintance
+      - `A; PrefetchFlush; B`: the effects of any branch predictor maintance
         op in A will be visible to B.
 
   - exception causes all BP ops prior to the instruction that caused
