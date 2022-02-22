@@ -133,15 +133,13 @@ Example state we have to keep coherent:
   - instruction cache maintance only guaranteed *complete* after DSB
   - instruction cache maintance only guaranteed *visible* after preftech flush
 
-Summary:
+***Summary***:
   - no maintanance operation can influence previous loads or stores.
   - maintanance operation ordered sequentially w.r.t. each other
   - [only] DSB guarantees completion.
   - Even with DSB, instruction memory requires a prefetch [data does not]
-
   - it appears that taking an exception / returning from an exception is
     equivalant to a prefetch flush
-
 
 ###### Close reading of code to modify instruction memory
 
