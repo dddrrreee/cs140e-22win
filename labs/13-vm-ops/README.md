@@ -1,12 +1,15 @@
 ## Hooking translation up to hardware
 
+***NOTE***:
+   - We added [a cheat sheet for B2](MEMORY-ORDER-cheatsheet.md).
+     This has a useful, hopefully correct distillation of the rules.  
+
 Last lab we did the page table, the main noun of the VM universe.  This
 lab we do the main gerunds needed to hook it up to the hardware: 
-
- - setting up domains.
- - setting up the page table register and ASID.
- - turning on the MMU.
- - making sure the state is coherent.  
+   - setting up domains.
+   - setting up the page table register and ASID.
+   - turning on the MMU.
+   - making sure the state is coherent.  
 
 You'll write assembly helper routines implement these (put them
 in `12-vm/code/your-mmu-asm.s`) and then at the end remove our
@@ -158,8 +161,8 @@ Useful pages:
   - B4-42: setting the domain register.
 
 Useful intuition:
-  - When you flush the `BTB`, you need to do a `DSB` to wait for
-    it to complete, and then a `Prefetch` flush.
+  - When you flush the `BTB`, you need to do a `PrefetchFlush` to wait for
+    it to complete.
   - Before you do a flush, you need to do a `DSB` to ensure the 
     modifications that caused you to do it have completed.
 
