@@ -148,7 +148,8 @@ Deliverables:
      Make sure you obey any requirements for coherence stated in Chapter B2,
      specifically B2-24.  Make sure the code still works!
 
-  2. Copy `2-test-fault.c` to a new test case `3-test-no-fault.c` and
+  2. Copy `2-test-no-access-write.c` to a new test case
+     `3-test-no-access-write.c` and
      change it so that the code does not crash when it (1) executes a
      location we do not allow execution of, (2) writes to a location
      that has writes disabled.
