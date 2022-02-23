@@ -142,7 +142,7 @@ Example state we have to keep coherent:
     equivalant to a prefetch flush
 
 ------------------------------------------------------------------
-#### Close reading of code to modify instruction memory
+#### Close reading of code to modify instruction memory (B2-22)
 
 Code:
 
@@ -157,20 +157,22 @@ Code:
 (A not very satisfying) Discussion:
    - 1,2 don't need ordering b/c maintenance can't effect previous load
      store.
-   - (3) ensures (2) completes before the icache invalidation 
+   - (3) ensures (2) completes before the icache invalidation. 
 
-     [NOTE: Otherwise: perhaps could reload? do we not need this if
-     the invalidation code couldn't use the invalidate code?]
+     AFAIK: we need (3) this b/c (2) and (4) do set/way modifications,
+     which requires a DSB before visible.  Q: if we nuked the entire
+     cache: do we need this?
 
-     [NOTE: I think we need this b/c we do a set/way modification,
-     which requires a DSB before visible.  if we nuked the entire cache:
-     do we need this?]
+     Ensuring data cache entry is flushed to memory before invalidating
+     the corresponding icache entry makes sense.  However: do we
+     absolutely need this if this code does not use the modified code?
+     I *think* not.
 
-   - 4,5: these are ordered by the rules of 2.7.2 so we don't need a 
-     DSB.
+   - 4,5: these are ordered by the rules of 2.7.2 so we don't need a
+     DSB between them.  Also: it appears not to matter b/c no branches.
 
-   - 5: need this b/c the code changed and so the branch predictor contents
-     could be stale.
+   - 5: as stated in 2.7.5:  need this b/c the code changed and so the
+     branch predictor contents could be stale.
 
      [NOTE: i'm unclear on how *exactly* the staleness could cause issues.
      is the BTB allowed to have partially decoded?]
@@ -178,8 +180,9 @@ Code:
    - 5, 7: this sequence required whenever we invalidate BTB (see 2.7.5).
 
    - 5, 6: I think clearer to reverse (5) and (6) : but all examples
-     show in this order Why?  Just b/c both are long operations and
-     there are no branches?
+     show in this order. Why?  Just b/c both are long operations and
+     there are no branches?  Are they relying on (4) and (5) occuring
+     in order?   
 
 ----------------------------------------------------------------------
 ##### B2.7.3 TLB maintance ops
