@@ -162,9 +162,7 @@ Useful pages:
 
 Useful intuition:
   - When you flush the `BTB`, you need to do a `PrefetchFlush` to wait for
-    it to complete.
-  - Before you do a flush, you need to do a `DSB` to ensure the 
-    modifications that caused you to do it have completed.
+    it to complete (B2.7.5, p B2-24).
 
 #### Some intuition and background on domains.
 
