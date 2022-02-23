@@ -185,7 +185,7 @@ Code:
      in order?   
 
 ----------------------------------------------------------------------
-##### B2.7.3 TLB maintance ops
+#### B2.7.3 TLB maintance ops
 
 Rules:
 
@@ -208,7 +208,7 @@ Summary:
    - same as cache/branch: instruction mem requires DSB; PrefetchFlush.
  
 ----------------------------------------------------------------------
-##### 2.7.3: Rules for writing PTE entry:
+#### Rules for writing PTE entry (B2-23)
 
 Main problem:
     - read write to PT memory: need to make sure PT walk (observer) sees.
@@ -225,7 +225,9 @@ Rules:
 
     - ... from ifetch after DSB;PrefetchFlush
 
-###### Close reading of code to change PTE:
+
+----------------------------------------------------------------------
+#### Close reading of code to change PTE (B2-23):
 
 Code (b2-23):
 
