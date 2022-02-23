@@ -8,12 +8,12 @@ lab we do the main gerunds needed to hook it up to the hardware:
  - turning on the MMU.
  - making sure the state is coherent.  
 
-You'll write assembly helper routines implement these (put them in
-`mmu-asm.s`) and then at the end remove our `staff-mmu-asm.o` from the
-`Makefile`.  Mechanically, you will go through, one-at-a-time and replace
-every function prefixed with `staff_` to be your own code.  The code is
-setup so that you can knock these off one at a time, making sure that
-things work after each modification.
+You'll write assembly helper routines implement these (put them
+in `12-vm/code/your-mmu-asm.s`) and then at the end remove our
+`staff-vm-asm.o` from the `Makefile`.  Mechanically, you will go through,
+one-at-a-time and replace every function prefixed with `staff_` to be
+your own code.  The code is setup so that you can knock these off one
+at a time, making sure that things work after each modification.
 
 If you look in `mmu.h` you'll see the five routines you have to 
 implement, which will be in `mmu-asm.S`:
@@ -37,9 +37,9 @@ The different arm-specific data structures have migrated to:
 A key part of this lab will be working closely with your peers and
 arguing and double-checking each other's reasoning.
 
-Today's code is very difficult.  Possibly it requires more careful
-reasoning than any other OS code you will ever write.  Even if you
-are very careful, it is hard to write this code correctly.  And if
+Today's code is short, but  difficult.  Possibly it requires more
+careful reasoning than any other OS code you will ever write.  Even if
+you are very careful, it is hard to write this code correctly.  And if
 you get it wrong, it's very hard to detect the error with a test case.
 The fact that it "happened to work" on the tests you tried tells you
 very little (only that it didn't break, not that it isn't broken).
@@ -68,6 +68,9 @@ You will:
 
   1. Replace all of our code from last lab and show that the tests
      (not many, sorry) run.
+
+     How: run `make emit` with our code, then do `make check` with yours
+     for all tests.
 
   2. Have detailed comments in your `.S` stating why exactly you did
      what you did with page numbers.     
@@ -138,7 +141,7 @@ ARMv6 manual (`docs/armv6.b2-memory.annot.pdf`).  Useful pages:
 ## Part 1: setting up domains.
 
 Deliverables:
-  1. You should replace `staff_write_domain_access_ctrl` with yours.
+  1. You should replace `staff_domain_access_ctrl_set` with yours.
      Make sure you obey any requirements for coherence stated in Chapter B2,
      specifically B2-24.  Make sure the code still works!
 
@@ -242,7 +245,6 @@ In terms of our data structures:
 <table><tr><td>
   <img src="images/part3-dsb-dmb.png"/>
 </td></tr></table>
-
 
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
@@ -401,4 +403,3 @@ Some additional ones:
     and change permissions, write-buffer, etc.
   - Set-up two-level paging.
   - Set-up 16MB paging.
-
