@@ -319,7 +319,7 @@ Sequentially consistent when:
       be the winner.
 
 ----------------------------------------------------------------------
-##### Close reading of code to change TTBR (B2-25)
+#### Close reading of code to change TTBR (B2-25)
 
 Atomicity issue:
   - can't change ASID and TTBR atomically.
@@ -351,12 +351,12 @@ Discussion:
      and prefetchflush so the example seems wrong (or at least incomplete)
 
 ----------------------------------------------------------------------
-##### B2.7.8 `cpsr`
+#### B2.7.8 `cpsr`
 
 Using cpsr to change permission: need to prefetchflush
 
 ----------------------------------------------------------------------
-##### Full summary
+#### Full summary of rules
 
 AFAIK these are the distilled rules:
 
@@ -365,11 +365,9 @@ Ordering:
      or stores.
   - any change to cp14 and cp15 guaranteed visible to all instructions
     after if you do a prefetchflush (2.7.6) --- do not need a DSB.
-
   - cache/branch sequentialy consistent w.r.t. each other
   - tlb sequentialy consistent w.r.t. each other
   - cp15 sequentialy consistent w.r.t. each other
-
   - ops that effect data memory: need DSB to guarantee completion.
   - ops that affect instruction memory: need DSB and then PrefetchFlush.
      in addition may need to flush BTB (see: below)
@@ -380,7 +378,6 @@ Invalidate BTB after:
   - write new mapping to PTE [but not general mod?]
   - changing TTBR0, TTBR1, TTBCR
   - changing context id
-
   - When you flush BTB: need prefetchflush
     after to ensure completes (2.7.5):
 
@@ -393,10 +390,8 @@ Invalidate BTB after:
 Atomicity problems:
   - Cannot change state and flush BTB atomically (i.e.,
     there is a race between changing and flushing the BTB).
-
   - Cannot change page table pointer register and asid at the same time.
     so can pick up bad mappings.
-
   - Hack solution:
      1. Mapping this code in same location 
      2. Don't have branches/jumps to avoid BTB issue (why we use assembly)
