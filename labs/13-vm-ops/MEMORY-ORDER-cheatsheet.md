@@ -222,7 +222,6 @@ Rules:
     page table logic allowed to work with with uncached memory]
   - if PTE covers instruction memory: even after clean, and DSB:
     still have to do a prefetch flush.
-
   - ... from ifetch after DSB;PrefetchFlush
 
 
@@ -254,6 +253,8 @@ Discussion:
 
    - 4: we need to invalidate the TLB entry b/c we changed the PTE.
    - 4,5: why no DSB?   no branches and code mapped in the same place.
+     note: I *do not* think these are guaranteed in order since (4)
+     is a TLB entry.
 
    - why 5?  (2.7.5) says we need to do this after modifying PTE.
 
@@ -276,21 +277,24 @@ Discussion:
 
    - pretty sure interrupts must be off!
 
-   - i think we can flip 5 and 6.  NOTE: 
+   - i think we can flip 5 and 6. 
 
 ----------------------------------------------------------------------
-##### B2.7.5
+##### B2.7.5: Branch predictor maintenance
+
+Note: 2.7.2 also cover BP maintance rules w.r.t. cache maintance
+operations.
 
 Rules:
 
   - invalidation of BTAC (BTB) only guaranteed complete after
-     PrefetchFlush or excption/rfe.
+    PrefetchFlush or excption/rfe.
 
-      so: whenever see invalidate BTB must have prefetchflush after.
+    so: whenever see invalidate BTB must have prefetchflush after.
 
-      Q: does it ever make sense to have these without a DSB?  [i don't
-      think so since maintance won't be guaranteed, but perhaps with
-      PTE mod?]
+    Q: does it ever make sense to have these without a DSB?  [i don't
+    think so since maintance won't be guaranteed, but perhaps with
+    PTE mod?]
 
   - must invalidate BTB after:
      - enable/disable MMU
