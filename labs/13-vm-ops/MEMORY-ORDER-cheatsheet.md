@@ -211,19 +211,19 @@ Summary:
 #### Rules for writing PTE entry (B2-23)
 
 Main problem:
-    - read write to PT memory: need to make sure PT walk (observer) sees.
-    - read write PT memory: when does hit TLB?
+   - read write to PT memory: need to make sure PT walk (observer) sees.
+   - read write PT memory: when does hit TLB?
 
 Rules:
-    - write to PT only guarenteed to be seen by PT walk from load/store
-      after DSB.
-    - write to PT cannot affect previous loads or stores.
-    - if PTE cached: must clean cache and force to memory [ hardware
-      page table logic allowed to work with with uncached memory]
-    - if PTE covers instruction memory: even after clean, and DSB:
-      still have to do a prefetch flush.
+  - write to PT only guarenteed to be seen by PT walk from load/store
+    after DSB.
+  - write to PT cannot affect previous loads or stores.
+  - if PTE cached: must clean cache and force to memory [ hardware
+    page table logic allowed to work with with uncached memory]
+  - if PTE covers instruction memory: even after clean, and DSB:
+    still have to do a prefetch flush.
 
-    - ... from ifetch after DSB;PrefetchFlush
+  - ... from ifetch after DSB;PrefetchFlush
 
 
 ----------------------------------------------------------------------
