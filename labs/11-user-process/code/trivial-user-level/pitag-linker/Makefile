@@ -2,8 +2,7 @@ NAME = pitag-linker
 
 CC = gcc
 
-USE_STAFF = 0
-ifeq ($(USE_STAFF),1)
+ifdef CS140E_STAFF_2022_PATH 
 LIBUNIX_PATH := $(CS140E_STAFF_2022_PATH)/libunix
 else
 LIBUNIX_PATH := $(CS140E_2022_PATH)/libunix

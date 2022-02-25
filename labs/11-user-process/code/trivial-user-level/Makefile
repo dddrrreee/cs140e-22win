@@ -4,15 +4,16 @@
 #   - "make runall" it will run all programs in TESTS
 # if you want to just grab all tests do:
 TESTS = test2-swi
-TESTS = 0-test-nop 1-test-hello
 TESTS = 0-test-nop.c
+TESTS = 0-test-exit.c
+TESTS = 3-test-vec.c
+TESTS = 1-test-hello.c
 TESTS := $(wildcard ./[0-3]*-test-*.c)
 
 # if you want to run with register checking.
 TYPE= reg-equiv.
 
-USE_STAFF=0
-ifeq ($(USE_STAFF),1)
+ifdef CS140E_STAFF_2022_PATH 
 OS_PATH = ../trivial-os.staff
 else
 OS_PATH = ../trivial-os
@@ -75,7 +76,7 @@ $(OBJS): $(DEPS)
 	@$(OCP) $*.elf -O binary $*.bin
 
 # need to fix the dependency --- will remake the damn thing.
-%.ptag: %.bin 
+%.ptag: %.bin  libs
 	@./pitag-linker/pitag-linker $(OS_BIN) $*.bin $*.ptag
 
 %.run: %.ptag

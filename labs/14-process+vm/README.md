@@ -164,6 +164,25 @@ For this part:
 --------------------------------------------------------------------
 ### Part 3: Stop using `user_mode_run_fn`.
 
+***NOTE***: you'll have to change the system call trampoline to load the
+stack pointer with `INT_STACK`:
+
+            mov sp, #INT_STACK  @ <----- add this line
+
+or you'll hit a ugly memory corruption bug for interesting reasons
+(thanks to Glenn for sticking through the debugging of this):
+
+        @ trivial-os-asm.S
+        swi_handler:
+            @ when we do equiv, need to make sure we restore everything back.
+            @ we over-save/restore and trim after equiv.
+            mov sp, #INT_STACK  @ <----- add this line
+            push {r1-r12,r14}
+            bl do_syscall
+            pop {r1-r12,r14}
+            movs pc, lr
+
+
 Given `switchto_asm` we don't need the `user_mode_run_fn`: all we need is
 to setup the process structure correctly and then `switchto_asm`
 will work both for the first switch as well as all the subsequent ones.

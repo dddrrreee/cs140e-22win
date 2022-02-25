@@ -14,7 +14,9 @@ int syscall_invoke_asm(uint32_t sysno, ...);
 #define sys_putc(x)     syscall_invoke_asm(SYS_PUTC, x)
 #define sys_put_hex(x)  syscall_invoke_asm(SYS_PUT_HEX, x)
 
+#define sys_get_cpsr()  syscall_invoke_asm(SYS_GET_CPSR)
 
+#define sys_get_mode() (sys_get_cpsr() & 0b11111)
 
 
 void sys_exit(int code);
