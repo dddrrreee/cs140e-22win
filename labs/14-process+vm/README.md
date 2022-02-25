@@ -200,6 +200,15 @@ from a process structure (which we need as a first step for an OS).
 --------------------------------------------------------------------
 ### Part 4: add virtual memory using an identity map
 
+***NOTE***: 
+  - you will have to add virtual memory mappings, since we additional 
+    ranges compared to lab 12 and 13.
+  - Our user programs use the stack at `STACK_ADDR2` not just `STACK_ADDR`:
+    you can see this in `user_mode_run_fn(code, STACK_ADDR2)`.  You should
+    map this as you did for `STACK_ADDR`.
+  - Our user programs are mapped at `0x400000` (look in
+    `trivial-user-level/memmap`). 
+
 For this part, you should modify the code to add and enable virtual memory
 (based on the past lab):
 
