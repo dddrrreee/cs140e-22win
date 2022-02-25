@@ -208,7 +208,7 @@ For this part, you should modify the code to add and enable virtual memory
       for (parts 1-3).
 
    2. Modify the Makefile to get the code from your previous lab.  You'll
-      add `CFLAGS = -I../../labs/12-vm/code/`  so it finds the right
+      add `INC = -I../../labs/12-vm/code/`  so it finds the right
       headers.
 
    3. After your modifications make sure `make check` works when virtual
