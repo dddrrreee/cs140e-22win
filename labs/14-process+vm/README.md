@@ -217,46 +217,35 @@ For this part, you should modify the code to add and enable virtual memory
    4. Now run with virtual memory enabled.  Your checksums should pass.
 
 --------------------------------------------------------------------
-### Part 5: add virtual memory not using an identity map
+### part 5: use rfe
 
-For this part, run the code not using the identity map.
-Do so by implementing the routine:
+Currently I think most people have broken context switching in that
+the resumption code does does not update the `spsr` before returning
+from the extension --- this "works" currently because we only have a
+single process.  If you have two processes A and B and:
 
-        // clone the page table <pt_old>: copy any global mappings over,
-        // duplicate (allocate + copy) any non-global pages.
-        void vm_pt_clone(pix_pt_t *pt_new,  const pix_pt_t *pt_old);
+  1. save the registers for A and then:
+  2. try to resume B but:
+  3. do *not* explicitly change `spsr` then
+  4. you'll run B with A's old `cpsr` value.
 
+The easy way to see this:
+  - explicitly set `spsr` to all 0s before resuming execution.
+  - your code will not work.
 
-To clone a page table, and then just use this to clone the page table
-you already made.   This probably seems a bit odd, but it's a useful
-building block for `fork`, next lab.
+There are a variety of ways to solve this.  I think the most idiomatic
+is to use `rfe`.  If you look at `../11-user-process/prelab-code/` there
+is example code that uses `srs` and `rfe` to do exception handling code.
 
-   1. Make sure you mark only the memory needed for the process as non-global.
-   2. Everything else should be global.
-
-To test: make another copy of everything, and change the virtual
-memory code to allocate sections as it needs.  Checks should pass!
+For this part: Change your code to use `rfe` if it does not already. 
 
 --------------------------------------------------------------------
-### Part 6: tune your code to use registers
+### Extension: tune your code to use coprocessor registers
 
 Today we violate the cardinal tenet of optimization: never optimize if
 you can't measure a speedup.  (Given how slow our code is, it's hard to
 see any difference.)  We do the optimization as a "remix" strategy so
 you get a firmer grasp by doing a useful task multiple ways.
-
-The cool thing about single-stepping is that it will check these
-modifications --- it somewhat checks them today, and when we add multiple
-processes it will really check them (to the extent I personally will be
-surprised if the code is wrong).
-
-#### Use `rfe` and (maybe) `srs`
-
-Change your code to use `rfe` if it does not already. You can look at
-`../11-user-process/prelab-code/` for example code that uses `srs` and
-`rfe` to do exception handling code.
-
-#### Global registers
 
 The arm1176 provides (at least) three coprocessor registers for "process
 and thread id's."  However, since the values are not interpreted by the
@@ -277,6 +266,27 @@ memory corruption bug will not corrupt these registers.
 If you look at  `3-129` in the `arm1176.pdf` manual you can see their 
 definition. You should make `get` and `set` methods like usual, and 
 replace our code that uses the global variable of the current process.
+
+--------------------------------------------------------------------
+### Extension: add virtual memory not using an identity map
+
+For this part, run the code not using the identity map.
+Do so by implementing the routine:
+
+        // clone the page table <pt_old>: copy any global mappings over,
+        // duplicate (allocate + copy) any non-global pages.
+        void vm_pt_clone(pix_pt_t *pt_new,  const pix_pt_t *pt_old);
+
+
+To clone a page table, and then just use this to clone the page table
+you already made.   This probably seems a bit odd, but it's a useful
+building block for `fork`, next lab.
+
+   1. Make sure you mark only the memory needed for the process as non-global.
+   2. Everything else should be global.
+
+To test: make another copy of everything, and change the virtual
+memory code to allocate sections as it needs.  Checks should pass!
 
 --------------------------------------------------------------------
 ### Extensions: Big, useful steps:
@@ -311,3 +321,12 @@ Some simple changes:
 
 There's tons of additional ones!   The cool thing is your checksums should
 never change.
+
+--------------------------------------------------------------------
+#### Summary
+
+The cool thing about single-stepping is that it will check these
+modifications --- it somewhat checks them today, and when we add multiple
+processes it will really check them (to the extent I personally will be
+surprised if the code is wrong).
+
