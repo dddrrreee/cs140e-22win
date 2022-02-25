@@ -81,7 +81,8 @@ step we just update what gets included:
                 pix_equiv_t ctx;
             } pix_env_t;
 
-   2. Add the following code to `trivial-os.c` at the top:
+   2. If you look in the new file `pix-env.c` you'll see the trivial 
+      definition of `pix_cur_process`:
     
             static pix_env_t init_process;
             pix_env_t *pix_cur_process = &init_process;
@@ -170,9 +171,9 @@ will work both for the first switch as well as all the subsequent ones.
    0. Create a new `case` arm based on the previous one where you do
       the following:
 
-   1. Initialize your process structure save area so the registers
-      in it have the same values as would be set by your
-      `user_mode_run_fn`.  
+   1. Modify `pix-env.c:pix_env_mk` to initialize the structure save
+      area so the registers in it have the same values as would be set
+      by your `user_mode_run_fn`.
 
       I.e., the offset the `pc` is stored at should be the address of the
       code we want to jump to, the stack pointer `sp` offset should be
@@ -218,12 +219,23 @@ For this part, you should modify the code to add and enable virtual memory
 --------------------------------------------------------------------
 ### Part 5: add virtual memory not using an identity map
 
-For this part, make another copy of everything, and change the virtual
-memory code to allocate sections as it needs.
+For this part, run the code not using the identity map.
+Do so by implementing the routine:
+
+        // clone the page table <pt_old>: copy any global mappings over,
+        // duplicate (allocate + copy) any non-global pages.
+        void vm_pt_clone(pix_pt_t *pt_new,  const pix_pt_t *pt_old);
+
+
+To clone a page table, and then just use this to clone the page table
+you already made.   This probably seems a bit odd, but it's a useful
+building block for `fork`, next lab.
 
    1. Make sure you mark only the memory needed for the process as non-global.
    2. Everything else should be global.
-   3. Checks should pass!
+
+To test: make another copy of everything, and change the virtual
+memory code to allocate sections as it needs.  Checks should pass!
 
 --------------------------------------------------------------------
 ### Part 6: tune your code to use registers
