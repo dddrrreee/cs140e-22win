@@ -33,7 +33,7 @@ flip that code into a more full fledged code base.
 #### Part 0: update your code and make sure it still works.
 
 
-##### 0. make sure your `11-user-process/code` still works.
+##### Make sure your `11-user-process/code` still works.
 
 Before we start making changes, make sure your code still works:
 
@@ -54,7 +54,7 @@ Before we start making changes, make sure your code still works:
 
 Great. We now have a defined stable state to work from.
 
-##### 1. Update your code and sure compilation works
+##### Update your code and sure compilation works
 
 The lab is going to be a set of small pieces.  As a first
 step we just update what gets included:
