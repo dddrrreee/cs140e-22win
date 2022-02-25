@@ -5,4 +5,5 @@
 #define SYS_EXIT    1
 #define SYS_PUTC    2
 #define SYS_PUT_HEX 3
+#define SYS_GET_CPSR 4
 #endif
