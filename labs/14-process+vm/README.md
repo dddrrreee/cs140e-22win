@@ -30,17 +30,18 @@ flip that code into a more full fledged code base.
   2. You have a tentative final project proposal with some parts.
 
 --------------------------------------------------------------------
-#### Part 0: update your code and make sure it still works.
+### Part 0: update your code and make sure it still works.
 
 
-##### Make sure your `11-user-process/code` still works.
+#### Make sure your `11-user-process/code` still works.
 
 Before we start making changes, make sure your code still works:
 
    0. Make sure the `Makefile` in
       `11-user-process/code/trivial-user-level-prebuilt` runs all the
-      test (not many, I know: add more as an extension!) and that `make
-      check` passes:
+      test (not many, I know: add more as an extension!):
+
+            TESTS := $(wildcard ./[0-3]*-test*.bin)
 
    1. Rebuild from scratch and check that the tests passs
 
@@ -51,16 +52,12 @@ Before we start making changes, make sure your code still works:
             % make check
 
 
-
 Great. We now have a defined stable state to work from.
 
-##### Update your code and sure compilation works
+#### Update your code and sure compilation works
 
 The lab is going to be a set of small pieces.  As a first
 step we just update what gets included:
-
-   0. Before you touch anything: Make sure `make check` in lab 11
-      still passes!
 
    1. Add the line:
 
@@ -92,7 +89,7 @@ step we just update what gets included:
    3.  Compile and run the checks to make sure you get the same checksums.
 
 --------------------------------------------------------------------
-#### Part 1: save state to a process structure
+### Part 1: save state to a process structure
 
 For our OS we'll want to save the current registers into a process
 structure rather than onto a random exception stack.  This makes it easier
@@ -141,16 +138,12 @@ At this point the registers should be saved and restored out of
 the current structure.
 
 --------------------------------------------------------------------
-#### Part 2: build and use `switchto_asm`
+### Part 2: build and use `switchto_asm`
 
-In general we want to be able to switch to an arbitrary process.
-
-We'll write a `switchto_asm` routine that takes a pointer to the
+In general we want to be able to switch to an arbitrary process.  For this
+part you'll write a `switchto_asm` routine that takes a pointer to the
 `reg_save` array of the next process you want to run and loads everything
-and jumps to the code.
-
-Write a `switchto_asm` routine that takes a pointer to the `reg_save`
-array and loads everything:
+and jumps to the code:
 
         // switches into process <p>: does not return.
         switchto_asm(&p->reg_save[0]);
@@ -168,23 +161,24 @@ For this part:
    3. Rerun your code to make sure it still gives the same checksums.
 
 --------------------------------------------------------------------
-#### Part 3: Stop using `user_mode_run_fn`.
+### Part 3: Stop using `user_mode_run_fn`.
 
 Given `switchto_asm` we don't need the `user_mode_run_fn`: all we need is
 to setup the process structure correctly and then `switchto_asm`
 will work both for the first switch as well as all the subsequent ones.
 
-   0. Create a new case arm based on the previous one where you do
+   0. Create a new `case` arm based on the previous one where you do
       the following:
 
    1. Initialize your process structure save area so the registers
       in it have the same values as would be set by your
       `user_mode_run_fn`.  
 
-      I.e., the PC should be the code we want to jump to, the stack
-      pointer offset should be set to the stack value and the 
-      `SPSR` offset to the `spsr` value we want (you can see what this
-      is from your past runs).   Everything else should be zero.
+      I.e., the offset the `pc` is stored at should be the address of the
+      code we want to jump to, the stack pointer `sp` offset should be
+      set to the initial stack value and the `SPSR` offset to the `spsr`
+      value we want (you can see what this is from your past runs).
+      Everything else should be zero.
 
       Then you should be able to call `switchto_asm`:
 
@@ -203,7 +197,7 @@ Great: now you have code that will correctly save and restore registers
 from a process structure (which we need as a first step for an OS).
 
 --------------------------------------------------------------------
-#### Part 4: add virtual memory using an identity map
+### Part 4: add virtual memory using an identity map
 
 For this part, you should modify the code to add and enable virtual memory
 (based on the past lab):
@@ -212,14 +206,17 @@ For this part, you should modify the code to add and enable virtual memory
       break working code: you should always be able to run the past test
       for (parts 1-3).
 
-   2. Modify the makefile to get the code from your previous lab.
+   2. Modify the Makefile to get the code from your previous lab.  You'll
+      add `CFLAGS = -I../../labs/12-vm/code/`  so it finds the right
+      headers.
 
-   3. Make sure `make check` works!
+   3. After your modifications make sure `make check` works when virtual
+      memory is disabled.
 
    4. Now run with virtual memory enabled.  Your checksums should pass.
 
 --------------------------------------------------------------------
-#### Part 5: add virtual memory not using an identity map
+### Part 5: add virtual memory not using an identity map
 
 For this part, make another copy of everything, and change the virtual
 memory code to allocate sections as it needs.
@@ -229,7 +226,7 @@ memory code to allocate sections as it needs.
    3. Checks should pass!
 
 --------------------------------------------------------------------
-#### Extensions: Big, useful steps:
+### Extensions: Big, useful steps:
 
 We should have done this today, but time is tight:
    1. You can change the code to rerun the program over and over:
