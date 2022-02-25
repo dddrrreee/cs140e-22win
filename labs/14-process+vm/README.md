@@ -30,29 +30,31 @@ flip that code into a more full fledged code base.
   2. You have a tentative final project proposal with some parts.
 
 --------------------------------------------------------------------
-#### Part 0: make sure your `11-user-process/code` still works.
+#### Part 0: update your code and make sure it still works.
+
+
+##### 0. make sure your `11-user-process/code` still works.
 
 Before we start making changes, make sure your code still works:
 
-   0. Rebuild from scratch:
-
-            % cd 11-user-process/code
-            % make clean
-            % make
-
-   1. Make sure the `Makefile` in
+   0. Make sure the `Makefile` in
       `11-user-process/code/trivial-user-level-prebuilt` runs all the
       test (not many, I know: add more as an extension!) and that `make
       check` passes:
 
+   1. Rebuild from scratch and check that the tests passs
+
+            % cd 11-user-process/code
+            % make clean
+            % make
             % cd 11-user-process/code/trivial-user-level-prebuilt
             % make check
 
+
+
 Great. We now have a defined stable state to work from.
 
-
---------------------------------------------------------------------
-#### Part 0. Update your code and sure compilation works
+##### 1. Update your code and sure compilation works
 
 The lab is going to be a set of small pieces.  As a first
 step we just update what gets included:
