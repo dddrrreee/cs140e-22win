@@ -43,7 +43,7 @@ Before we start making changes, make sure your code still works:
 
             TESTS := $(wildcard ./[0-3]*-test*.bin)
 
-   1. Rebuild from scratch and check that the tests passs
+   1. Rebuild from scratch and check that the tests pass
 
             % cd 11-user-process/code
             % make clean
@@ -96,7 +96,7 @@ structure rather than onto a random exception stack.  This makes it easier
 to switch to another process.  To do so, make the following changes:
 
   0. Make copy of the code and routines you used for Part 4 of
-     lab 11: your exception vector, a copy of the equivalance routine that
+     lab 11: your exception vector, a copy of the equivalence routine that
      it calls, and add another `case` arm in `trivial-os.c` and update
      the value in `part` to call this.  Make sure `make check` passes.
 
@@ -124,14 +124,14 @@ to switch to another process.  To do so, make the following changes:
       the other caller saved registers will get trashed by the exception
       handler --- so don't assume their original values are still there!
 
-   2. Make a copy of your equivalance code that stores the current context
+   2. Make a copy of your equivalence code that stores the current context
       in this process structure and uses it to track the current hash.
       Have the assembly routine from (1) pass a pointer to the current
       context structure in.
 
    3. Rerun your code and make sure it still gives the same checksums.
       (You'll notice a pattern: this is how I always make changes --
-      tiny change, then verify checksum equivalance --- so that I don't
+      tiny change, then verify checksum equivalence --- so that I don't
       have to think that hard.)
 
 At this point the registers should be saved and restored out of
@@ -156,7 +156,7 @@ For this part:
       the same offsets they were saved to in the previous step.
 
    2. Change `equiv_run_fn_proc` to call `switchto_asm` at the
-      end of the equivalance routine instead of returning.
+      end of the equivalence routine instead of returning.
 
    3. Rerun your code to make sure it still gives the same checksums.
 
@@ -184,7 +184,7 @@ will work both for the first switch as well as all the subsequent ones.
 
             switchto_asm(&p->reg_save[0]);
 
-      And have it work equivalantly to:
+      And have it work equivalently to:
 
             user_mode_run_fn((void*)p->reg_save[15], p->reg_save[13]);
 
@@ -226,6 +226,47 @@ memory code to allocate sections as it needs.
    3. Checks should pass!
 
 --------------------------------------------------------------------
+### Part 6: tune your code to use registers
+
+Today we violate the cardinal tenet of optimization: never optimize if
+you can't measure a speedup.  (Given how slow our code is, it's hard to
+see any difference.)  We do the optimization as a "remix" strategy so
+you get a firmer grasp by doing a useful task multiple ways.
+
+The cool thing about single-stepping is that it will check these
+modifications --- it somewhat checks them today, and when we add multiple
+processes it will really check them (to the extent I personally will be
+surprised if the code is wrong).
+
+#### Use `rfe` and (maybe) `srs`
+
+Change your code to use `rfe` if it does not already. You can look at
+`../11-user-process/prelab-code/` for example code that uses `srs` and
+`rfe` to do exception handling code.
+
+#### Global registers
+
+The arm1176 provides (at least) three coprocessor registers for "process
+and thread id's."  However, since the values are not interpreted by the
+hardware, they can be used to store arbitrary values.
+
+OSes often stick various pointers in global variables.  Instead they can
+put such pointers in these coprocessor registers.  If you are counting
+cycles, loading a value from a global adds overhead (e.g., easily one
+a cache miss, maybe more).
+
+As one example, in pix you used a global variable to track the
+current environment.  Instead you can store this in the co-processor.
+Or for eraser or your memory tracer you can leave a pointer to your
+global table.  Similarly, you can put large constants in it rather
+than having to do a load from memory.  One nice benefit is that a
+memory corruption bug will not corrupt these registers.
+
+If you look at  `3-129` in the `arm1176.pdf` manual you can see their 
+definition. You should make `get` and `set` methods like usual, and 
+replace our code that uses the global variable of the current process.
+
+--------------------------------------------------------------------
 ### Extensions: Big, useful steps:
 
 We should have done this today, but time is tight:
@@ -233,10 +274,10 @@ We should have done this today, but time is tight:
       the checksum it gets should not change.
 
    2. Change the code so it creates two processes and then always switches 
-      between them on each equivalant call.  
+      between them on each equivalent call.  
 
       You should implement a `schedule` call that will do this.  It will
-      be called both in the equivalance code and during `exit`.
+      be called both in the equivalence code and during `exit`.
 
 --------------------------------------------------------------------
 #### Extensions
@@ -248,8 +289,8 @@ Some simple changes:
   3. Compile `pix` with higher level optimizations.
   4. Turn on caching; switch from write-through to write-back.
   5. Change the expensive virtual memory coherence methods from lab 12
-     to be more targeted (and much more efficien).  In particular, don't
-     kill the entire TLB when modifying a PTE entry (or defer the coherene
+     to be more targeted (and much more efficient).  In particular, don't
+     kill the entire TLB when modifying a PTE entry (or defer the coherence
      until the end).
   6. If you turn on interrupts, and change the frequency, there should be
      no user-visible difference.
