@@ -12,11 +12,7 @@ pix_env_t pix_env_mk(uint32_t pc, uint32_t sp) {
     pix_env_t p = {0};
 
     // put unimplemented here.
-    p.reg_save[0] = pc;
-    p.reg_save[1] = sp;
-    p.reg_save[SPSR_OFF] = 0x190;
-    p.reg_save[PC_OFF] = pc;
-    p.reg_save[SP_OFF] = sp;
+    unimplemented();
 
     printk("pc=%x, sp=%x\n", pc,sp);
     return p;
