@@ -33,33 +33,57 @@ Some (but not all) terms you need:
     in it that you need, and write it out. This is analogous to
     read-modify-write when modifying a single bit in a memory byte.
     One conseqeunce of this feature is that it causes sub-sector writes
-    to be slower than reads since they include one.
+    to be slower than reads since they include both a read and a write.
 
     A sector generally has the guarantee that this write is *atomic*
     under power failure: it either happens completely or does not happen
     at all no matter when/if power failure (or system crash) occurs.
 
     Side note: since file systems have to be *persistent* (not go away
-    when you turn off the power) they often have to wait until one
-    (often many) sector writes complete.   As you would expect, a common
-    cheat by storage companies and disk manufacturers is to lie about
-    when these writes complete, since such lies makes them faster on
-    benchmarks and typically go undetected.
+    when you turn off the power) they often have to wait until one or
+    more (often many) sector writes complete.   As you would expect,
+    a common cheat by storage companies and disk manufacturers is to lie
+    about when these writes complete, since such lies makes them faster
+    on benchmarks and typically go undetected.
+
+
+  - Clusters: FAT (see below) files are made up of zero or more
+    fixed number of contiguous sectors called *clusters*. (Thus,
+    clusters are a file system constant multiple of the sector size.)
+    Common sizes: 4k, 8k, 16k, 32k.  Most disk space in a FAT file system
+    is consumed by clusters.
+
+    Cluster size tradeoffs: The smaller the cluster, the more clusters
+    you need both per file the larger the FAT will be for the same amount
+    of file data.  Also, the smaller the maximal file size can be given
+    a cluster ID pointer (e.g., 32-bits).
+
+    Conversely, the larger the cluster larger your max file, the fewer
+    pointers needed for a given file size and the smaller the FAT for
+    a given partition size.  However, the more wasted disk/cache space
+    (from *internal fragmentation*) and the more overhead from naive
+    disk reads/writes,
+
+    The issues are similar to page size.  The smaller the unit, the
+    less internal fragmentation but the larger the table has to be.
+    Issues are also similar to the size of the rectangles used to estimate
+    area under curves in math.
 
   - FAT32: a FAT file system with 32-bit disk addresses.  
  
   - FAT: TLA of the unhelpful name "file allocation table".  
 
-    One of the simplest ways to represent files would be as linked lists
-    of sectors.  This is simple (good) but requires O(n) disk accesses to
-    get the nth block.  It also generally makes reading/writing/caching
-    sectors more expensive since you'd have to splice the pointers in
-    and out of the data.
+    FAT Intuition: a simple way to represent files would be as linked
+    lists of sectors.  This is simple (good!) but requires O(n) disk
+    accesses to get the nth block (read the first block to get the first
+    next pointer, the second to get the second, etc).  It also generally
+    makes reading/writing/caching sectors more expensive since you'd
+    have to splice the next pointers in and out of the data.
 
-    You can view the FAT as a clever (for real) twist on this --- it
-    pulls the linked list next pointers out into an array (the FAT)
-    so that you don't have to mess with the file data at all and can
-    typically cache the entire FAT in main memory.
+    You can view the FAT as a clever  twist on this --- it pulls the
+    linked list next pointers out into an array (the FAT) so that you
+    don't have to mess with the file data at all and can typically cache
+    the entire FAT in main memory.
 
     The FAT is indexed by Cluster ID.  Each FAT entry: the cluster ID
     of the next cluster.  So, for example if `fat[4] == 1234` that means
@@ -68,29 +92,12 @@ Some (but not all) terms you need:
     Since each entry is 32-bits, a 512-byte sector holds 128 FAT32
     entries.
 
-  - Clusters: files are made up of fixed sized contiguous chunks called
-    *clusters*.  Clusters are multiples of the sector size.  Common: 4k,
-    8k, 16k, 32k.  The smaller the cluster, the more clusters you need
-    per file (and thus FAT entries) and the smaller the maximal file
-    size can be.  On the other hand, the larger the cluster the more
-    wasted disk/cache space (from *internal fragmentation*) and the more
-    overhead from naive disk reads/writes, but the larger your max file
-    and the smaller the FAT.
-
-    The issues are similar to page size.  The smaller the unit, the
-    less internal fragmentation but the larger the table has to be.
-    Issues are also similar to the size of the rectangles used to estimate
-    area under curves.
-
-    Most disk space is consumed by clusters.
-
     To get all the data for a file or directory: iterate over its
     *cluster chain*.
 
   - LAST CLUSTER: Obviously for a linked list you need some kind of
     `NULL` terminator.  Just to confuse things, FAT32 uses any number
     greater than or equal to `0xFFFFFF8` rather than 0.
-
 
   - directory: a linear data structure of 32-byte records
     used to look up the starting cluster for each file or directory in
@@ -119,7 +126,6 @@ Some (but not all) terms you need:
 
 
 ### tl;dr what to do
-
 
 Roughly what we need to do:
   1. Read in the MBR by reading sector 0 (i.e., the single sector at disk
