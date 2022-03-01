@@ -158,13 +158,13 @@ Roughly what we need to do:
 To convert a cluster ID to the LBA (the disk sector(s) you need to read)
 we need two constants for the FAT32:
 
-   - `sec_per_cluster`: a per-FAT constant that is the same for 
-     all files in the FAT.
+   - `sec_per_cluster`: the per-FAT constant given by the same named
+     field in the FAT32 boot sector structure (above).
 
    - `cluster_begin_lba`: the LBA that the first cluster (cluster 2) starts at.
      All clusters are relative to this offset.  This starts at the first
      sector after the reserved data and after the FAT tables.  
-       - sectored used for reserved data: `reserved_area_nsec`
+       - sectors used for reserved data: `reserved_area_nsec`
        - total sectors used for a single FAT: `nsec_per_fat`.
        - total number of FATS: `nfat`.
 
