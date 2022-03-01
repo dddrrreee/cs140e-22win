@@ -8,6 +8,7 @@ going through it.  You'll notice a few things we claim are always true
 that are not necessarily so.  (Shouldn't matter today.  But goot to keep
 in mind.)
 
+--------------------------------------------------------------------------
 ### Definitions
 
 Some (but not all) terms you need:
@@ -125,6 +126,7 @@ Some (but not all) terms you need:
     file names in a backwards compatible way that won't break old code.
 
 
+--------------------------------------------------------------------------
 ### tl;dr what to do
 
 Roughly what we need to do:
@@ -188,6 +190,7 @@ The single most common mistake:
     will work on a small file/directory (since they fit in one cluster)
     but not more than one.
 
+--------------------------------------------------------------------------
 #### Comments on speed 
 
 Disk (even SSDs) are often the most expensive noun in our universe.
