@@ -193,12 +193,29 @@ The single most common mistake:
 Disk (even SSDs) are often the most expensive noun in our universe.
 Bunch of different hacks to speed up.  An incomplete list:
 
-  1. Often will have blocks cached in a buffer or block cache.
+  1. Often will have blocks cached in a buffer or block cache.  This is
+     probably the single biggest speed improvement.  
   2. Given memory size, can cache entire FAT.  In this case
      can traverse over the entire file and issue a large single
      disk request (rather than multiple where you wait between them).
-  3. Even if we don't have the entire FAT we can read more data than we
-     need, on the hope that it was laid out contiguously.    (Which 
-     you will want to do if at all possible so can issue very large
-     sequential disk writes to write out the data.)
-  4. Can periodically *compact* the disk to  make everything contiguous.
+  3. Even if we don't have the entire FAT we can speculatively read more
+     data than we need, on the hope that it was laid out contiguously.
+     (Which you will want to do if at all possible so can issue very
+     large sequential disk writes to write out the data.)
+
+     This trick especially pays off on mechanical disks, which have an
+     enormous fixed cost for each disk read, but a relatively smaller
+     incremental cost per additional byte.
+
+  4. Can periodically *compact* (*defragment*) the disk to make
+     some-or-all file/directories contiguous.  Because each block/cluster
+     is the same size, each cluster is interchangeable, and thus
+     compaction is simpler to reason about as compared to heap garbage
+     collection.  However, both share commonalities even though the
+     communities don't have much to do with each other: for example,
+     the usefulness of segregating blocks by lifetimes (*lifetime
+     segregation*) to exploit the empirical fact that older data is less
+     likely to die than newer.
+
+There are *tons* of hacks to speed up file systems.  Many good final
+projects!
