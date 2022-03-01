@@ -153,7 +153,7 @@ Roughly what we need to do:
        - `reserved_area_nsec`: number of reserved sectors before
          the FAT area starts.
 
-##### How to convert a cluster ID to an LBA:
+#### How to convert a cluster ID to an LBA:
 
 To convert a cluster ID to the LBA (the disk sector(s) you need to read)
 we need two constants for the FAT32:
@@ -188,7 +188,7 @@ The single most common mistake:
     will work on a small file/directory (since they fit in one cluster)
     but not more than one.
 
-##### Comments on speed 
+#### Comments on speed 
 
 Disk (even SSDs) are often the most expensive noun in our universe.
 Bunch of different hacks to speed up.  An incomplete list:
