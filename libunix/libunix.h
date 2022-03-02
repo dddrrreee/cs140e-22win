@@ -77,7 +77,7 @@ void close_open_fds_except(int fd);
 // close all open file descriptors except 0,1,2.
 void close_open_fds(void);
 
-
+#include "fast-hash32.h"
 
 #endif
 
