@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
         void *p = read_file(&nbytes, argv[i]);
 
         output("file <%s>: crc=0x%x, nbytes=%d\n", 
-            argv[i], our_crc32(p, nbytes), nbytes);
+            argv[i], fast_hash(p, nbytes), nbytes);
         free(p);
     }
 
