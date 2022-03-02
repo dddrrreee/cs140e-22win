@@ -42,7 +42,11 @@ CHECK_RUN := check
 else ifeq ($(RUN),1)
 TEST_RUN   := $(patsubst %.c, %.run, $(TEST_SRC))
 endif
+
 TEST_OBJS   := $(patsubst %.c, %.o, $(TEST_SRC))
+TEST_LIST   := $(patsubst %.c, %.list, $(TEST_SRC))
+TEST_ELF   := $(patsubst %.c, %.elf, $(TEST_SRC))
+TEST_DEP   := $(patsubst %.c, %.d, $(TEST_SRC))
 
 # enable "make emit"
 ifdef STAFF
@@ -137,7 +141,7 @@ tags:
 
 # note: double :: is so user can add transparently
 clean::
-	rm -rf $(NAME) *~ tags $(SUPPORT_OBJS) *.bin *.elf *.list *.img Makefile.bak  *.d  $(TEST_OBJS) 
+	rm -rf $(NAME) *~ tags $(SUPPORT_OBJS) *.bin *.elf *.list *.img Makefile.bak  *.d  $(TEST_OBJS)  $(TEST_LIST) $(TEST_ELF) $(TEST_DEP) $(TEST_PROGS)
 
 .PHONY: libs all tags clean run update
 
