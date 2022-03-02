@@ -5,7 +5,7 @@ int main(int argc, char *argv[]) {
         unsigned nbytes;
         void *p = read_file(&nbytes, argv[i]);
 
-        output("file <%s>: crc=%x, nbytes=%d\n", 
+        output("file <%s>: crc=0x%x, nbytes=%d\n", 
             argv[i], our_crc32(p, nbytes), nbytes);
         free(p);
     }
