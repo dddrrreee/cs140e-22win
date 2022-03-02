@@ -1,0 +1,34 @@
+# makefile configuration
+# define this if you need to give the device for your pi
+TTYUSB = 
+# can override the default bootloader
+BOOTLOADER = my-install
+
+ENABLE_EMIT = 1
+
+# the string to extract for checking
+GREP_STR := 'HASH:\|ERROR:\|PANIC:\|PASS:\|TEST:'
+
+# set if you want the code to automatically run after building.
+RUN = 1
+# set if you want the code to automatically check after building.
+#CHECK = 1
+
+TEST_SRC := $(wildcard ./[0-7]-test*.c)
+TEST_SRC := driver.c
+TEST_SRC := 2-test-fault.c
+TEST_SRC =  tests/2-fat32-hash-read.c
+TEST_SRC := $(wildcard ./tests/[12]-*.c)
+TEST_SRC =  tests/3-fat32-create.c
+
+# a list of all of your object files.
+SRC := pi-sd.c mbr.c fat32.c fs.c mbr-helpers.c fat32-helpers.c fat32-lfn-helpers.c external-code/unicode-utf8.c external-code/bzt-sd.c
+
+CFLAGS_EXTRA  = -Iexternal-code
+
+SUPPORT_OBJS := $(SRC:.c=.o)
+
+# these are the binaries we give you: remove these when finished.
+STAFF_OBJS =  
+
+include $(CS140E_2021_PATH)/libpi/mk/Makefile.template
