@@ -1,6 +1,7 @@
 ## Build a simple FAT32 read-only file system.
 
 ***NOTE: Make sure you start with the [PRELAB](PRELAB.md)!***
+***NOTE: There is also a [FAT32 cheatsheet](./fat32-cheat-sheet.md)!***
 
 We will do a fancy hello world: 
   1. Write a simple read-only file system that can read from your SD card.
