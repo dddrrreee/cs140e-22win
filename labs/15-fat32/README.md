@@ -161,7 +161,10 @@ You should have done this in the PRELAB:
   2. It should pass our sanity check in `tests/0-sd.c`
   3. ~~Make sure when you run with `trace_p = 1` that your checksum is the same 
      as your partner's when you swap SD cards.~~
-  4. Run `make test` and make sure the `tests/0-` tests work.
+  4. Run `make` and make sure the `tests/0-` tests work.
+
+**Note: you need to copy these files into `code/external-code` for the 
+remaining parts to compile.**
 
 -------------------------------------------------------------------------
 ### Part 1: Read the MBR. (10 minutes)
@@ -183,9 +186,8 @@ This should be fast:
      sector, but you should confirm this is true on your SD card).
   4. Verify it with `fat32_fsinfo_check`.
   5. Print out the two sectors (we provided helpers for this) and make sure the 
-     results are sensible.  You can use `make tests/2-fat32-mk.run` to run the 
-     test with output; you won't pass the whole thing until part 3, but check 
-     that the numbers you see make sense.
+     results are sensible.  Run the test with output; you won't pass the whole 
+     thing until part 3, but check that the numbers you see make sense.
 
 
 -------------------------------------------------------------------------
