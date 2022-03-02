@@ -3,6 +3,11 @@
 ***NOTE: Make sure you start with the [PRELAB](PRELAB.md)!***
 ***NOTE: There is also a [FAT32 cheatsheet](./fat32-cheat-sheet.md)!***
 
+***The first thing you do***:
+  - Run `my-install staff-binary/1-mbr.bin` --- it looks like the driver we have
+    doesnt' work with some of the SD cards we gave out.  (It works with the cheap
+    slow ones, but not the faster SanDisks.)
+
 We will do a fancy hello world: 
   1. Write a simple read-only file system that can read from your SD card.
   2. Use it to read in a `hello-fixed.bin` from last lab.
