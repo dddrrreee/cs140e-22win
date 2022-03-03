@@ -20,11 +20,12 @@ we use to communicate with your pi.  You should look in the `docs`
 directory and read:
 
 Workflow:
-  0. Get two esp8266's, one programmer (see below) and another tty-USB device.
-  1. Make sure both esp's work.
-  2. See how to communicate on Unix.
-  3. Convert the code to communicte on the pi.
-  4. Do something cool.
+
+ 0. Get two esp8266's, one programmer (see below) and another tty-USB device.
+ 1. Make sure both esp's work.
+ 2. See how to communicate on Unix.
+ 3. Convert the code to communicte on the pi.
+ 4. Do something cool.
 
 #### Checkoff
 
