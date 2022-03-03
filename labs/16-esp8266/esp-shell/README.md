@@ -5,7 +5,8 @@ Trivial shell that you can use to test commands: type commands and it
 will send to the ESP and echo replies.  It can do some simple checking
 to see that what you got was what you expected.
 
-Some simple commands that will work:
+From `docs/4a-esp8266_at_instruction_set_en.pdf`: Some simple commands
+that will work:
 
     AT          # just test
     AT+GMR      # get the version information
