@@ -48,18 +48,29 @@ actually works.
 As the quickest test, plug it into the USB programmer we gave out and
 see that `esp-shell` gives an `OK` when you type `AT`.
 
-The esp is the small device on top, and the programmer is the larger
-device plugged into my USB port.  Make sure that the little switch
-(red arrow) is pushed to the left:
+  1. The esp is the small device on top, and the programmer is the larger
+     device plugged into my USB port.  Make sure that the little switch
+     (red arrow) is pushed to the left:
 
 <p float="left">
   <img src="images/esp8266-prog.jpg" width="450" />
 </p>
 
-The programmer is cool since it makes it easy to update the ESP's firmware.  (Ours is
-pretty old: 2016.)
+     The programmer is cool since it makes it easy to update the ESP's
+     firmware.  (Ours is pretty old: 2016.)
 
-Do this for both ESP's.
+  2. Once you plug it into your laptop, run the shell:
+
+            % cd esp-shell/
+            % make
+            % ./esp-shell --ack
+            about to communicate with </dev/ttyUSB0>
+            AT   #    <---- type this
+            AT   #    <---- esp first echoes command
+            OK   #    <---- esp then sends "OK"
+
+   3. Try the other ESP with the programmer as well (since it's hard to miswire).
+
 
 ##### Test hardware works with a ttl-USB device
 
