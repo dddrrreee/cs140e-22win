@@ -8,7 +8,7 @@ SOURCES := $(wildcard ./esp-*.c)
 # SOURCES := esp-commands.c esp-lex.c  esp-parse.c    unix-support.c esp-run.c
 SOURCES += pi-support.c pi-main.c
 
-include $(CS140E_PATH)/libpi/includes.mk
+include $(CS140E_2022_PATH)/libpi/defs.mk
 CFLAGS += -Wno-unused-function -Wno-unused-variable -DRPI_OS
 
 ifdef CS140E_STAFF_2022_PATH
