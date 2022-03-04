@@ -10,6 +10,7 @@ DEPS += ./Makefile.unix
 
 ifdef CS140E_STAFF_2022_PATH 
 #include $(CS140E_STAFF_2022_PATH)/libunix/mk/Makefile.unix
+CFLAGS += -DSTAFF
 include $(CS140E_STAFF_2022_PATH)/libunix/mk/Makefile.lib.template
 else
 include $(CS140E_2022_PATH)/libunix/mk/Makefile.unix
