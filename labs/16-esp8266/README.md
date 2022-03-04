@@ -4,7 +4,6 @@ The most important rule for today:
 
    ***MAKE SURE YOU ONLY CONNECT the ESP TO 3V (NOT 5V) power***
 
-
 This lab we will use the ESP8266 chip (version: esp-01) to connect your
 pi to your laptop and/or to another pi.
 
@@ -72,10 +71,11 @@ see that `esp-shell` gives an `OK` when you type `AT`.
    3. Try the other ESP with the programmer as well (since it's hard to miswire).
 
 
-##### Test hardware works with a ttl-USB device
+##### Test with a tty-USB device
 
 Reconnect one of them to the tty-USB device you picked up and make sure
-it also works.  
+it also works using the same steps above.  Which pin is which is printed
+on the underside of the ESP.
 
 The most important rule:
 
@@ -91,23 +91,82 @@ The most important rule:
 
 It will fry, and I only have so many of them.
 
-
 If you don't get any communication, the tty-USB could be broken or,
 much more likely, you could have miswired.
 
 ##### Test that you can ping two devices at once
 
-Plug in both devices, and run the program in `0-ping-pong`: this should
-send data back and forth successfully.  This checks that your laptop
-does indeed support two USB devices at once and that our code works in
-your environment.
+Before you start writing code, make sure you can run the `client` and
+`server` programs in `1-ping-pong.  This will check:
+
+ - Our code works in your environment.
+ - Your laptop does indeed support two USB devices at once.
+
+If it fails:
+   - The bug likely is in your `find_ttyusb_first()` or `find_ttyusb_last()`.
+
+
+What to do:
+   0. Change the `NETWORK` constant in `libesp/esp-constants.h` to be some 
+      kind of variation on your stanford SUID (so you don't conflict with 
+      anyone else).  
+
+   1. Compile:
+
+        % cd 1-ping-pong
+        % make
+
+   2. Plug both devices into your laptop.
+
+   3. In one window first start the server:
+
+            % ./server
+            esp-run.c:cmd_puts:51:14: issuing exp-cmd <AT+GMR>
+            esp-parse.c:match_linev:244:matched line <AT+GMR>!
+            esp-run.c:cmd_ack:232:esp ack'd cmd <AT+GMR>:15
+	            skipping extra:: <AT version:1.1.0.0(May 11 2016 18:09:56)>
+	            skipping extra:: <SDK version:1.5.4(baaeaebb)>
+	            skipping extra:: <compile time:May 20 2016 15:08:19>
+            esp-parse.c:match_linev:244:matched line <OK>!
+            Going to wait for a connection
+            0: waiting on input from esp
+            100: waiting on input from esp
+            200: waiting on input from esp
+            ...
+
+   4.  In another window after the server prints its waiting for input start
+       the client:
+
+            % ./client
+
+
+       After a bit (the client is slow to connect) you should see values being sent back and
+       forth:
+
+
+            ...bunch of output sending a counter back and forth...
+
+            going to wait on ch=0
+            received ack from client=0: <hello 126>
+            passed check!
+            sending <hello 127>
+            0: waiting on input from esp
+            going to wait on ch=0
+            received ack from client=0: <hello 127>
+            passed check!
+    
+            SUCCESS!
+    
+       This should send data back and forth successfully.  
+
+Useful:
+
+  - You can easily see the commands run by this program by looking at the
+    log files in the directory.  You can in theory type these commands
+    into the shell yourself and get the same result.
 
 ------------------------------------------------------------------------------
-
 ### Part 1.
-
-
-Today we're going to do the ESP8266.  
 
 The `1-ping-pong` lab has a client and a server program.  You should be able to
 plug in two esp's and run the server using one tty and the client on the other.
