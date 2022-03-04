@@ -1,0 +1,16 @@
+# PROG_SRC = pitag-linker.c
+LIBNAME = libesp-unix.a
+
+SRC = $(wildcard ./esp-*.c) unix-support.c unix-main.c
+CFLAGS += -DRPI_UNIX
+
+BUILD_DIR = unix-objs
+
+DEPS += ./Makefile.unix
+
+ifdef CS140E_STAFF_2022_PATH 
+#include $(CS140E_STAFF_2022_PATH)/libunix/mk/Makefile.unix
+include $(CS140E_STAFF_2022_PATH)/libunix/mk/Makefile.lib.template
+else
+include $(CS140E_2022_PATH)/libunix/mk/Makefile.unix
+endif
