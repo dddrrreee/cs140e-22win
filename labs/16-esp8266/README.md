@@ -107,6 +107,7 @@ If it fails:
 
 
 What to do:
+
    0. Change the `NETWORK` constant in `libesp/esp-constants.h` to be some 
       kind of variation on your stanford SUID (so you don't conflict with 
       anyone else).  
