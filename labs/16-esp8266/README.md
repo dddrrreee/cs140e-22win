@@ -114,8 +114,8 @@ What to do:
 
    1. Compile:
 
-        % cd 1-ping-pong
-        % make
+            % cd 1-ping-pong
+            % make
 
    2. Plug both devices into your laptop.
 
