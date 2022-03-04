@@ -95,6 +95,16 @@ It will fry, and I only have so many of them.
 If you don't get any communication, the tty-USB could be broken or,
 much more likely, you could have miswired.
 
+
+NOTE: it looks like the ESP changed and we now need a jumper connecting
+the reset pin (`RST`) and the enable pin (`EN`):  if your esp works fine
+with the programmer and not with the tty-usb, this is likely an issue:
+
+<p float="left">
+  <img src="images/esp-loopback.jpg" width="450" />
+</p>
+
+
 #### C. Test that you can ping two devices at once
 
 Before you start writing code, make sure you can run the `client` and
