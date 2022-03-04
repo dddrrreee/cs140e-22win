@@ -52,7 +52,7 @@ libs::
 	make -C $(LU)
 
 # fix this rule: can't delete the targets in <all>
-$(BUILD_DIR)/%.o: %.c $(DEPS)
+$(BUILD_DIR)/%.o: %.c $(DEPS) $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBNAME): $(OBJS) $(DEPS)
@@ -64,7 +64,7 @@ ifneq ($(MAKECMDGOALS),cleanall)
 endif
 endif
 
-$(BUILD_DIR)/%.d: %.c
+$(BUILD_DIR)/%.d: %.c $(BUILD_DIR)
 	$(CC) $(CFLAGS) $< -MM -MT $(@:.d=.o) >$@
 
 clean :
