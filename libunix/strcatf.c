@@ -12,7 +12,7 @@ char *strcatf(char *dst, const char *fmt, ...) {
             panic("overflowed buffer\n");
     va_end(args);
 
-    return strcat(dst, buf);
+    return strdup(buf);
 }
 
 char *str2dupf(const char *src1, const char *fmt, ...) {

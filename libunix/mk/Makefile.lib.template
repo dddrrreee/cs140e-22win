@@ -3,6 +3,9 @@
 # SRC :=  $(REAL_SRC) $(wildcard ./*.c)
 # LIBNAME
 
+BUILD_DIR ?= ./objs
+
+
 ifdef CS140E_STAFF_2022_PATH
 LIBUNIX_PATH := $(CS140E_STAFF_2022_PATH)/libunix
 else
@@ -16,7 +19,8 @@ PROGS := $(patsubst %.o, ./%, $(PROG_OBJS))
 # grab all .c files in the current directory
 
 OBJS := $(patsubst %.c, %.o, $(SRC))
-OBJS := $(foreach obj, $(OBJS), ./$(notdir $(obj)))
+OBJS := $(foreach obj, $(OBJS), $(BUILD_DIR)/$(notdir $(obj)))
+
 
 dep := $(OBJS:.o=.d)  $(PROG_OBJS:.o=.d) # one dependency file for each source
 
@@ -24,6 +28,12 @@ dep := $(OBJS:.o=.d)  $(PROG_OBJS:.o=.d) # one dependency file for each source
 VPATH := $(sort $(dir $(SRC)))
 
 
+ifeq ($(BUILD_DIR),.)
+$(error "BUILD_DIR cannot be '.' or clean will remove everything.")
+endif
+ifeq ($(BUILD_DIR),)
+$(error "BUILD_DIR cannot be empty.")
+endif
 
 
 CC=gcc
@@ -34,20 +44,19 @@ CFLAGS += -I. -I$(LU)
 
 DEPS += ./Makefile
 
-all : libs $(OBJS) $(PROG_OBJS) $(PROGS) $(LIBNAME) # $(OBJS) 
+all : $(BUILD_DIR) libs $(OBJS) $(PROG_OBJS) $(PROGS) $(LIBNAME) # $(OBJS) 
+
+$(BUILD_DIR): ; mkdir -p $(BUILD_DIR)
 
 libs::
 	make -C $(LU)
 
 # fix this rule: can't delete the targets in <all>
-./%.o: %.c $(DEPS)
-	$(CC) $(CFLAGS) -c $< -o $(notdir $@)
+$(BUILD_DIR)/%.o: %.c $(DEPS)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBNAME): $(OBJS) $(DEPS)
 	ar cr $(LIBNAME) $(OBJS) 
-
-./%: ./%.o $(OBJS) $(DEPS)  $(LU)/libunix.a 
-	$(CC) $(CFLAGS) $(OBJS) $< -o $@  $(LU)/libunix.a $(LIBS) $(LU)/libunix.a
 
 ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(MAKECMDGOALS),cleanall)
@@ -55,10 +64,10 @@ ifneq ($(MAKECMDGOALS),cleanall)
 endif
 endif
 
-./%.d: %.c
+$(BUILD_DIR)/%.d: %.c
 	$(CC) $(CFLAGS) $< -MM -MT $(@:.d=.o) >$@
 
 clean :
-	rm -f *.o *.d *~ Makefile.bak $(NAME) *.pitag  $(PROGS) $(LIBNAME)
+	rm -rf $(BUILD_DIR)/ *.o *.d *~ Makefile.bak $(NAME) *.pitag  $(PROGS) $(LIBNAME)
 
 .PHONY: clean tags libs run check 
