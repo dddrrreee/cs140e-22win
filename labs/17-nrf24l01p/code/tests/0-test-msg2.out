@@ -1,0 +1,5 @@
+SUCCESS: get8 passed
+SUCCESS: m8 == m16
+SUCCESS: get16 passed
+SUCCESS: m8 == m32
+SUCCESS: get32 passed

@@ -1,0 +1,54 @@
+FOUND: </dev/ttyUSB0>
+opened tty port </dev/ttyUSB0>.
+my-install: tty-usb=</dev/ttyUSB0> program=<./tests/0-ack-hw-check.bin> about to boot
+TRACE:simple_boot: sending 28156 bytes, crc32=98cd2bf0
+waiting for a start
+putting code
+pi: <<Flynn Dreilinger Lab 4>: success: Received the program!>
+bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+configuring reliable (acked) server with 32 nbyte messages
+doing server addr=0xd5d5d5: nbytes=32, ack=1
+NRF:---------------------------------------------
+NRF:unreliable server config:
+:
+NRF:	CONFIG (1111111):	PWR_UP=1, PRIM_RX=1, CRC=1 EN_CRC=1 MASK_RX_DR==1, MASK_TX_DS=1, MASK_MAX_RT=1
+NRF:	EN_AA (11):	pipes enabled: pipe0=auto-ack  pipe1=auto-ack 
+NRF:	EN_RXADDR (11):	pipes enabled: pipe0=1  pipe1=1 
+NRF:	SETUP_AW:	address=3 bytes
+NRF:	SETUP_RETR (=10):	retran delay=250usec, attempts=2
+NRF:	RF_CH(=1110001):	2.513Mhz
+NRF:	RF_SETUP(=1010):	bwidth = 2Mbs, power= -12dBm
+NRF:	STATUS(=1110): RX-int=0, TX-int=0, RT-int=0 RXpipe=111 (empty), TX-full=0
+NRF:	TX_ADDR = 0x0e7e7e7
+NRF:	RX_ADDR_P0 = 0x0e7e7e7
+NRF:	RX_PW_P0 (0): 0 byte fixed size packets
+NRF:	RX_ADDR_P1 = 0x0d5d5d5
+NRF:	RX_PW_P1 (100000): 32 byte fixed size packets
+NRF:	FIFO_STATUS(=10001): TX_FULL=0, TX_EMPTY=1, RX_FULL=0, RX_EMPTY=1
+NRF:---------------------------------------------
+configuring reliable (acked) client with 32 nbyte messages
+doing client addr=0xe5e5e5: nbytes=32, ack=1
+NRF:---------------------------------------------
+NRF:unreliable client config:
+:
+NRF:	CONFIG (1111111):	PWR_UP=1, PRIM_RX=1, CRC=1 EN_CRC=1 MASK_RX_DR==1, MASK_TX_DS=1, MASK_MAX_RT=1
+NRF:	EN_AA (11):	pipes enabled: pipe0=auto-ack  pipe1=auto-ack 
+NRF:	EN_RXADDR (11):	pipes enabled: pipe0=1  pipe1=1 
+NRF:	SETUP_AW:	address=3 bytes
+NRF:	SETUP_RETR (=10):	retran delay=250usec, attempts=2
+NRF:	RF_CH(=1110001):	2.513Mhz
+NRF:	RF_SETUP(=1010):	bwidth = 2Mbs, power= -12dBm
+NRF:	STATUS(=1110): RX-int=0, TX-int=0, RT-int=0 RXpipe=111 (empty), TX-full=0
+NRF:	TX_ADDR = 0x0e7e7e7
+NRF:	RX_ADDR_P0 = 0x0e7e7e7
+NRF:	RX_PW_P0 (0): 0 byte fixed size packets
+NRF:	RX_ADDR_P1 = 0x0e5e5e5
+NRF:	RX_PW_P1 (100000): 32 byte fixed size packets
+NRF:	FIFO_STATUS(=10001): TX_FULL=0, TX_EMPTY=1, RX_FULL=0, RX_EMPTY=1
+NRF:---------------------------------------------
+DONE!!!
+
+Saw done
+
+bootloader: pi exited.  cleaning up

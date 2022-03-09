@@ -1,0 +1,20 @@
+FOUND: </dev/ttyUSB0>
+opened tty port </dev/ttyUSB0>.
+my-install: tty-usb=</dev/ttyUSB0> program=<./tests/0-test-msg2.bin> about to boot
+TRACE:simple_boot: sending 8168 bytes, crc32=2a531f2d
+waiting for a start
+putting code
+pi: <<Flynn Dreilinger Lab 4>: success: Received the program!>
+bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+SUCCESS: get8 passed
+SUCCESS: m8 == m16
+SUCCESS: get16 passed
+SUCCESS: m8 == m32
+SUCCESS: get32 passed
+passed 512 random checks
+DONE!!!
+
+Saw done
+
+bootloader: pi exited.  cleaning up
