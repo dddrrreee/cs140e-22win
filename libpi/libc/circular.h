@@ -28,7 +28,12 @@
 
 
 // make the code templatized on this? (ala fraser and hanson)  
-typedef unsigned char cqe_t;
+#ifndef CQE_T
+    typedef unsigned char cqe_t;
+    static inline cqe_t cqe_mk(void) { return 0; }
+#else
+    typedef CQE_T cqe_t;
+#endif
 
 // XXX: i think change this so you can size the buffers to what you think makes sense.
 // e.g., for output we probably want a huge one.  or dynamically adapt.   if you want
@@ -76,7 +81,7 @@ static inline int cq_pop_nonblock(cq_t *c, cqe_t *e) {
 }
 // blocking: called from non-interrupt code.
 static inline cqe_t cq_pop(cq_t *c) {
-    cqe_t e = 0;
+    cqe_t e = cqe_mk();
 
 	// wait til interrupt puts something here: if interrupts not enabled,
     // this will deadlock: need to yield.
@@ -96,6 +101,11 @@ static inline int cq_push(cq_t *c, cqe_t x) {
     c->c_buf[head] = x;
     c->head = (head + 1) % (CQ_N);
     return 1;
+}
+static inline cqe_t *cq_peek_ptr(cq_t *c) {
+    if(cq_empty(c))
+        return 0;
+    return (cqe_t*)&c->c_buf[c->tail];
 }
 
 // non-destructively peek at the first character (if any).
@@ -185,8 +195,10 @@ static inline void cq_init(cq_t *c, unsigned errors_fatal_p) {
     assert(cq_empty(c));
     assert(!cq_full(c));
     assert(cq_nelem(c) == 0);
+#ifndef CQE_T
     cqe_t e = 0x12;
     assert(cq_pop_nonblock(c,&e) == 0 && e == 0x12);
+#endif
 }
 static inline unsigned cq_ckpt(cq_t *c) { return c->tail; }
 static inline void cq_restore(cq_t *c, unsigned ckpt) { c->tail = ckpt; }
