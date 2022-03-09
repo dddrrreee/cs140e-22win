@@ -153,25 +153,35 @@ Congratulations!  You now have a very useful networking system.
 --------------------------------------------------------------------------------
 #### Extensions
 
+##### Use interrupts
+
 The main one I'd suggest:  change it to use interrupts!  This should
 not take that long.
 
-  1. Connect the NRF interrupt pin to GPIO pin 21.
+  1. Connect the NRF interrupt pin to a free GPIO pin.
   2. Grab the code from the GPIO interrupt lab.  and steal the initialization and 
      interrupt handler code.
   3. Should hopefully just take 20 minutes or so.
  
-Do a remove put32/get32:
+##### Implement your own software SPI
+
+I just used the SPI code in the wikipedia page; worked first try.
+Make sure you set the pins to input or output.   Also, make sure you
+are setting the chip select pin high and low as needed.
+
+##### Remote put32/get32
+
+Do a remote put32/get32:
   1. You can write a small piece of code that waits for PUT32 and GET32 messages and
      performs them locally.
   2. This lets remote pi's control it.
   3. Should be pretty easy to make a small shim library that can run your old programs
      remotely.
 
-Do a network bootloader.
-
+##### Other stuff
   
 Many many extensions:
+  0. Do a network bootloader.
   1. Use more pipes.
   2. See how fast you can go
   3. Change the interface to make it easy to change the different messages sizes.
