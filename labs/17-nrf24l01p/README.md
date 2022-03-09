@@ -89,39 +89,17 @@ replicating it.
 It can get setup either for acknowledgements (`ack_p=1`) or no
 acknwledgements (`ack_p=0`) but not both.
    0. `ack_p=0`: for this you only have to enable pipe 1.  No other pipe should be
-      enabled.  This is used by the first test `1-*one-way` which sends bytes with
+      enabled.  This is used by the first test `1-one-way-no-ack.c` which sends bytes with
       no retransmissions from a server to a client.
 
-   1. `ack_p=1`: for this you will have to enable both pipe 0 and pipe 1.  This is
-      used by a test `2-*pingpong` which sends a 4 byte value back and forth between
-      the client and the server.
+   1. `ack_p=1`: for this you will have to enable both pipe 0 and pipe 1.
+      This is used by a test `1-one-way-ack.c` which sends a 4 byte
+      value back and forth between the client and the server.
 
 You'll want to make sure that the output after running each test program
 matches up.
 
-When you swap in your `nrf_init`, both tests should work.  Open up two terminals.
-
-To run test 1:
-    1. In one terminal do:
-
-            make crun1
-
-    2. In the other do 
-
-            make srun1
-
-
-To run test 2 (pingpong):
-
-    1. In one terminal do:
-
-            make crun
-
-    2. In the other do 
-
-            make srun
-
-
+When you swap in your `nrf_init`, both tests should work.
 
 --------------------------------------------------------------------------------
 #### Part 2: Implement `nrf-driver.c:nrf_tx_send_noack`.
@@ -141,15 +119,16 @@ should still work.
 --------------------------------------------------------------------------------
 #### Part 3: Implement `nrf-driver.c:nrf_get_pkts`.
 
-For this part, you'll just spin until the RX fifo is empty, pulling packets off 
-the RX fifo and pushing them onto their associated pipe.  For today, we're only
-using a single pipe (pipe 1) so you should assert all packets are for it (you 
-can use `nrf_rx_get_pipeid` for this).  For each packet you get, the code will
-push it onto the pipe's circular queue (just as we did in previous labs).  You should
-clear the RX interrupt.  When the RX fifo is empty, return the byte count.
+For this part, you'll just spin until the RX fifo is empty, pulling
+packets off the RX fifo and pushing them onto their associated pipe.
+For today, we're only using a single pipe (pipe 1) so you should assert
+all packets are for it (you can use `nrf_rx_get_pipeid` for this).  For
+each packet you get, the code will push it onto the pipe's circular queue
+(just as we did in previous labs).  You should clear the RX interrupt.
+When the RX fifo is empty, return the byte count.
 
-When you swap in `nrf_get_pkts` in `nrf-public/nrf_pipe_nbytes` both of the tests
-should still work.
+When you swap in `nrf_get_pkts` in `nrf-public/nrf_pipe_nbytes` both of
+the tests should still work.
 
 --------------------------------------------------------------------------------
 #### Part 4: Implement `nrf-driver.c:nrf_tx_send_ack`.
@@ -164,7 +143,6 @@ the no-ack version, except:
 The second test should still work when you swap in.
 
 Congratulations!  You now have a very useful networking system.
-
 
 --------------------------------------------------------------------------------
 #### Extensions
