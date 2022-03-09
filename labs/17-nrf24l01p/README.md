@@ -17,7 +17,61 @@ How to navigate:
     setup to call our versions (with the `staff_*` prefix) --- you will just go
     through and implement these yourself one at a time and swap to using yours.
 
+--------------------------------------------------------------------------------
+#### Part 0: hooking up the hardware.
   
+
+##### Basic test
+
+There are two tests for hardware in `staff-binaries`:
+  - `0-no-ack-hw-check.bin`: runs and prints the values for the NRF setup for one
+    no-ack'd pipe.
+  - `0-ack-hw-check.bin`: runs and prints the values for the NRF setup for one
+    ack'd pipe.
+
+You should hook up your NRF as follows:
+
+For the "server" we use the hardware SPI pins (though our implementation is
+software):
+  - "CE" on the NRF is hooked up to GPIO 21.
+  - MOSI: GPIO 10.
+  - MISO: GPIO 9.
+  - CLK: GPIO 11.
+  - CSN: hooked up (confusingly) to CE1 (GPIO 8).
+
+For the "client":
+  - "CE" on the NRF is hooked up to GPIO 20.
+  - MISO: GPIO 26.
+  - MOSI: GPIO 19.
+  - CLK: GPIO 13.
+  - CSN: hooked up to GPIO 6.
+
+There are a lot of wires!
+  1. Hook up your first NRF to the server pins.  It should print a configuration.
+     If we have enough volatage adapters use one, since they make it a bit easier.
+
+  2. Hook up your second NRF to the client pins.  Now both binaries
+     should run and print configurations.
+
+##### Power test
+
+We've had issues with dirty power (it seems primarily out of macbooks)
+--- this will allow you to send, but mess up receive.
+
+  1. Compile the code in `code` and make sure the two tests (above) pass by 
+     doing `make check`.
+  2. Change the `MY_NRF_CHANNEL` channel value in `nrf-test.h` to the value
+     you got in class.
+  3. Change the Makefile to run the two one way tests (prefixed with
+     `1-*`: there's a comment).
+  4. If these pass: GREAT!!!   I'm happy.  
+
+     If they do not, then come see us.  It *could* be b/c your channel
+     is getting interference in which case we need to try some other
+     channels.  Or it could be b/c of dirty power.  To check this problem
+     we will run a staff hardware setup that uses power regulators to
+     clean up the power.
+
 --------------------------------------------------------------------------------
 #### Part 1: Implement `nrf_init`.
 
