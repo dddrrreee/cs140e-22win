@@ -44,6 +44,7 @@ software):
   - MISO: GPIO 9.
   - CLK: GPIO 11.
   - CSN: hooked up (confusingly) to CE1 (GPIO 7).
+  - Hook up power and ground.  B/c we have voltage regulators you can use 5v.
 
 For the "client":
   - "CE" on the NRF is hooked up to GPIO 20.
@@ -51,6 +52,7 @@ For the "client":
   - MOSI: GPIO 19.
   - CLK: GPIO 13.
   - CSN: hooked up to GPIO 6.
+  - Hook up power and ground.  B/c we have voltage regulators you can use 5v.
 
 There are a lot of wires!
   1. Hook up your first NRF to the server pins.  It should print a configuration.
