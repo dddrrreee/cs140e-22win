@@ -43,7 +43,7 @@ software):
   - MOSI: GPIO 10.
   - MISO: GPIO 9.
   - CLK: GPIO 11.
-  - CSN: hooked up (confusingly) to CE1 (GPIO 8).
+  - CSN: hooked up (confusingly) to CE1 (GPIO 7).
 
 For the "client":
   - "CE" on the NRF is hooked up to GPIO 20.
