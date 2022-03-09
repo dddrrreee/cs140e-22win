@@ -74,7 +74,9 @@ We've had issues with dirty power (it seems primarily out of macbooks)
      you got in class.
   3. Change the Makefile to run the two one way tests (prefixed with
      `1-*`: there's a comment).
-  4. If these pass: GREAT!!!   I'm happy.  
+  4. ***CRUCIAL***: do `make run` not `make check` since if packets get dropped
+     the out files won't match.
+  5. If these pass: GREAT!!!   I'm happy.  
 
      If they do not, then come see us.  It *could* be b/c your channel
      is getting interference in which case we need to try some other
