@@ -66,6 +66,8 @@ There are a lot of wires!
 We've had issues with dirty power (it seems primarily out of macbooks)
 --- this will allow you to send, but mess up receive.
 
+  0. Add `sw-spi.o` to `STAFF_OBJS` in `libpi/Makefile`.  (This is the
+     software spi implementation.)
   1. Compile the code in `code` and make sure the two tests (above) pass by 
      doing `make check`.
   2. Change the `MY_NRF_CHANNEL` channel value in `nrf-test.h` to the value
