@@ -29,6 +29,12 @@ There are two tests for hardware in `staff-binaries`:
   - `0-ack-hw-check.bin`: runs and prints the values for the NRF setup for one
     ack'd pipe.
 
+<p float="left">
+  <img src="images/nrf-two.jpg" width="230" />
+  <img src="images/nrf-closeup.jpg" width="230" />
+</p>
+
+
 You should hook up your NRF as follows:
 
 For the "server" we use the hardware SPI pins (though our implementation is
