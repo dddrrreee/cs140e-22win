@@ -30,8 +30,8 @@ There are two tests for hardware in `staff-binaries`:
     ack'd pipe.
 
 <p float="left">
-  <img src="images/nrf-two.jpg" width="230" />
-  <img src="images/nrf-closeup.jpg" width="230" />
+  <img src="images/nrf-two.jpg" width="450" />
+  <img src="images/nrf-closeup.jpg" width="450" />
 </p>
 
 
